@@ -46,7 +46,7 @@ body {
 img { max-width: 100%; display: block; }
 button { font-family: inherit; }
 
-.enveloppe { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 22px; }
+.enveloppe { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
 @media (min-width: 900px) { .enveloppe { padding: 0 40px; } }
 
 /* ---------- Typographie ---------- */
@@ -134,6 +134,19 @@ button { font-family: inherit; }
 }
 @media (min-width: 900px) { .ecran { padding: 110px 0 90px; } }
 .ecran-jour-2 { background: var(--jour-2); }
+
+/* Profil de la vallee d'Aure au bas des sections claires */
+.ecran:not(.ecran-nuit)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 170px;
+  pointer-events: none; z-index: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 190' preserveAspectRatio='none'%3E%3Cpath d='M0 120 L120 58 L210 100 L330 28 L390 62 L450 95 L560 52 L690 110 L820 42 L890 78 L950 100 L1080 62 L1200 105 L1320 68 L1400 100 L1400 190 L0 190 Z' fill='%230d2233' fill-opacity='.045'/%3E%3Cpath d='M0 150 L160 108 L300 140 L470 98 L640 145 L800 112 L980 150 L1150 118 L1290 142 L1400 126 L1400 190 L0 190 Z' fill='%230d2233' fill-opacity='.07'/%3E%3C/svg%3E") bottom center / 1400px 170px repeat-x;
+}
+@media (max-width: 700px) { .ecran:not(.ecran-nuit)::after { height: 110px; background-size: 900px 110px; } }
+
+/* Variante Neouvielle et ses lacs pour les sections bleutees */
+.ecran-jour-2::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 190' preserveAspectRatio='none'%3E%3Cpath d='M0 96 L150 44 L215 70 L280 84 L420 30 L490 62 L560 88 L700 48 L840 92 L980 40 L1050 68 L1120 86 L1260 56 L1400 82 L1400 190 L0 190 Z' fill='%230d2233' fill-opacity='.04'/%3E%3Cpath d='M60 152 Q700 116 1340 152 Q700 186 60 152 Z' fill='%230d2233' fill-opacity='.055'/%3E%3Cpath d='M330 150 h200 M740 159 h150 M480 165 h90 M900 148 h120' stroke='%230d2233' stroke-opacity='.10' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M420 152 L470 176 L370 176 Z M980 152 L1025 172 L935 172 Z' fill='%230d2233' fill-opacity='.03'/%3E%3C/svg%3E") bottom center / 1400px 170px repeat-x;
+}
 
 /* ---------- Banniere ---------- */
 .banniere { position: relative; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; scroll-snap-align: start; background: var(--nuit); color: var(--clair); }
@@ -406,8 +419,15 @@ form { border: 1px solid var(--ligne-jour); border-radius: var(--rayon); padding
 form .pastille { width: 100%; margin-top: 4px; }
 .note-form { font-size: 13px; color: var(--encre-douce); margin-top: 12px; text-align: center; }
 
+/* ---------- Panorama des sommets ---------- */
+.panorama { background: var(--nuit); padding: 44px 0 0; }
+.panorama .sur-titre { text-align: center; color: var(--laiton-clair); margin-bottom: 18px; }
+.panorama-defile { overflow-x: auto; scrollbar-width: none; }
+.panorama-defile::-webkit-scrollbar { display: none; }
+.panorama svg { display: block; width: 100%; min-width: 1000px; height: auto; }
+
 /* ---------- Pied ---------- */
-footer { background: var(--nuit); color: var(--tenu); padding: 26px 0; }
+footer { background: var(--nuit-3); color: var(--tenu); padding: 26px 0; }
 footer .enveloppe { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; font-size: 12.5px; }
 
 /* ---------- Compactage mobile ---------- */
