@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#060e18">
 <title>Le studio de Saint-Lary — location premium à 100 m des pistes</title>
 <meta name="description" content="Studio de 27 m² avec balcon vue montagne à Saint-Lary-Soulan. 100 m des remontées, piscine, salle de sport. Location en direct auprès des propriétaires.">
-<link rel="stylesheet" href="style.css?v=15">
+<link rel="stylesheet" href="style.css?v=16">
 </head>
 <body class="lang-fr">
 
@@ -368,9 +368,9 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       obs.unobserve(e.target);
       var freres = e.target.parentElement ? e.target.parentElement.querySelectorAll(':scope > .surgit') : [];
       var rang = Array.prototype.indexOf.call(freres, e.target);
-      setTimeout(function () { e.target.classList.add('vu'); }, Math.max(0, rang) * 85);
+      setTimeout(function () { e.target.classList.add('vu'); }, Math.min(Math.max(0, rang), 6) * 55);
     });
-  }, { threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
+  }, { threshold: 0.02, rootMargin: '0px 0px 14% 0px' });
   Array.prototype.forEach.call(cibles, function (c) { obs.observe(c); });
 })();
 
