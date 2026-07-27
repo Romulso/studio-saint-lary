@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gestion des réservations — Le Balcon d'Aure</title>
+<link rel="stylesheet" href="style.css?v=21">
+<style>
+  body { background: var(--jour); }
+  .admin { max-width: 860px; margin: 0 auto; padding: 34px 20px 80px; }
+  .admin h1 { font-size: clamp(26px, 6vw, 38px); letter-spacing: -.03em; line-height: 1.05; }
+  .admin h1 em { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--laiton-fonce); }
+  .admin h2 { font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--laiton-fonce); margin: 34px 0 14px; }
+  .admin-carte { border: 1px solid var(--ligne-jour); border-radius: var(--rayon); background: #fff; padding: 18px; }
+  .admin-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .admin-form .champ { margin: 0; flex: 1 1 140px; }
+  .admin-form select {
+    width: 100%; padding: 12px 14px; border-radius: 11px; font-size: 16px; font-family: inherit;
+    border: 1px solid var(--ligne-jour); background: var(--jour); color: var(--encre);
+  }
+  .admin-form .pastille { flex: 0 0 auto; }
+  .resa-ligne { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 13px 0; border-bottom: 1px solid var(--ligne-jour); }
+  .resa-ligne:last-child { border-bottom: 0; }
+  .resa-dates { font-weight: 600; font-size: 14.5px; flex: 1 1 220px; }
+  .resa-dates small { display: block; font-weight: 400; color: var(--encre-tenue); font-size: 12px; }
+  .badge { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; }
+  .badge-option { background: repeating-linear-gradient(45deg, rgba(201,168,106,.5) 0 4px, rgba(201,168,106,.16) 4px 8px); color: var(--laiton-fonce); }
+  .badge-reserve { background: var(--encre); color: #fff; }
+  .resa-actions { display: flex; gap: 7px; }
+  .mini {
+    border: 1px solid var(--ligne-jour); background: #fff; color: var(--encre-douce); cursor: pointer;
+    font-size: 12.5px; font-weight: 600; padding: 8px 13px; border-radius: 100px; transition: .25s;
+  }
+  .mini:hover { border-color: var(--laiton-fonce); color: var(--laiton-fonce); }
+  .mini-danger:hover { border-color: #a33; color: #a33; }
+  .vide { color: var(--encre-tenue); font-size: 14px; padding: 8px 0; }
+  .publier { border: 1px dashed rgba(143,106,28,.5); background: rgba(143,106,28,.06); border-radius: var(--rayon); padding: 18px; }
+  .publier[hidden] { display: none; }
+  .publier b { color: var(--laiton-fonce); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+  .publier ol { margin: 10px 0 14px 18px; font-size: 14px; color: var(--encre-douce); }
+  .publier ol li { margin: 4px 0; }
+  .publier .actions-pub { display: flex; flex-wrap: wrap; gap: 9px; }
+  .note-etat { font-size: 13px; color: var(--encre-douce); margin-top: 10px; min-height: 1.3em; }
+  #cal-mois { margin-top: 4px; }
+  .cal-jour { cursor: default; }
+  .cal-jour:hover:not(:disabled):not(.est-reserve):not(.est-option) { box-shadow: none; transform: none; background: var(--jour); }
+</style>
+</head>
+<body class="lang-fr">
+
+<div class="admin">
+  <h1>Le Balcon d'Aure<em>gestion des réservations.</em></h1>
+  <p class="chapo" style="margin-top:12px">Page privée : elle n'est reliée nulle part sur le site. Seule une personne ayant accès au dépôt GitHub peut publier les changements.</p>
+
+  <h2>1 · Ajouter un blocage</h2>
+  <div class="admin-carte">
+    <div class="admin-form">
+      <div class="champ">
+        <label for="aj-arrivee">Arrivée</label>
+        <input type="date" id="aj-arrivee">
+      </div>
+      <div class="champ">
+        <label for="aj-depart">Départ</label>
+        <input type="date" id="aj-depart">
+      </div>
+      <div class="champ">
+        <label for="aj-statut">Statut</label>
+        <select id="aj-statut">
+          <option value="option">Option (demande client en attente)</option>
+          <option value="reserve">Réservé (confirmé) / dates bloquées</option>
+        </select>
+      </div>
+      <button type="button" class="pastille pastille-pleine" id="aj-bouton">Ajouter</button>
+    </div>
+    <p class="note-etat" id="aj-note">Le jour du départ reste libre pour une nouvelle arrivée. Dès qu'un client demande des dates, ajoutez-les en « Option » ; validez en « Réservé » quand c'est confirmé.</p>
+  </div>
+
+  <h2>2 · Réservations en cours</h2>
+  <div class="admin-carte" id="liste"></div>
+
+  <h2>3 · Tarifs à la semaine</h2>
+  <div class="admin-carte">
+    <div class="admin-form" style="margin-bottom:16px">
+      <div class="champ" style="flex:0 1 200px">
+        <label for="tarif-defaut">Prix par défaut (€ / semaine)</label>
+        <input type="number" id="tarif-defaut" min="0" step="10">
+      </div>
+      <p class="note-etat" style="flex:1 1 240px;margin:0">S'applique à toutes les semaines sans période particulière ci-dessous.</p>
+    </div>
+    <div id="tarif-liste"></div>
+    <div class="admin-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--ligne-jour)">
+      <div class="champ" style="flex:1.4 1 170px">
+        <label for="pt-libelle">Libellé</label>
+        <input type="text" id="pt-libelle" placeholder="ex. Tour de France">
+      </div>
+      <div class="champ">
+        <label for="pt-debut">Du</label>
+        <input type="date" id="pt-debut">
+      </div>
+      <div class="champ">
+        <label for="pt-fin">Au (exclu)</label>
+        <input type="date" id="pt-fin">
+      </div>
+      <div class="champ" style="flex:0 1 130px">
+        <label for="pt-prix">€ / semaine</label>
+        <input type="number" id="pt-prix" min="0" step="10">
+      </div>
+      <button type="button" class="pastille pastille-pleine" id="pt-bouton">Ajouter la période</button>
+    </div>
+    <p class="note-etat" id="pt-note">Pour majorer ponctuellement (Tour de France, événement…), ajoutez une période : elle prend le dessus sur le prix par défaut, et se retire aussi facilement.</p>
+  </div>
+
+  <h2>4 · Bons plans (activités, restaurants, marchés)</h2>
+  <div class="admin-carte">
+    <div id="bp-liste"></div>
+    <div class="admin-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--ligne-jour)">
+      <div class="champ" style="flex:1.3 1 160px">
+        <label for="bp-nom">Nom</label>
+        <input type="text" id="bp-nom" placeholder="ex. Accrobranche">
+      </div>
+      <div class="champ" style="flex:1.6 1 200px">
+        <label for="bp-url">Lien (https://…)</label>
+        <input type="url" id="bp-url">
+      </div>
+      <div class="champ" style="flex:0 1 130px">
+        <label for="bp-saison">Saison</label>
+        <select id="bp-saison">
+          <option value="toute">Toute l'année</option>
+          <option value="hiver">Hiver</option>
+          <option value="ete">Été</option>
+        </select>
+      </div>
+      <div class="champ" style="flex:1.3 1 160px">
+        <label for="bp-desc">Sous-titre</label>
+        <input type="text" id="bp-desc" placeholder="ex. Dans la forêt de…">
+      </div>
+      <button type="button" class="pastille pastille-pleine" id="bp-bouton">Ajouter</button>
+    </div>
+    <p class="note-etat" id="bp-note">Décochez « Visible » pour masquer sans supprimer. Les flèches changent l'ordre d'affichage. « Mot perso » : votre commentaire affiché sur la carte, signé Karine &amp; Romuald.</p>
+  </div>
+
+  <h2>5 · Livre d'or</h2>
+  <div class="admin-carte">
+    <div id="avis-liste"></div>
+    <div class="admin-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--ligne-jour)">
+      <div class="champ" style="flex:1 1 130px">
+        <label for="av-auteur">Prénom</label>
+        <input type="text" id="av-auteur" placeholder="ex. Claire">
+      </div>
+      <div class="champ" style="flex:1 1 130px">
+        <label for="av-date">Quand</label>
+        <input type="text" id="av-date" placeholder="ex. Février 2027">
+      </div>
+      <div class="champ" style="flex:0 1 110px">
+        <label for="av-note">Note</label>
+        <select id="av-note">
+          <option value="5">★★★★★</option>
+          <option value="4">★★★★</option>
+          <option value="3">★★★</option>
+          <option value="2">★★</option>
+          <option value="1">★</option>
+          <option value="">Sans note</option>
+        </select>
+      </div>
+      <div class="champ" style="flex:1 1 140px">
+        <label for="av-cible">À propos de</label>
+        <input type="text" id="av-cible" placeholder="Le studio, Canyoning…">
+      </div>
+    </div>
+    <div class="champ" style="margin-top:10px">
+      <label for="av-texte">L'avis (tel que reçu)</label>
+      <textarea id="av-texte" style="width:100%;min-height:70px;padding:12px 14px;border-radius:11px;border:1px solid var(--ligne-jour);font-size:16px;font-family:inherit"></textarea>
+    </div>
+    <button type="button" class="pastille pastille-pleine" id="av-bouton" style="margin-top:8px">Publier cet avis</button>
+    <p class="note-etat" id="av-note-etat">Vos locataires envoient leur avis par WhatsApp via le bouton « Laisser un avis » du site ; recopiez-le ici pour le publier.</p>
+  </div>
+
+  <h2>6 · Publier sur le site</h2>
+  <div class="publier" id="publier" hidden>
+    <b>Modifications non publiées</b>
+    <ol>
+      <li>Cliquez « Copier » sur un fichier marqué modifié ci-dessous.</li>
+      <li>Cliquez « Ouvrir GitHub », sélectionnez tout (Ctrl/Cmd+A), collez, puis « Commit changes ».</li>
+      <li>S'il y a deux fichiers modifiés, recommencez pour le second.</li>
+      <li>Le site est à jour au bout de 1 à 2 minutes.</li>
+    </ol>
+    <div class="actions-pub" id="pub-resa" hidden style="margin-bottom:10px">
+      <span class="badge badge-option" style="align-self:center">reservations.json — calendrier et tarifs</span>
+      <button type="button" class="pastille pastille-pleine" id="copier-resa">Copier</button>
+      <a class="pastille pastille-ligne" href="https://github.com/Romulso/studio-saint-lary/edit/main/reservations.json" target="_blank" rel="noopener">Ouvrir GitHub</a>
+    </div>
+    <div class="actions-pub" id="pub-guide" hidden>
+      <span class="badge badge-option" style="align-self:center">guide.json — bons plans et livre d'or</span>
+      <button type="button" class="pastille pastille-pleine" id="copier-guide">Copier</button>
+      <a class="pastille pastille-ligne" href="https://github.com/Romulso/studio-saint-lary/edit/main/guide.json" target="_blank" rel="noopener">Ouvrir GitHub</a>
+    </div>
+    <p class="note-etat" id="copie-note"></p>
+  </div>
+  <p class="note-etat" id="publie-ok" style="margin-top:8px">Aucune modification en attente : le site correspond aux fichiers publiés.</p>
+
+  <h2>Aperçu du calendrier</h2>
+  <div class="admin-carte">
+    <div class="cal-tete">
+      <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents">←</button>
+      <div class="cal-legende">
+        <span><i class="cal-puce cal-puce-libre"></i><span>Libre</span></span>
+        <span><i class="cal-puce cal-puce-option"></i><span>Option</span></span>
+        <span><i class="cal-puce cal-puce-reserve"></i><span>Réservé</span></span>
+      </div>
+      <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants">→</button>
+    </div>
+    <div class="cal-mois-grille" id="cal-mois"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var donnees = { aide: '', reservations: [] };
+  var guide = { bonsplans: [], avis: [] };
+  var modifieResa = false, modifieGuide = false;
+
+  var ajd = new Date(); ajd.setHours(0, 0, 0, 0);
+  var moisCourant = new Date(ajd.getFullYear(), ajd.getMonth(), 1);
+  var moisAffiche = new Date(moisCourant);
+
+  function iso(d) {
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  function depuisIso(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function joli(s) {
+    return depuisIso(s).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  function nbNuits(r) { return Math.round((depuisIso(r.depart) - depuisIso(r.arrivee)) / 86400000); }
+
+  function nuitsOccupees() {
+    var nuits = {};
+    donnees.reservations.forEach(function (r) {
+      var d = depuisIso(r.arrivee);
+      while (iso(d) < r.depart) {
+        var cle = iso(d);
+        if (nuits[cle] !== 'reserve') nuits[cle] = r.statut === 'reserve' ? 'reserve' : 'option';
+        d.setDate(d.getDate() + 1);
+      }
+    });
+    return nuits;
+  }
+
+  function chevauche(a1, d1, a2, d2) { return a1 < d2 && a2 < d1; }
+
+  function tarifsCourants() {
+    if (!donnees.tarifs) donnees.tarifs = { defaut: null, periodes: [] };
+    if (!donnees.tarifs.periodes) donnees.tarifs.periodes = [];
+    return donnees.tarifs;
+  }
+
+  function prixSemaine(cle) {
+    var t = tarifsCourants();
+    for (var i = 0; i < t.periodes.length; i++) {
+      var p = t.periodes[i];
+      if (p.debut <= cle && cle < p.fin && p.prix) return p.prix;
+    }
+    return t.defaut || null;
+  }
+
+  function rendreTarifs() {
+    var t = tarifsCourants();
+    document.getElementById('tarif-defaut').value = t.defaut || '';
+    var zone = document.getElementById('tarif-liste');
+    zone.innerHTML = '';
+    if (!t.periodes.length) {
+      zone.innerHTML = '<p class="vide">Aucune période particulière : le prix par défaut s’applique partout.</p>';
+      return;
+    }
+    var tri = t.periodes.slice().sort(function (x, y) { return x.debut < y.debut ? -1 : 1; });
+    tri.forEach(function (p) {
+      var ligne = document.createElement('div');
+      ligne.className = 'resa-ligne';
+
+      var infos = document.createElement('div');
+      infos.className = 'resa-dates';
+      infos.innerHTML = (p.libelle ? p.libelle : 'Période') +
+        '<small>Du ' + joli(p.debut) + ' au ' + joli(p.fin) + ' (exclu)</small>';
+      ligne.appendChild(infos);
+
+      var prix = document.createElement('input');
+      prix.type = 'number'; prix.min = 0; prix.step = 10; prix.value = p.prix;
+      prix.style.cssText = 'width:110px;padding:9px 11px;border-radius:10px;border:1px solid var(--ligne-jour);font-size:15px;font-family:inherit;';
+      prix.addEventListener('change', function () {
+        p.prix = +prix.value || 0;
+        marquerModifie(); rendreCalendrier();
+      });
+      ligne.appendChild(prix);
+
+      var euro = document.createElement('span');
+      euro.textContent = '€ / sem.';
+      euro.style.cssText = 'font-size:12px;color:var(--encre-tenue)';
+      ligne.appendChild(euro);
+
+      var suppr = document.createElement('button');
+      suppr.className = 'mini mini-danger';
+      suppr.textContent = 'Supprimer';
+      suppr.addEventListener('click', function () {
+        if (!confirm('Supprimer la période « ' + (p.libelle || 'sans nom') + ' » ?')) return;
+        var t2 = tarifsCourants();
+        t2.periodes.splice(t2.periodes.indexOf(p), 1);
+        marquerModifie(); rendreTarifs(); rendreCalendrier();
+      });
+      ligne.appendChild(suppr);
+
+      zone.appendChild(ligne);
+    });
+  }
+
+  function rendreListe() {
+    var zone = document.getElementById('liste');
+    zone.innerHTML = '';
+    var tri = donnees.reservations.slice().sort(function (x, y) { return x.arrivee < y.arrivee ? -1 : 1; });
+    if (!tri.length) {
+      zone.innerHTML = '<p class="vide">Aucune réservation ni option pour le moment.</p>';
+      return;
+    }
+    tri.forEach(function (r) {
+      var ligne = document.createElement('div');
+      ligne.className = 'resa-ligne';
+
+      var dates = document.createElement('div');
+      dates.className = 'resa-dates';
+      dates.innerHTML = 'Du ' + joli(r.arrivee) + ' au ' + joli(r.depart) +
+        '<small>' + nbNuits(r) + ' nuit' + (nbNuits(r) > 1 ? 's' : '') + '</small>';
+      ligne.appendChild(dates);
+
+      var badge = document.createElement('span');
+      badge.className = 'badge ' + (r.statut === 'reserve' ? 'badge-reserve' : 'badge-option');
+      badge.textContent = r.statut === 'reserve' ? 'Réservé' : 'Option';
+      ligne.appendChild(badge);
+
+      var actions = document.createElement('div');
+      actions.className = 'resa-actions';
+      var bascule = document.createElement('button');
+      bascule.className = 'mini';
+      bascule.textContent = r.statut === 'reserve' ? 'Repasser en option' : '✓ Valider';
+      bascule.addEventListener('click', function () {
+        r.statut = r.statut === 'reserve' ? 'option' : 'reserve';
+        marquerModifie(); toutRendre();
+      });
+      actions.appendChild(bascule);
+      var suppr = document.createElement('button');
+      suppr.className = 'mini mini-danger';
+      suppr.textContent = 'Supprimer';
+      suppr.addEventListener('click', function () {
+        if (!confirm('Supprimer le blocage du ' + joli(r.arrivee) + ' au ' + joli(r.depart) + ' ?')) return;
+        donnees.reservations.splice(donnees.reservations.indexOf(r), 1);
+        marquerModifie(); toutRendre();
+      });
+      actions.appendChild(suppr);
+      ligne.appendChild(actions);
+
+      zone.appendChild(ligne);
+    });
+  }
+
+  function rendreCalendrier() {
+    var conteneur = document.getElementById('cal-mois');
+    var nuits = nuitsOccupees();
+    conteneur.innerHTML = '';
+    for (var m = 0; m < 2; m++) {
+      var premier = new Date(moisAffiche.getFullYear(), moisAffiche.getMonth() + m, 1);
+      var bloc = document.createElement('div');
+      bloc.className = 'cal-un-mois';
+      var nom = document.createElement('p');
+      nom.className = 'cal-mois-nom';
+      nom.textContent = premier.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+      bloc.appendChild(nom);
+      var grille = document.createElement('div');
+      grille.className = 'cal-grille';
+      ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach(function (j) {
+        var tete = document.createElement('span');
+        tete.className = 'cal-jsem'; tete.textContent = j;
+        grille.appendChild(tete);
+      });
+      var decalage = (premier.getDay() + 6) % 7;
+      for (var v = 0; v < decalage; v++) grille.appendChild(document.createElement('span'));
+      var nbJours = new Date(premier.getFullYear(), premier.getMonth() + 1, 0).getDate();
+      for (var q = 1; q <= nbJours; q++) {
+        var d = new Date(premier.getFullYear(), premier.getMonth(), q);
+        var cle = iso(d);
+        var caseJour = document.createElement('button');
+        caseJour.type = 'button'; caseJour.disabled = true;
+        caseJour.className = 'cal-jour';
+        caseJour.textContent = q;
+        if (d < ajd) caseJour.classList.add('est-passe');
+        else if (nuits[cle] === 'reserve') caseJour.classList.add('est-reserve');
+        else if (nuits[cle] === 'option') caseJour.classList.add('est-option');
+        else {
+          var prix = prixSemaine(cle);
+          if (prix) {
+            var etiq = document.createElement('span');
+            etiq.className = 'cal-prix';
+            etiq.textContent = Math.round(prix / 7) + '€';
+            caseJour.appendChild(etiq);
+          }
+        }
+        grille.appendChild(caseJour);
+      }
+      bloc.appendChild(grille);
+      conteneur.appendChild(bloc);
+    }
+    document.getElementById('cal-prec').disabled = moisAffiche <= moisCourant;
+  }
+
+  function marquerModifie(type) {
+    if (type === 'guide') modifieGuide = true; else modifieResa = true;
+    document.getElementById('publier').hidden = false;
+    document.getElementById('publie-ok').hidden = true;
+    document.getElementById('pub-resa').hidden = !modifieResa;
+    document.getElementById('pub-guide').hidden = !modifieGuide;
+  }
+
+  function rendreBonsPlans() {
+    var zone = document.getElementById('bp-liste');
+    zone.innerHTML = '';
+    if (!guide.bonsplans.length) {
+      zone.innerHTML = '<p class="vide">Aucun bon plan pour le moment.</p>';
+      return;
+    }
+    guide.bonsplans.forEach(function (p, rang) {
+      var ligne = document.createElement('div');
+      ligne.className = 'resa-ligne';
+
+      var infos = document.createElement('div');
+      infos.className = 'resa-dates';
+      var saison = p.saison === 'hiver' ? 'Hiver' : p.saison === 'ete' ? 'Été' : 'Toute l’année';
+      infos.innerHTML = (p.nom_fr || p.id) + '<small>' + saison +
+        (p.categorie ? ' · ' + p.categorie : '') +
+        (p.commentaire ? ' · « ' + p.commentaire + ' »' : '') + '</small>';
+      ligne.appendChild(infos);
+
+      function caseCocher(libelle, valeur, change) {
+        var lab = document.createElement('label');
+        lab.style.cssText = 'display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--encre-douce);cursor:pointer';
+        var c = document.createElement('input');
+        c.type = 'checkbox'; c.checked = valeur;
+        c.addEventListener('change', function () { change(c.checked); marquerModifie('guide'); rendreBonsPlans(); });
+        lab.appendChild(c);
+        lab.appendChild(document.createTextNode(libelle));
+        return lab;
+      }
+      ligne.appendChild(caseCocher('Visible', p.visible !== false, function (v) { p.visible = v; }));
+      ligne.appendChild(caseCocher('Réduc', !!p.reduction, function (v) { p.reduction = v; }));
+
+      var actions = document.createElement('div');
+      actions.className = 'resa-actions';
+      var monte = document.createElement('button');
+      monte.className = 'mini'; monte.textContent = '▲'; monte.disabled = rang === 0;
+      monte.addEventListener('click', function () {
+        guide.bonsplans.splice(rang - 1, 0, guide.bonsplans.splice(rang, 1)[0]);
+        marquerModifie('guide'); rendreBonsPlans();
+      });
+      actions.appendChild(monte);
+      var descend = document.createElement('button');
+      descend.className = 'mini'; descend.textContent = '▼'; descend.disabled = rang === guide.bonsplans.length - 1;
+      descend.addEventListener('click', function () {
+        guide.bonsplans.splice(rang + 1, 0, guide.bonsplans.splice(rang, 1)[0]);
+        marquerModifie('guide'); rendreBonsPlans();
+      });
+      actions.appendChild(descend);
+      var mot = document.createElement('button');
+      mot.className = 'mini'; mot.textContent = 'Mot perso';
+      mot.addEventListener('click', function () {
+        var texte = prompt('Votre mot personnel affiché sur la carte (vide pour retirer) :', p.commentaire || '');
+        if (texte === null) return;
+        p.commentaire = texte.trim();
+        marquerModifie('guide'); rendreBonsPlans();
+      });
+      actions.appendChild(mot);
+      var suppr = document.createElement('button');
+      suppr.className = 'mini mini-danger'; suppr.textContent = 'Supprimer';
+      suppr.addEventListener('click', function () {
+        if (!confirm('Supprimer « ' + (p.nom_fr || p.id) + ' » ? (Vous pouvez aussi juste le masquer.)')) return;
+        guide.bonsplans.splice(rang, 1);
+        marquerModifie('guide'); rendreBonsPlans();
+      });
+      actions.appendChild(suppr);
+      ligne.appendChild(actions);
+
+      zone.appendChild(ligne);
+    });
+  }
+
+  function rendreAvis() {
+    var zone = document.getElementById('avis-liste');
+    zone.innerHTML = '';
+    if (!guide.avis.length) {
+      zone.innerHTML = '<p class="vide">Aucun avis publié pour le moment.</p>';
+      return;
+    }
+    guide.avis.forEach(function (v, rang) {
+      var ligne = document.createElement('div');
+      ligne.className = 'resa-ligne';
+      var infos = document.createElement('div');
+      infos.className = 'resa-dates';
+      infos.innerHTML = (v.auteur || 'Anonyme') + (v.date ? ' · ' + v.date : '') +
+        (v.note ? ' · ' + '★★★★★'.slice(0, v.note) : '') +
+        '<small>' + (v.cible ? '[' + v.cible + '] ' : '') + (v.texte || '') + '</small>';
+      ligne.appendChild(infos);
+      var actions = document.createElement('div');
+      actions.className = 'resa-actions';
+      var visible = document.createElement('button');
+      visible.className = 'mini';
+      visible.textContent = v.visible === false ? 'Ré-afficher' : 'Masquer';
+      visible.addEventListener('click', function () {
+        v.visible = v.visible === false;
+        marquerModifie('guide'); rendreAvis();
+      });
+      actions.appendChild(visible);
+      var suppr = document.createElement('button');
+      suppr.className = 'mini mini-danger'; suppr.textContent = 'Supprimer';
+      suppr.addEventListener('click', function () {
+        if (!confirm('Supprimer définitivement cet avis ?')) return;
+        guide.avis.splice(rang, 1);
+        marquerModifie('guide'); rendreAvis();
+      });
+      actions.appendChild(suppr);
+      ligne.appendChild(actions);
+      zone.appendChild(ligne);
+    });
+  }
+
+  function toutRendre() { rendreListe(); rendreTarifs(); rendreBonsPlans(); rendreAvis(); rendreCalendrier(); }
+
+  document.getElementById('tarif-defaut').addEventListener('change', function () {
+    tarifsCourants().defaut = +this.value || null;
+    marquerModifie(); rendreCalendrier();
+  });
+
+  document.getElementById('pt-bouton').addEventListener('click', function () {
+    var lib = document.getElementById('pt-libelle').value.trim();
+    var de = document.getElementById('pt-debut').value;
+    var fi = document.getElementById('pt-fin').value;
+    var px = +document.getElementById('pt-prix').value;
+    var note = document.getElementById('pt-note');
+    if (!de || !fi || !px) { note.textContent = 'Renseignez les dates et le prix.'; return; }
+    if (fi <= de) { note.textContent = 'La fin doit être après le début.'; return; }
+    tarifsCourants().periodes.push({ debut: de, fin: fi, prix: px, libelle: lib || 'Période' });
+    document.getElementById('pt-libelle').value = '';
+    document.getElementById('pt-debut').value = '';
+    document.getElementById('pt-fin').value = '';
+    document.getElementById('pt-prix').value = '';
+    note.textContent = 'Période ajoutée. Pensez à publier (étape 6).';
+    marquerModifie(); rendreTarifs(); rendreCalendrier();
+  });
+
+  document.getElementById('aj-bouton').addEventListener('click', function () {
+    var a = document.getElementById('aj-arrivee').value;
+    var d = document.getElementById('aj-depart').value;
+    var s = document.getElementById('aj-statut').value;
+    var note = document.getElementById('aj-note');
+    if (!a || !d) { note.textContent = 'Renseignez l’arrivée et le départ.'; return; }
+    if (d <= a) { note.textContent = 'Le départ doit être après l’arrivée.'; return; }
+    var conflit = donnees.reservations.some(function (r) { return chevauche(a, d, r.arrivee, r.depart); });
+    if (conflit && !confirm('Ces dates chevauchent un blocage existant. Ajouter quand même ?')) return;
+    donnees.reservations.push({ arrivee: a, depart: d, statut: s });
+    document.getElementById('aj-arrivee').value = '';
+    document.getElementById('aj-depart').value = '';
+    note.textContent = 'Ajouté. Pensez à publier (étape 6).';
+    marquerModifie(); toutRendre();
+  });
+
+  document.getElementById('cal-prec').addEventListener('click', function () {
+    moisAffiche = new Date(moisAffiche.getFullYear(), moisAffiche.getMonth() - 1, 1); rendreCalendrier();
+  });
+  document.getElementById('cal-suiv').addEventListener('click', function () {
+    moisAffiche = new Date(moisAffiche.getFullYear(), moisAffiche.getMonth() + 1, 1); rendreCalendrier();
+  });
+
+  document.getElementById('bp-bouton').addEventListener('click', function () {
+    var nom = document.getElementById('bp-nom').value.trim();
+    var url = document.getElementById('bp-url').value.trim();
+    var note = document.getElementById('bp-note');
+    if (!nom || !url) { note.textContent = 'Renseignez au moins le nom et le lien.'; return; }
+    guide.bonsplans.push({
+      id: nom.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+      saison: document.getElementById('bp-saison').value,
+      categorie: 'activite',
+      nom_fr: nom,
+      desc_fr: document.getElementById('bp-desc').value.trim(),
+      url_fr: url,
+      commentaire: '',
+      reduction: false,
+      visible: true
+    });
+    document.getElementById('bp-nom').value = '';
+    document.getElementById('bp-url').value = '';
+    document.getElementById('bp-desc').value = '';
+    note.textContent = 'Ajouté. Pensez à publier (étape 6).';
+    marquerModifie('guide'); rendreBonsPlans();
+  });
+
+  document.getElementById('av-bouton').addEventListener('click', function () {
+    var texte = document.getElementById('av-texte').value.trim();
+    var note = document.getElementById('av-note-etat');
+    if (!texte) { note.textContent = 'Le texte de l’avis est vide.'; return; }
+    guide.avis.unshift({
+      auteur: document.getElementById('av-auteur').value.trim(),
+      date: document.getElementById('av-date').value.trim(),
+      note: +document.getElementById('av-note').value || null,
+      cible: document.getElementById('av-cible').value.trim(),
+      texte: texte,
+      visible: true
+    });
+    document.getElementById('av-auteur').value = '';
+    document.getElementById('av-date').value = '';
+    document.getElementById('av-cible').value = '';
+    document.getElementById('av-texte').value = '';
+    note.textContent = 'Avis ajouté. Pensez à publier (étape 6).';
+    marquerModifie('guide'); rendreAvis();
+  });
+
+  function brancherCopie(idBouton, contenu) {
+    document.getElementById(idBouton).addEventListener('click', function () {
+      var texte = JSON.stringify(contenu(), null, 2) + '\n';
+      var fini = function () { document.getElementById('copie-note').textContent = 'Copié ! Collez-le dans l’éditeur GitHub (tout remplacer) puis « Commit changes ».'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texte).then(fini, function () { fallback(texte); fini(); });
+      } else { fallback(texte); fini(); }
+      function fallback(t) {
+        var z = document.createElement('textarea');
+        z.value = t; document.body.appendChild(z); z.select();
+        document.execCommand('copy'); document.body.removeChild(z);
+      }
+    });
+  }
+  brancherCopie('copier-resa', function () { return donnees; });
+  brancherCopie('copier-guide', function () { return guide; });
+
+  window.addEventListener('beforeunload', function (e) {
+    if (modifieResa || modifieGuide) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  fetch('reservations.json?t=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (json) {
+      donnees = json;
+      if (!donnees.reservations) donnees.reservations = [];
+      toutRendre();
+    })
+    .catch(function () {
+      document.getElementById('liste').innerHTML = '<p class="vide">Impossible de charger reservations.json — vérifiez que le fichier existe.</p>';
+      rendreCalendrier();
+    });
+
+  fetch('guide.json?t=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (json) {
+      guide = json;
+      if (!guide.bonsplans) guide.bonsplans = [];
+      if (!guide.avis) guide.avis = [];
+      rendreBonsPlans(); rendreAvis();
+    })
+    .catch(function () {
+      document.getElementById('bp-liste').innerHTML = '<p class="vide">Impossible de charger guide.json — vérifiez que le fichier existe.</p>';
+    });
+})();
+</script>
+
+</body>
+</html>
