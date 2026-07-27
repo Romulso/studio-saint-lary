@@ -573,3 +573,18 @@ body.saison-ete [data-hiver] { display: none !important; }
   .jalons { transition: none; }
   .jalon-trait, .jalon-nom { transition: none; }
 }
+
+/* ---------- Escapade : la vallee voisine ---------- */
+.escapade { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--ligne-nuit); }
+.escapade-tete { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 16px; margin-bottom: 8px; }
+.escapade-tete h3 { font-size: clamp(22px, 5vw, 30px); font-weight: 700; letter-spacing: -.025em; color: var(--clair); }
+.escapade-tete .distance {
+  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--laiton-clair);
+  border: 1px solid rgba(201, 168, 106, .3); padding: 4px 11px; border-radius: 100px;
+}
+.escapade > p { font-size: 14.5px; color: var(--doux); max-width: 62ch; margin-bottom: 16px; }
+.escapade .service-lien { display: inline-flex; margin-top: 14px; border-top: 0; padding-top: 0; }
+@media (max-width: 879px) {
+  .escapade { margin-top: 20px; padding-top: 18px; }
+  .escapade > p { font-size: 13.5px; margin-bottom: 13px; }
+}
