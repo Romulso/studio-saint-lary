@@ -1,0 +1,188 @@
+:root {
+  --bleu: #1d6f96;
+  --bleu-fonce: #10455e;
+  --bleu-clair: #e4f1f8;
+  --miel: #c1832a;
+  --miel-clair: #fbf1de;
+  --creme: #fbf7f0;
+  --texte: #2c2a26;
+  --gris: #6b6862;
+  --bord: #e4ddd1;
+  --blanc: #ffffff;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--texte);
+  background: var(--creme);
+  line-height: 1.65;
+  font-size: 17px;
+}
+
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; line-height: 1.25; }
+
+img { max-width: 100%; display: block; }
+
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+/* ---------- En-tete ---------- */
+.entete {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(251, 247, 240, 0.96);
+  border-bottom: 1px solid var(--bord);
+  backdrop-filter: blur(8px);
+}
+.entete .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 62px; }
+.marque { font-family: Georgia, serif; font-size: 18px; color: var(--bleu); text-decoration: none; }
+.marque span { display: block; font-family: inherit; font-size: 10px; letter-spacing: .14em; color: var(--miel); text-transform: uppercase; }
+.entete nav { display: flex; align-items: center; gap: 18px; }
+.entete nav a { color: var(--texte); text-decoration: none; font-size: 15px; }
+.entete nav a:hover { color: var(--bleu); }
+.lien-nav { display: none; }
+@media (min-width: 860px) { .lien-nav { display: inline; } }
+
+.langues { display: flex; border: 1px solid var(--bord); border-radius: 6px; overflow: hidden; }
+.langues button {
+  border: 0; background: var(--blanc); color: var(--gris);
+  font-size: 12px; letter-spacing: .06em; padding: 6px 10px; cursor: pointer; font-weight: 600;
+}
+.langues button.actif { background: var(--bleu); color: #fff; }
+
+/* ---------- Banniere ---------- */
+.banniere { position: relative; background: var(--bleu-fonce); }
+.banniere img { width: 100%; height: clamp(300px, 52vh, 520px); object-fit: cover; opacity: .82; }
+.banniere-texte {
+  position: absolute; inset: auto 0 0 0; padding: 28px 0 32px;
+  background: linear-gradient(to top, rgba(16,69,94,.94), rgba(16,69,94,0));
+}
+.banniere-texte .sur-titre { font-size: 11px; letter-spacing: .16em; color: #e8c88a; text-transform: uppercase; }
+.banniere-texte h1 { font-size: clamp(30px, 5.4vw, 46px); color: #fff; margin: 8px 0 10px; }
+.banniere-texte p { color: #cfe2ec; max-width: 40ch; font-size: 17px; }
+
+/* ---------- Chiffres cles ---------- */
+.cles { background: var(--miel-clair); border-bottom: 1px solid var(--bord); }
+.cles .wrap { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding-top: 22px; padding-bottom: 22px; }
+@media (min-width: 720px) { .cles .wrap { grid-template-columns: repeat(4, 1fr); } }
+.cle strong { display: block; font-family: Georgia, serif; font-size: 24px; color: var(--bleu); }
+.cle span { font-size: 14px; color: #7a5a1e; }
+
+/* ---------- Sections ---------- */
+section { padding: 56px 0; }
+section h2 { font-size: clamp(24px, 3.6vw, 32px); color: var(--bleu); margin-bottom: 10px; }
+.chapo { color: var(--gris); max-width: 62ch; margin-bottom: 30px; }
+
+.galerie { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 720px) { .galerie { grid-template-columns: repeat(2, 1fr); } }
+.galerie img { border-radius: var(--radius); height: 260px; object-fit: cover; width: 100%; }
+
+.a-venir {
+  border: 2px dashed var(--bord); border-radius: var(--radius);
+  height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--gris); text-align: center; padding: 20px; background: var(--blanc); font-size: 14px;
+}
+.a-venir b { display: block; color: var(--miel); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+
+/* ---------- Equipements ---------- */
+.fond-blanc { background: var(--blanc); border-top: 1px solid var(--bord); border-bottom: 1px solid var(--bord); }
+.equip { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 26px; }
+.equip li { list-style: none; padding: 9px 0; border-bottom: 1px solid var(--bord); font-size: 16px; }
+.equip li::before { content: "—"; color: var(--miel); margin-right: 10px; }
+
+.grille-2 { display: grid; grid-template-columns: 1fr; gap: 34px; }
+@media (min-width: 860px) { .grille-2 { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- Tarifs ---------- */
+.tarifs { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 720px) { .tarifs { grid-template-columns: repeat(3, 1fr); } }
+.tarif { background: var(--blanc); border: 1px solid var(--bord); border-radius: var(--radius); padding: 22px; }
+.tarif.phare { border-color: var(--bleu); border-width: 2px; }
+.tarif .saison { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--miel); }
+.tarif .prix { font-family: Georgia, serif; font-size: 34px; color: var(--bleu); margin: 6px 0 2px; }
+.tarif .unite { font-size: 14px; color: var(--gris); }
+.tarif .detail { font-size: 14px; color: var(--gris); margin-top: 10px; }
+
+.frais { margin-top: 20px; background: var(--bleu-clair); border-radius: var(--radius); padding: 18px 22px; }
+.frais li { list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 7px 0; font-size: 15px; border-bottom: 1px solid rgba(29,111,150,.14); }
+.frais li:last-child { border-bottom: 0; }
+.frais b { color: var(--bleu); font-weight: 600; }
+
+/* ---------- Preparer son sejour ---------- */
+.services { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 780px) { .services { grid-template-columns: repeat(3, 1fr); } }
+.service {
+  background: var(--blanc); border: 1px solid var(--bord); border-radius: var(--radius);
+  padding: 22px; display: flex; flex-direction: column;
+}
+.service h3 { font-size: 20px; color: var(--bleu); margin-bottom: 8px; }
+.service p { font-size: 15px; color: var(--gris); flex: 1; margin-bottom: 16px; }
+.service .lien-service {
+  display: block; text-align: center; text-decoration: none; padding: 12px;
+  border-radius: 7px; font-size: 15px; font-weight: 600;
+  background: var(--bleu); color: #fff;
+}
+.service .lien-service:hover { opacity: .9; }
+.service .lien-service.attente { background: var(--bord); color: var(--gris); cursor: default; }
+
+/* Badge avantage : visible uniquement si une reduction a ete negociee.
+   Pour l'activer, retirer l'attribut hidden sur le <span class="avantage">. */
+.avantage {
+  display: inline-block; background: var(--miel-clair); color: #7a5a1e;
+  border: 1px solid var(--miel); border-radius: 20px;
+  font-size: 12px; font-weight: 600; padding: 4px 12px; margin-bottom: 12px;
+}
+.avantage[hidden] { display: none; }
+
+.lieux { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 24px; margin-top: 26px; }
+.lieux li { list-style: none; padding: 10px 0; border-bottom: 1px solid var(--bord); font-size: 15px; }
+.lieux li b { display: block; color: var(--bleu); font-weight: 600; }
+.lieux li span { color: var(--gris); font-size: 14px; }
+
+/* ---------- Transparence ---------- */
+.franc { background: var(--miel-clair); border-left: 4px solid var(--miel); border-radius: 0 var(--radius) var(--radius) 0; padding: 20px 24px; }
+.franc h3 { font-size: 19px; color: #7a5a1e; margin-bottom: 10px; }
+.franc li { list-style: none; padding: 6px 0 6px 22px; position: relative; font-size: 15px; color: #6b511f; }
+.franc li::before { content: "•"; position: absolute; left: 6px; color: var(--miel); }
+
+/* ---------- Contact ---------- */
+.contact { background: var(--bleu-fonce); color: #dfeef6; }
+.contact h2 { color: #fff; }
+.contact .chapo { color: #b6d4e3; }
+.boutons { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 26px; }
+@media (min-width: 620px) { .boutons { grid-template-columns: 1fr 1fr; } }
+.btn {
+  display: block; text-align: center; text-decoration: none; padding: 15px;
+  border-radius: var(--radius); font-size: 16px; font-weight: 600;
+}
+.btn-tel { background: var(--miel); color: #fff; }
+.btn-wa { background: #25d366; color: #08301c; }
+.btn:hover { opacity: .9; }
+
+form { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); border-radius: var(--radius); padding: 22px; }
+.champ { margin-bottom: 14px; }
+.champ label { display: block; font-size: 14px; color: #b6d4e3; margin-bottom: 5px; }
+.champ input, .champ textarea {
+  width: 100%; padding: 11px 13px; border-radius: 7px; font-size: 16px; font-family: inherit;
+  border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.95); color: var(--texte);
+}
+.champ textarea { min-height: 110px; resize: vertical; }
+.duo { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 620px) { .duo { grid-template-columns: 1fr 1fr; } }
+form button[type=submit] {
+  width: 100%; padding: 15px; border: 0; border-radius: var(--radius);
+  background: var(--miel); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.note-form { font-size: 14px; color: #b6d4e3; margin-top: 12px; text-align: center; }
+
+/* ---------- Pied ---------- */
+footer { background: #0a3448; color: #8fb3c6; padding: 26px 0; font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+footer a { color: #b6d4e3; }
+
+/* ---------- Bascule des langues ----------
+   !important volontaire : ces deux regles doivent primer sur
+   tout display defini ailleurs (ex : .champ label, .a-venir b). */
+body.lang-fr [data-en] { display: none !important; }
+body.lang-en [data-fr] { display: none !important; }
