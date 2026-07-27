@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Studio à louer à Saint-Lary-Soulan — 100 m des pistes, balcon vue montagne</title>
 <meta name="description" content="Studio de 27 m² avec balcon 9 m² vue montagne à Saint-Lary-Soulan. 100 m des remontées, 150 m du centre. Piscine, salle de sport, parking. Location en direct auprès des propriétaires.">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body class="lang-fr">
 
@@ -42,10 +42,51 @@
 
 <div class="cles">
   <div class="wrap">
-    <div class="cle"><strong>100 m</strong><span data-fr>des remontées</span><span data-en>to the ski lifts</span></div>
-    <div class="cle"><strong>27 m²</strong><span data-fr>+ balcon de 9 m²</span><span data-en>+ 9 m² balcony</span></div>
-    <div class="cle"><strong>3</strong><span data-fr>personnes</span><span data-en>guests</span></div>
-    <div class="cle"><strong>150 m</strong><span data-fr>du centre-ville</span><span data-en>to the village centre</span></div>
+
+    <div class="cle">
+      <span class="cle-icone" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5.2 21 11"/><path d="M12 8.4v3.1"/>
+          <rect x="8.6" y="11.5" width="6.8" height="5.6" rx="1.2"/><path d="M8.6 14.3h6.8"/>
+        </svg>
+      </span>
+      <p class="cle-nombre"><span data-compteur="100">0</span><span class="cle-unite">m</span></p>
+      <p class="cle-label" data-fr>des remontées</p><p class="cle-label" data-en>to the ski lifts</p>
+    </div>
+
+    <div class="cle">
+      <span class="cle-icone" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.8" y="3.8" width="16.4" height="16.4" rx="1.6"/>
+          <path d="M8 12h8"/><path d="m10 10-2 2 2 2"/><path d="m14 10 2 2-2 2"/>
+        </svg>
+      </span>
+      <p class="cle-nombre"><span data-compteur="27">0</span><span class="cle-unite">m²</span></p>
+      <p class="cle-label" data-fr>+ 9 m² de balcon</p><p class="cle-label" data-en>+ 9 m² balcony</p>
+    </div>
+
+    <div class="cle">
+      <span class="cle-icone" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="8" r="3.1"/><path d="M3.4 19.2c0-3 2.5-5.2 5.6-5.2s5.6 2.2 5.6 5.2"/>
+          <circle cx="17.2" cy="9.4" r="2.2" opacity=".55"/><path d="M15.3 14.3c2.7-.4 5.3 1.3 5.3 4.6" opacity=".55"/>
+        </svg>
+      </span>
+      <p class="cle-nombre"><span data-compteur="3">0</span></p>
+      <p class="cle-label" data-fr>personnes</p><p class="cle-label" data-en>guests</p>
+    </div>
+
+    <div class="cle">
+      <span class="cle-icone" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2.8 20.2h18.4"/><path d="M5.2 20.2v-7.1l4-3 4 3v7.1"/>
+          <path d="M13.2 20.2v-5l3.2-2.2 3.2 2.2v5"/><path d="M8.2 20.2v-3.1h2v3.1"/>
+        </svg>
+      </span>
+      <p class="cle-nombre"><span data-compteur="150">0</span><span class="cle-unite">m</span></p>
+      <p class="cle-label" data-fr>du centre-ville</p><p class="cle-label" data-en>to the village centre</p>
+    </div>
+
   </div>
 </div>
 
@@ -268,6 +309,50 @@ function langue(code) {
   var choix = enregistree || (navigator.language && navigator.language.slice(0, 2) === 'fr' ? 'fr' : 'en');
   langue(choix);
   document.getElementById('annee').textContent = new Date().getFullYear();
+})();
+
+(function () {
+  var cles = document.querySelectorAll('.cle');
+  if (!cles.length) return;
+  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function compter(el, cible, duree) {
+    var debut = null;
+    function etape(t) {
+      if (debut === null) debut = t;
+      var avance = Math.min((t - debut) / duree, 1);
+      var adouci = 1 - Math.pow(1 - avance, 3);
+      el.textContent = Math.round(cible * adouci);
+      if (avance < 1) requestAnimationFrame(etape); else el.textContent = cible;
+    }
+    requestAnimationFrame(etape);
+  }
+
+  function afficherDirect(cle) {
+    cle.classList.add('visible');
+    var n = cle.querySelector('[data-compteur]');
+    if (n) n.textContent = n.getAttribute('data-compteur');
+  }
+
+  if (reduit || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(cles, afficherDirect);
+    return;
+  }
+
+  var observateur = new IntersectionObserver(function (entrees) {
+    entrees.forEach(function (entree) {
+      if (!entree.isIntersecting) return;
+      observateur.unobserve(entree.target);
+      var rang = Array.prototype.indexOf.call(cles, entree.target);
+      setTimeout(function () {
+        entree.target.classList.add('visible');
+        var n = entree.target.querySelector('[data-compteur]');
+        if (n) compter(n, parseInt(n.getAttribute('data-compteur'), 10), 1100);
+      }, rang * 110);
+    });
+  }, { threshold: 0.35 });
+
+  Array.prototype.forEach.call(cles, function (c) { observateur.observe(c); });
 })();
 
 document.getElementById('formulaire').addEventListener('submit', function (e) {

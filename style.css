@@ -63,11 +63,51 @@ img { max-width: 100%; display: block; }
 .banniere-texte p { color: #cfe2ec; max-width: 40ch; font-size: 17px; }
 
 /* ---------- Chiffres cles ---------- */
-.cles { background: var(--miel-clair); border-bottom: 1px solid var(--bord); }
-.cles .wrap { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding-top: 22px; padding-bottom: 22px; }
-@media (min-width: 720px) { .cles .wrap { grid-template-columns: repeat(4, 1fr); } }
-.cle strong { display: block; font-family: Georgia, serif; font-size: 24px; color: var(--bleu); }
-.cle span { font-size: 14px; color: #7a5a1e; }
+.cles {
+  background: var(--miel-clair);
+  border-top: 1px solid rgba(193,131,42,.28);
+  border-bottom: 1px solid rgba(193,131,42,.28);
+}
+.cles .wrap {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px 18px;
+  padding-top: 34px; padding-bottom: 34px;
+}
+@media (min-width: 720px) { .cles .wrap { grid-template-columns: repeat(4, 1fr); gap: 0; } }
+
+.cle {
+  position: relative; text-align: center; padding: 0 10px;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .75s cubic-bezier(.22,.61,.36,1), transform .75s cubic-bezier(.22,.61,.36,1);
+}
+.cle.visible { opacity: 1; transform: none; }
+
+/* Trait de separation entre les colonnes, uniquement en large */
+@media (min-width: 720px) {
+  .cle + .cle::before {
+    content: ""; position: absolute; left: -1px; top: 8%; height: 84%; width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(193,131,42,.5), transparent);
+  }
+}
+
+.cle-icone { color: var(--miel); opacity: .75; margin-bottom: 10px; display: inline-block; }
+.cle-icone svg { display: block; }
+
+.cle-nombre {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 4.6vw, 42px); line-height: 1;
+  color: var(--bleu); letter-spacing: -.01em;
+  display: flex; align-items: baseline; justify-content: center; gap: 4px;
+}
+.cle-unite { font-size: .48em; color: var(--miel); letter-spacing: 0; }
+
+.cle-label {
+  margin-top: 10px; font-size: 12px; letter-spacing: .11em; text-transform: uppercase;
+  color: #8a6524; font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cle { opacity: 1; transform: none; transition: none; }
+}
 
 /* ---------- Sections ---------- */
 section { padding: 56px 0; }
