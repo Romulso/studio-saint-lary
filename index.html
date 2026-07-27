@@ -13,7 +13,50 @@
 <meta property="og:url" content="https://romulso.github.io/studio-saint-lary/">
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://romulso.github.io/studio-saint-lary/">
+<link rel="alternate" hreflang="fr" href="https://romulso.github.io/studio-saint-lary/">
+<link rel="alternate" hreflang="en" href="https://romulso.github.io/studio-saint-lary/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://romulso.github.io/studio-saint-lary/">
 <link rel="stylesheet" href="style.css?v=22">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VacationRental",
+  "name": "Le Balcon d'Aure",
+  "description": "Studio de 27 m² avec balcon de 9 m² vue montagne, au premier étage de la résidence Royal Milan à Saint-Lary-Soulan. 200 m des remontées mécaniques, thermes Sensoria à 150 m, sauna et jacuzzi en accès libre, piscine chauffée l'été. Location en direct auprès des propriétaires, sans commission.",
+  "url": "https://romulso.github.io/studio-saint-lary/",
+  "image": [
+    "https://romulso.github.io/studio-saint-lary/images/sejour-baie.jpeg",
+    "https://romulso.github.io/studio-saint-lary/images/sejour-large.jpeg",
+    "https://romulso.github.io/studio-saint-lary/images/cuisine.jpeg",
+    "https://romulso.github.io/studio-saint-lary/images/sejour-tv.jpeg"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Résidence Royal Milan, chemin de Vielle-Aure",
+    "addressLocality": "Saint-Lary-Soulan",
+    "postalCode": "65170",
+    "addressRegion": "Hautes-Pyrénées",
+    "addressCountry": "FR"
+  },
+  "telephone": "+33642845542",
+  "floorSize": { "@type": "QuantitativeValue", "value": 27, "unitCode": "MTK" },
+  "occupancy": { "@type": "QuantitativeValue", "maxValue": 3 },
+  "numberOfRooms": 1,
+  "petsAllowed": "Chiens acceptés l'été uniquement, sous conditions ; pas d'animaux en hiver",
+  "priceRange": "300 € – 700 € la semaine",
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Balcon 9 m² vue montagne", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Sauna et jacuzzi (résidence)", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Piscine extérieure chauffée l'été", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Salle de sport", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Lave-vaisselle", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Casier à skis", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Parking", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Wifi (espaces communs)", "value": true }
+  ]
+}
+</script>
 </head>
 <body class="lang-fr saison-hiver">
 
@@ -606,9 +649,11 @@ function saison(nom) {
 }
 
 (function () {
-  var memoire = null;
+  var memoire = null, param = null;
   try { memoire = localStorage.getItem('langue'); } catch (e) {}
-  langue(memoire || (navigator.language && navigator.language.slice(0, 2) === 'fr' ? 'fr' : 'en'));
+  try { param = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+  if (param !== 'fr' && param !== 'en') param = null;
+  langue(param || memoire || (navigator.language && navigator.language.slice(0, 2) === 'fr' ? 'fr' : 'en'));
   var mois = new Date().getMonth();
   saison(mois >= 4 && mois <= 9 ? 'ete' : 'hiver');
   document.getElementById('annee').textContent = new Date().getFullYear();

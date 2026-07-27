@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://romulso.github.io/studio-saint-lary/sitemap.xml
