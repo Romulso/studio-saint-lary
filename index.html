@@ -3,301 +3,305 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Studio à louer à Saint-Lary-Soulan — 100 m des pistes, balcon vue montagne</title>
-<meta name="description" content="Studio de 27 m² avec balcon 9 m² vue montagne à Saint-Lary-Soulan. 100 m des remontées, 150 m du centre. Piscine, salle de sport, parking. Location en direct auprès des propriétaires.">
-<link rel="stylesheet" href="style.css?v=6">
+<meta name="theme-color" content="#060e18">
+<title>Le studio de Saint-Lary — location premium à 100 m des pistes</title>
+<meta name="description" content="Studio de 27 m² avec balcon vue montagne à Saint-Lary-Soulan. 100 m des remontées, piscine, salle de sport. Location en direct auprès des propriétaires.">
+<link rel="stylesheet" href="style.css?v=15">
 </head>
 <body class="lang-fr">
 
-<header class="entete">
-  <div class="wrap">
-    <a class="marque" href="#">
-      <span>Vallée d'Aure</span>
-      Le studio de Saint-Lary
-    </a>
-    <nav>
-      <a class="lien-nav" href="#studio" data-fr>Le studio</a><a class="lien-nav" href="#studio" data-en>The flat</a>
-      <a class="lien-nav" href="#tarifs" data-fr>Tarifs</a><a class="lien-nav" href="#tarifs" data-en>Rates</a>
-      <a class="lien-nav" href="#sejour" data-fr>Votre séjour</a><a class="lien-nav" href="#sejour" data-en>Your stay</a>
-      <a class="lien-nav" href="#contact" data-fr>Contact</a><a class="lien-nav" href="#contact" data-en>Contact</a>
-      <div class="langues">
-        <button type="button" class="actif" onclick="langue('fr')">FR</button>
-        <button type="button" onclick="langue('en')">EN</button>
+<nav class="nav" id="nav">
+  <a class="nav-marque" href="#haut">Le studio de Saint-Lary</a>
+  <div class="nav-liens">
+    <a href="#studio" data-fr>Le studio</a><a href="#studio" data-en>The flat</a>
+    <a href="#lieu" data-fr>Le lieu</a><a href="#lieu" data-en>The place</a>
+    <a href="#tarifs" data-fr>Tarifs</a><a href="#tarifs" data-en>Rates</a>
+    <a href="#sejour" data-fr>Séjour</a><a href="#sejour" data-en>Your stay</a>
+  </div>
+  <div class="nav-droite">
+    <div class="langues">
+      <button type="button" class="actif" onclick="langue('fr')">FR</button>
+      <button type="button" onclick="langue('en')">EN</button>
+    </div>
+    <a class="pastille pastille-pleine" href="#contact" data-fr>Réserver</a>
+    <a class="pastille pastille-pleine" href="#contact" data-en>Book</a>
+  </div>
+</nav>
+
+<header class="banniere" id="haut">
+  <div class="fonds" id="fonds">
+    <img class="fond actif" src="images/sejour-baie.jpeg" alt="Séjour lumineux ouvert sur la baie vitrée">
+    <img class="fond" src="images/sejour-large.jpeg" alt="Vue d'ensemble du séjour" loading="lazy">
+    <img class="fond" src="images/sejour-tv.jpeg" alt="Coin salon du studio" loading="lazy">
+    <img class="fond" src="images/cuisine.jpeg" alt="Cuisine équipée du studio" loading="lazy">
+  </div>
+  <div class="voile"></div>
+
+  <div class="puces" id="puces">
+    <button type="button" class="puce actif" data-rang="0" aria-label="Photo 1"></button>
+    <button type="button" class="puce" data-rang="1" aria-label="Photo 2"></button>
+    <button type="button" class="puce" data-rang="2" aria-label="Photo 3"></button>
+    <button type="button" class="puce" data-rang="3" aria-label="Photo 4"></button>
+  </div>
+
+  <div class="banniere-contenu">
+    <div class="enveloppe">
+      <p class="etiquette surgit" data-fr>Vallée d'Aure · Hautes-Pyrénées</p>
+      <p class="etiquette surgit" data-en>Aure Valley · French Pyrenees</p>
+
+      <h1 class="titre surgit" data-fr>Cent mètres<em>des remontées.</em></h1>
+      <h1 class="titre surgit" data-en>A hundred metres<em>from the lifts.</em></h1>
+
+      <p class="chapo surgit" data-fr>Un studio de 27 m² au cœur du village, prolongé d'un balcon face à la montagne. Piscine, salle de sport, et le silence de la vallée.</p>
+      <p class="chapo surgit" data-en>A 27 m² studio in the heart of the village, opening onto a balcony facing the mountains. Pool, gym, and the quiet of the valley.</p>
+
+      <div class="actions surgit">
+        <a class="pastille pastille-claire" href="#contact" data-fr>Demander vos dates</a>
+        <a class="pastille pastille-claire" href="#contact" data-en>Request your dates</a>
+        <a class="pastille pastille-vide" href="#studio" data-fr>Découvrir le studio</a>
+        <a class="pastille pastille-vide" href="#studio" data-en>Discover the flat</a>
       </div>
-    </nav>
+    </div>
+  </div>
+
+  <div class="molette" aria-hidden="true">
+    <span data-fr>Faites défiler</span><span data-en>Scroll</span>
+    <i></i>
   </div>
 </header>
 
-<div class="banniere">
-  <div class="diapos" id="diapos">
-    <img class="diapo active" src="images/sejour-baie.jpeg" alt="Séjour lumineux avec grande baie vitrée donnant sur le balcon">
-    <img class="diapo" src="images/sejour-large.jpeg" alt="Vue d'ensemble du séjour avec canapé-lit et armoire en pin" loading="lazy">
-    <img class="diapo" src="images/sejour-tv.jpeg" alt="Coin salon avec téléviseur et table repas" loading="lazy">
-    <img class="diapo" src="images/cuisine.jpeg" alt="Cuisine équipée avec lave-vaisselle, micro-ondes et plaques de cuisson" loading="lazy">
-  </div>
-  <div class="puces" id="puces">
-    <button type="button" class="puce active" data-rang="0" aria-label="Photo 1 : le séjour et la baie vitrée"></button>
-    <button type="button" class="puce" data-rang="1" aria-label="Photo 2 : vue d'ensemble du séjour"></button>
-    <button type="button" class="puce" data-rang="2" aria-label="Photo 3 : le coin salon"></button>
-    <button type="button" class="puce" data-rang="3" aria-label="Photo 4 : la cuisine"></button>
-  </div>
-  <div class="banniere-texte">
-    <div class="wrap">
-      <p class="sur-titre">Saint-Lary-Soulan · Hautes-Pyrénées</p>
-      <h1 data-fr>Le studio de Saint-Lary</h1><h1 data-en>Our studio in Saint-Lary</h1>
-      <p data-fr>À 100 mètres des remontées mécaniques, au cœur du village. Balcon vue montagne, piscine et salle de sport.</p>
-      <p data-en>100 metres from the ski lifts, in the heart of the village. Mountain-view balcony, swimming pool and gym.</p>
-    </div>
-  </div>
-</div>
+<section class="ecran" id="studio">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Le studio</p><p class="sur-titre surgit" data-en>The flat</p>
+    <h2 class="titre-section surgit" data-fr>Petit par la taille,<em>généreux par le reste.</em></h2>
+    <h2 class="titre-section surgit" data-en>Small in size,<em>generous in everything else.</em></h2>
+    <p class="chapo surgit" style="margin:22px 0 34px" data-fr>Vingt-sept mètres carrés pensés pour trois, au premier étage, avec neuf mètres carrés de balcon ouverts sur les sommets. La décoration est franchement montagne : bois clair, tissus rouges, rien d'affecté.</p>
+    <p class="chapo surgit" style="margin:22px 0 34px" data-en>Twenty-seven square metres designed for three, on the first floor, with a nine-square-metre balcony open to the peaks. The decor is unashamedly alpine: pale wood, red fabrics, nothing affected.</p>
 
-<div class="cles">
-  <div class="wrap">
-
-    <div class="cle">
-      <span class="cle-icone" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 5.2 21 11"/><path d="M12 8.4v3.1"/>
-          <rect x="8.6" y="11.5" width="6.8" height="5.6" rx="1.2"/><path d="M8.6 14.3h6.8"/>
-        </svg>
-      </span>
-      <p class="cle-nombre"><span data-compteur="100">0</span><span class="cle-unite">m</span></p>
-      <p class="cle-label" data-fr>des remontées</p><p class="cle-label" data-en>to the ski lifts</p>
-    </div>
-
-    <div class="cle">
-      <span class="cle-icone" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3.8" y="3.8" width="16.4" height="16.4" rx="1.6"/>
-          <path d="M8 12h8"/><path d="m10 10-2 2 2 2"/><path d="m14 10 2 2-2 2"/>
-        </svg>
-      </span>
-      <p class="cle-nombre"><span data-compteur="27">0</span><span class="cle-unite">m²</span></p>
-      <p class="cle-label" data-fr>+ 9 m² de balcon</p><p class="cle-label" data-en>+ 9 m² balcony</p>
-    </div>
-
-    <div class="cle">
-      <span class="cle-icone" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="8" r="3.1"/><path d="M3.4 19.2c0-3 2.5-5.2 5.6-5.2s5.6 2.2 5.6 5.2"/>
-          <circle cx="17.2" cy="9.4" r="2.2" opacity=".55"/><path d="M15.3 14.3c2.7-.4 5.3 1.3 5.3 4.6" opacity=".55"/>
-        </svg>
-      </span>
-      <p class="cle-nombre"><span data-compteur="3">0</span></p>
-      <p class="cle-label" data-fr>personnes</p><p class="cle-label" data-en>guests</p>
-    </div>
-
-    <div class="cle">
-      <span class="cle-icone" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2.8 20.2h18.4"/><path d="M5.2 20.2v-7.1l4-3 4 3v7.1"/>
-          <path d="M13.2 20.2v-5l3.2-2.2 3.2 2.2v5"/><path d="M8.2 20.2v-3.1h2v3.1"/>
-        </svg>
-      </span>
-      <p class="cle-nombre"><span data-compteur="150">0</span><span class="cle-unite">m</span></p>
-      <p class="cle-label" data-fr>du centre-ville</p><p class="cle-label" data-en>to the village centre</p>
-    </div>
-
-  </div>
-</div>
-
-<section id="studio">
-  <div class="wrap">
-    <h2 data-fr>Le studio</h2><h2 data-en>The flat</h2>
-    <p class="chapo" data-fr>Un studio de 27 m² au premier étage, prolongé par un balcon de 9 m² exposé sur la montagne. Coin séjour lumineux avec grande baie vitrée, cuisine équipée avec lave-vaisselle, et tout le confort pour trois personnes. Décoration montagne, chaleureuse et sans chichis.</p>
-    <p class="chapo" data-en>A 27 m² studio flat on the first floor, opening onto a 9 m² balcony facing the mountains. Bright living area with a large bay window, fitted kitchen with dishwasher, and everything three guests need. Warm, unfussy mountain decor.</p>
-    <div class="galerie">
-      <img src="images/sejour-large.jpeg" alt="Vue d'ensemble du séjour avec canapé-lit et armoire en pin">
-      <img src="images/sejour-tv.jpeg" alt="Séjour avec téléviseur et coin repas">
-      <img src="images/cuisine.jpeg" alt="Cuisine équipée avec lave-vaisselle, micro-ondes et plaques de cuisson">
-      <div class="a-venir">
-        <b data-fr>Photo à venir</b><b data-en>Photo coming soon</b>
-        <span data-fr>Le balcon de 9 m² et la vue sur la montagne</span>
-        <span data-en>The 9 m² balcony and the mountain view</span>
+    <div class="cles surgit">
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="100">0</span><span class="cle-unite">m</span></p>
+        <p class="cle-label" data-fr>des remontées</p><p class="cle-label" data-en>to the lifts</p>
+      </div>
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="27">0</span><span class="cle-unite">m²</span></p>
+        <p class="cle-label" data-fr>+ 9 m² de balcon</p><p class="cle-label" data-en>+ 9 m² balcony</p>
+      </div>
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="3">0</span></p>
+        <p class="cle-label" data-fr>personnes</p><p class="cle-label" data-en>guests</p>
+      </div>
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="150">0</span><span class="cle-unite">m</span></p>
+        <p class="cle-label" data-fr>du centre-ville</p><p class="cle-label" data-en>to the centre</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="fond-blanc">
-  <div class="wrap grille-2">
-    <div>
-      <h2 data-fr>La résidence</h2><h2 data-en>The residence</h2>
-      <p class="chapo" data-fr>Le studio fait partie d'une résidence qui offre bien plus qu'un simple hébergement.</p>
-      <p class="chapo" data-en>The flat is part of a residence offering far more than just a place to sleep.</p>
-      <ul class="equip">
-        <li data-fr>Piscine</li><li data-en>Swimming pool</li>
-        <li data-fr>Salle de sport</li><li data-en>Fitness room</li>
-        <li data-fr>Espace commun avec bar</li><li data-en>Lounge area with bar</li>
-        <li data-fr>Casier à skis</li><li data-en>Ski locker</li>
-        <li data-fr>Parking</li><li data-en>Car park</li>
-        <li data-fr>Lave-linge commun</li><li data-en>Shared laundry</li>
-        <li data-fr>Wifi dans les communs</li><li data-en>Wi-Fi in common areas</li>
-        <li data-fr>Résidence sous vidéosurveillance</li><li data-en>CCTV-monitored residence</li>
-      </ul>
-    </div>
-    <div>
-      <h2 data-fr>Dans l'appartement</h2><h2 data-en>Inside the flat</h2>
-      <p class="chapo" data-fr>Tout est prêt, vous n'avez qu'à poser vos valises.</p>
-      <p class="chapo" data-en>Everything is ready — just bring your bags.</p>
-      <ul class="equip">
-        <li data-fr>Balcon de 9 m² vue montagne</li><li data-en>9 m² mountain-view balcony</li>
-        <li data-fr>Lave-vaisselle</li><li data-en>Dishwasher</li>
-        <li data-fr>Réfrigérateur</li><li data-en>Fridge</li>
-        <li data-fr>Plaques de cuisson</li><li data-en>Hob</li>
-        <li data-fr>Micro-ondes</li><li data-en>Microwave</li>
-        <li data-fr>Cafetière et grille-pain</li><li data-en>Coffee maker and toaster</li>
-        <li data-fr>Télévision</li><li data-en>Television</li>
-        <li data-fr>Chauffage électrique</li><li data-en>Electric heating</li>
-      </ul>
+<section class="ecran ecran-clair" id="lieu">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>En images</p><p class="sur-titre surgit" data-en>In pictures</p>
+    <h2 class="titre-section surgit" style="margin-bottom:34px" data-fr>Le lieu,<em>tel quel.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:34px" data-en>The place,<em>as it is.</em></h2>
+
+    <div class="mosaique">
+      <div class="vignette vignette-haute surgit">
+        <img src="images/sejour-baie.jpeg" alt="Séjour et baie vitrée donnant sur le balcon">
+        <span class="vignette-legende" data-fr>Le séjour</span><span class="vignette-legende" data-en>Living area</span>
+      </div>
+      <div class="vignette vignette-haute vignette-decalee surgit">
+        <img src="images/sejour-large.jpeg" alt="Séjour vu depuis le fond, canapé-lit et armoire en pin" loading="lazy">
+        <span class="vignette-legende" data-fr>Les couchages</span><span class="vignette-legende" data-en>Sleeping</span>
+      </div>
+      <div class="vignette vignette-basse surgit">
+        <img src="images/cuisine.jpeg" alt="Cuisine équipée avec lave-vaisselle" loading="lazy">
+        <span class="vignette-legende" data-fr>La cuisine</span><span class="vignette-legende" data-en>Kitchen</span>
+      </div>
+      <div class="vignette vignette-basse vignette-decalee surgit">
+        <img src="images/sejour-tv.jpeg" alt="Coin salon avec téléviseur" loading="lazy">
+        <span class="vignette-legende" data-fr>Le salon</span><span class="vignette-legende" data-en>Lounge</span>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="tarifs">
-  <div class="wrap">
-    <h2 data-fr>Tarifs</h2><h2 data-en>Rates</h2>
-    <p class="chapo" data-fr>Location à la semaine, en direct avec nous. Pas de commission d'intermédiaire.</p>
-    <p class="chapo" data-en>Weekly rentals, booked directly with us. No agency commission.</p>
-    <div class="tarifs">
-      <div class="tarif phare">
-        <p class="saison" data-fr>Haute saison</p><p class="saison" data-en>High season</p>
-        <p class="prix">700 €</p>
-        <p class="unite" data-fr>la semaine</p><p class="unite" data-en>per week</p>
-        <p class="detail" data-fr>Vacances scolaires d'hiver</p>
-        <p class="detail" data-en>Winter school holidays</p>
+<section class="ecran" id="equipements">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Équipements</p><p class="sur-titre surgit" data-en>Amenities</p>
+    <h2 class="titre-section surgit" style="margin-bottom:36px" data-fr>Tout est là,<em>rien à prévoir.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:36px" data-en>Everything is here,<em>nothing to pack.</em></h2>
+
+    <div class="duo-colonnes">
+      <div class="surgit">
+        <p class="sur-titre" style="margin-bottom:14px" data-fr>Dans la résidence</p>
+        <p class="sur-titre" style="margin-bottom:14px" data-en>In the residence</p>
+        <ul class="liste">
+          <li data-fr>Piscine</li><li data-en>Swimming pool</li>
+          <li data-fr>Salle de sport</li><li data-en>Fitness room</li>
+          <li data-fr>Espace commun avec bar</li><li data-en>Lounge with bar</li>
+          <li data-fr>Casier à skis</li><li data-en>Ski locker</li>
+          <li data-fr>Parking</li><li data-en>Car park</li>
+          <li data-fr>Lave-linge commun et wifi</li><li data-en>Shared laundry and Wi-Fi</li>
+        </ul>
       </div>
-      <div class="tarif">
-        <p class="saison" data-fr>Mi-saison</p><p class="saison" data-en>Mid season</p>
-        <p class="prix">400 €</p>
-        <p class="unite" data-fr>la semaine</p><p class="unite" data-en>per week</p>
-        <p class="detail" data-fr>Vacances de Noël</p>
-        <p class="detail" data-en>Christmas holidays</p>
-      </div>
-      <div class="tarif">
-        <p class="saison" data-fr>Été</p><p class="saison" data-en>Summer</p>
-        <p class="prix">300 €</p>
-        <p class="unite" data-fr>la semaine</p><p class="unite" data-en>per week</p>
-        <p class="detail" data-fr>Randonnée, lacs et thermes</p>
-        <p class="detail" data-en>Hiking, lakes and thermal baths</p>
+      <div class="surgit">
+        <p class="sur-titre" style="margin-bottom:14px" data-fr>Dans l'appartement</p>
+        <p class="sur-titre" style="margin-bottom:14px" data-en>Inside the flat</p>
+        <ul class="liste">
+          <li data-fr>Balcon de 9 m² vue montagne</li><li data-en>9 m² mountain-view balcony</li>
+          <li data-fr>Lave-vaisselle</li><li data-en>Dishwasher</li>
+          <li data-fr>Plaques, micro-ondes, frigo</li><li data-en>Hob, microwave, fridge</li>
+          <li data-fr>Cafetière et grille-pain</li><li data-en>Coffee maker and toaster</li>
+          <li data-fr>Télévision</li><li data-en>Television</li>
+          <li data-fr>Chauffage électrique</li><li data-en>Electric heating</li>
+        </ul>
+        <div class="encart">
+          <strong data-fr>À savoir</strong><strong data-en>Good to know</strong>
+          <p data-fr>Premier étage sans ascenseur. Le wifi se capte dans les espaces communs, pas dans l'appartement. Les couchages sont dans la pièce de vie, il n'y a pas de chambre séparée.</p>
+          <p data-en>First floor, no lift. Wi-Fi is available in the common areas, not inside the flat. Beds are in the living area; there is no separate bedroom.</p>
+        </div>
       </div>
     </div>
-    <ul class="frais">
-      <li><span data-fr>Frais de ménage</span><span data-en>Cleaning fee</span> <b>50 €</b></li>
-      <li><span data-fr>Dépôt de garantie</span><span data-en>Security deposit</span> <b data-fr>nous consulter</b><b data-en>on request</b></li>
-      <li><span data-fr>Taxe de séjour</span><span data-en>Tourist tax</span> <b data-fr>en sus</b><b data-en>extra</b></li>
-    </ul>
   </div>
 </section>
 
-<section id="sejour" class="fond-blanc">
-  <div class="wrap">
-    <h2 data-fr>Préparez votre séjour</h2><h2 data-en>Plan your stay</h2>
-    <p class="chapo" data-fr>Forfaits, matériel, activités : tout se réserve à l'avance, et vous gagnez du temps le jour de votre arrivée.</p>
-    <p class="chapo" data-en>Ski passes, equipment, activities: book everything in advance and save time on arrival day.</p>
+<section class="ecran ecran-clair" id="tarifs">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Tarifs</p><p class="sur-titre surgit" data-en>Rates</p>
+    <h2 class="titre-section surgit" style="margin-bottom:34px" data-fr>En direct,<em>sans commission.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:34px" data-en>Direct booking,<em>no commission.</em></h2>
 
-    <div class="services">
-      <div class="service">
-        <span class="avantage" hidden data-fr>Tarif préférentiel</span>
-        <span class="avantage" hidden data-en>Special rate</span>
-        <h3 data-fr>Forfaits remontées</h3><h3 data-en>Ski passes</h3>
-        <p data-fr>Le domaine de Saint-Lary, plus de 100 km de pistes réparties sur le Pla d'Adet, Espiaube et le Vallon du Portet. Achat en ligne pour éviter la file d'attente aux caisses.</p>
-        <p data-en>The Saint-Lary ski area offers over 100 km of runs across Pla d'Adet, Espiaube and Vallon du Portet. Buy online to skip the queue at the ticket office.</p>
-        <a class="lien-service" href="https://saint-lary.altiservice.com/" target="_blank" rel="noopener" data-fr>Réserver mon forfait</a>
-        <a class="lien-service" href="https://saint-lary.altiservice.com/" target="_blank" rel="noopener" data-en>Book my ski pass</a>
+    <div class="grille-tarifs">
+      <div class="tarif tarif-phare surgit">
+        <span class="tarif-ruban" data-fr>Haute saison</span><span class="tarif-ruban" data-en>High season</span>
+        <p class="tarif-saison" data-fr>Vacances d'hiver</p><p class="tarif-saison" data-en>Winter holidays</p>
+        <p class="tarif-prix">700 <span>€</span></p>
+        <p class="tarif-detail" data-fr>la semaine</p><p class="tarif-detail" data-en>per week</p>
       </div>
+      <div class="tarif surgit">
+        <p class="tarif-saison" data-fr>Mi-saison</p><p class="tarif-saison" data-en>Mid season</p>
+        <p class="tarif-prix">400 <span>€</span></p>
+        <p class="tarif-detail" data-fr>la semaine · vacances de Noël</p><p class="tarif-detail" data-en>per week · Christmas holidays</p>
+      </div>
+      <div class="tarif surgit">
+        <p class="tarif-saison" data-fr>Été</p><p class="tarif-saison" data-en>Summer</p>
+        <p class="tarif-prix">300 <span>€</span></p>
+        <p class="tarif-detail" data-fr>la semaine · randonnée et lacs</p><p class="tarif-detail" data-en>per week · hiking and lakes</p>
+      </div>
+    </div>
 
-      <div class="service">
-        <span class="avantage" hidden data-fr>Réduction locataires</span>
-        <span class="avantage" hidden data-en>Guest discount</span>
+    <dl class="frais surgit">
+      <div><dt data-fr>Ménage</dt><dt data-en>Cleaning</dt><dd>50 €</dd></div>
+      <div><dt data-fr>Dépôt de garantie</dt><dt data-en>Deposit</dt><dd data-fr>nous consulter</dd><dd data-en>on request</dd></div>
+      <div><dt data-fr>Taxe de séjour</dt><dt data-en>Tourist tax</dt><dd data-fr>en sus</dd><dd data-en>extra</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="ecran" id="sejour">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Votre séjour</p><p class="sur-titre surgit" data-en>Your stay</p>
+    <h2 class="titre-section surgit" style="margin-bottom:34px" data-fr>Tout se prépare<em>avant d'arriver.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:34px" data-en>Sort everything<em>before you arrive.</em></h2>
+
+    <div class="grille-services">
+      <div class="service surgit">
+        <span class="service-numero">01</span>
+        <span class="avantage" hidden data-fr>Tarif préférentiel</span><span class="avantage" hidden data-en>Special rate</span>
+        <h3 data-fr>Forfaits</h3><h3 data-en>Ski passes</h3>
+        <p data-fr>Plus de 100 km de pistes sur le Pla d'Adet, Espiaube et le Vallon du Portet. Achat en ligne, pas de file d'attente.</p>
+        <p data-en>Over 100 km of runs across Pla d'Adet, Espiaube and Vallon du Portet. Buy online, skip the queue.</p>
+        <a class="service-lien" href="https://saint-lary.altiservice.com/" target="_blank" rel="noopener" data-fr>Réserver →</a>
+        <a class="service-lien" href="https://saint-lary.altiservice.com/" target="_blank" rel="noopener" data-en>Book →</a>
+      </div>
+      <div class="service surgit">
+        <span class="service-numero">02</span>
+        <span class="avantage" hidden data-fr>Réduction locataires</span><span class="avantage" hidden data-en>Guest discount</span>
         <h3 data-fr>Location de skis</h3><h3 data-en>Ski hire</h3>
-        <p data-fr>Skis, snowboard, chaussures et casques auprès d'un loueur du village, à quelques pas du studio. Réservation à l'avance recommandée en période de vacances scolaires.</p>
-        <p data-en>Skis, snowboards, boots and helmets from a shop in the village, a short walk from the flat. Booking ahead is recommended during school holidays.</p>
-        <span class="lien-service attente" data-fr>Partenaire à venir</span>
-        <span class="lien-service attente" data-en>Partner coming soon</span>
+        <p data-fr>Skis, snowboard, chaussures et casques chez un loueur du village, à quelques pas du studio.</p>
+        <p data-en>Skis, snowboards, boots and helmets from a shop in the village, steps from the flat.</p>
+        <span class="service-lien attente" data-fr>Partenaire à venir</span>
+        <span class="service-lien attente" data-en>Partner coming soon</span>
       </div>
-
-      <div class="service">
-        <span class="avantage" hidden data-fr>Tarif préférentiel</span>
-        <span class="avantage" hidden data-en>Special rate</span>
-        <h3 data-fr>Activités et découvertes</h3><h3 data-en>Activities and days out</h3>
-        <p data-fr>Randonnées, lacs de montagne, thermes, escapade en Espagne : la vallée d'Aure ne se limite pas au ski. L'office de tourisme recense toutes les sorties de la saison.</p>
-        <p data-en>Hiking, mountain lakes, thermal baths, a day trip to Spain: the Aure valley is much more than skiing. The tourist office lists everything on offer.</p>
-        <a class="lien-service" href="https://www.saintlary.com/" target="_blank" rel="noopener" data-fr>Voir les activités</a>
-        <a class="lien-service" href="https://www.saintlary.com/" target="_blank" rel="noopener" data-en>Browse activities</a>
+      <div class="service surgit">
+        <span class="service-numero">03</span>
+        <h3 data-fr>Activités</h3><h3 data-en>Activities</h3>
+        <p data-fr>Randonnées, lacs d'altitude, thermes, escapade en Espagne. La vallée ne se limite pas au ski.</p>
+        <p data-en>Hiking, high-altitude lakes, thermal baths, a day trip to Spain. The valley is more than skiing.</p>
+        <a class="service-lien" href="https://www.saintlary.com/" target="_blank" rel="noopener" data-fr>Explorer →</a>
+        <a class="service-lien" href="https://www.saintlary.com/" target="_blank" rel="noopener" data-en>Explore →</a>
       </div>
     </div>
 
-    <ul class="lieux">
-      <li><b>Pla d'Adet</b><span data-fr>Le domaine skiable, accessible par télécabine depuis le village</span><span data-en>The ski area, reached by cable car from the village</span></li>
-      <li><b>Vallon du Portet</b><span data-fr>Le secteur d'altitude, enneigement et grands espaces</span><span data-en>The high-altitude sector, snow-sure and wide open</span></li>
-      <li><b>Réserve du Néouvielle</b><span data-fr>Lacs et sentiers de randonnée, l'incontournable de l'été</span><span data-en>Lakes and hiking trails, the summer highlight</span></li>
-      <li><b>Lac de l'Oule</b><span data-fr>Balade familiale au bord de l'eau</span><span data-en>An easy lakeside walk for families</span></li>
-      <li><b>Les thermes</b><span data-fr>Bains chauds et détente après une journée de ski</span><span data-en>Hot baths and relaxation after a day on the slopes</span></li>
-      <li><b>L'Espagne</b><span data-fr>Le tunnel d'Aragnouet-Bielsa, à moins d'une heure</span><span data-en>The Aragnouet-Bielsa tunnel, under an hour away</span></li>
-    </ul>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="franc">
-      <h3 data-fr>À savoir avant de réserver</h3><h3 data-en>Good to know before booking</h3>
-      <ul>
-        <li data-fr>Le studio est au 1<sup>er</sup> étage et la résidence n'a pas d'ascenseur.</li>
-        <li data-en>The flat is on the first floor and the residence has no lift.</li>
-        <li data-fr>Le wifi est disponible dans les espaces communs, pas dans l'appartement.</li>
-        <li data-en>Wi-Fi is available in the common areas, not inside the flat.</li>
-        <li data-fr>Les couchages se trouvent dans la pièce de vie : il n'y a pas de chambre séparée.</li>
-        <li data-en>Beds are in the living area: there is no separate bedroom.</li>
-      </ul>
+    <div class="lieux surgit">
+      <div><b>Pla d'Adet</b><span data-fr>Le domaine, par télécabine</span><span data-en>The ski area, by cable car</span></div>
+      <div><b>Vallon du Portet</b><span data-fr>L'altitude et les grands espaces</span><span data-en>Altitude and open space</span></div>
+      <div><b>Néouvielle</b><span data-fr>Lacs et sentiers, l'été</span><span data-en>Lakes and trails, in summer</span></div>
+      <div><b>Lac de l'Oule</b><span data-fr>Balade au bord de l'eau</span><span data-en>An easy lakeside walk</span></div>
+      <div><b data-fr>Les thermes</b><b data-en>Thermal baths</b><span data-fr>Après une journée de ski</span><span data-en>After a day on the slopes</span></div>
+      <div><b data-fr>L'Espagne</b><b data-en>Spain</b><span data-fr>Tunnel de Bielsa, moins d'une heure</span><span data-en>Bielsa tunnel, under an hour</span></div>
     </div>
   </div>
 </section>
 
-<section id="contact" class="contact">
-  <div class="wrap">
-    <h2 data-fr>Nous contacter</h2><h2 data-en>Get in touch</h2>
-    <p class="chapo" data-fr>Karine et Romuald, propriétaires. Dites-nous vos dates, nous vous répondons rapidement.</p>
-    <p class="chapo" data-en>Karine and Romuald, the owners. Tell us your dates and we will get back to you quickly.</p>
-    <div class="boutons">
-      <a class="btn btn-tel" href="tel:+33642845542">06 42 84 55 42</a>
-      <a class="btn btn-wa" href="https://wa.me/33642845542" target="_blank" rel="noopener">WhatsApp</a>
+<section class="ecran ecran-clair" id="contact">
+  <div class="enveloppe">
+    <div class="grille-contact">
+      <div>
+        <p class="sur-titre surgit" data-fr>Contact</p><p class="sur-titre surgit" data-en>Contact</p>
+        <h2 class="titre-section surgit" data-fr>Dites-nous<em>vos dates.</em></h2>
+        <h2 class="titre-section surgit" data-en>Tell us<em>your dates.</em></h2>
+        <p class="chapo surgit" style="margin-top:18px" data-fr>Karine et Romuald, propriétaires. Nous répondons vite, et toujours nous-mêmes.</p>
+        <p class="chapo surgit" style="margin-top:18px" data-en>Karine and Romuald, the owners. We reply quickly, and always in person.</p>
+
+        <div class="contacts-directs surgit">
+          <a class="contact-direct" href="tel:+33642845542">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3.5 5.2 2 2 0 0 1 5.5 3Z"/></svg>
+            <span><b>06 42 84 55 42</b><span data-fr>Nous appeler</span><span data-en>Call us</span></span>
+          </a>
+          <a class="contact-direct" href="https://wa.me/33642845542" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 5 16.4A8.5 8.5 0 1 1 8.2 19.6l-4.7.9Z"/><path d="M9 9.2c.3 2.2 3.6 5.5 5.8 5.8l1-1.4 2 .9v1.6c-3.4.6-8.6-4.4-8.4-8.3h1.6l.9 2L9 9.2Z"/></svg>
+            <span><b>WhatsApp</b><span data-fr>Écrire un message</span><span data-en>Send a message</span></span>
+          </a>
+        </div>
+      </div>
+
+      <form id="formulaire" class="surgit">
+        <div class="duo">
+          <div class="champ">
+            <label for="nom" data-fr>Nom</label><label for="nom" data-en>Name</label>
+            <input type="text" id="nom" name="nom" required>
+          </div>
+          <div class="champ">
+            <label for="email" data-fr>Email</label><label for="email" data-en>Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+        </div>
+        <div class="duo">
+          <div class="champ">
+            <label for="arrivee" data-fr>Arrivée</label><label for="arrivee" data-en>Arrival</label>
+            <input type="date" id="arrivee" name="arrivee">
+          </div>
+          <div class="champ">
+            <label for="depart" data-fr>Départ</label><label for="depart" data-en>Departure</label>
+            <input type="date" id="depart" name="depart">
+          </div>
+        </div>
+        <div class="champ">
+          <label for="message" data-fr>Message</label><label for="message" data-en>Message</label>
+          <textarea id="message" name="message"></textarea>
+        </div>
+        <button type="submit" class="pastille pastille-pleine" data-fr>Envoyer la demande</button>
+        <button type="submit" class="pastille pastille-pleine" data-en>Send request</button>
+        <p class="note-form" id="note-form"></p>
+      </form>
     </div>
-    <form id="formulaire">
-      <div class="duo">
-        <div class="champ">
-          <label for="nom" data-fr>Votre nom</label><label for="nom" data-en>Your name</label>
-          <input type="text" id="nom" name="nom" required>
-        </div>
-        <div class="champ">
-          <label for="email" data-fr>Votre email</label><label for="email" data-en>Your email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-      </div>
-      <div class="duo">
-        <div class="champ">
-          <label for="arrivee" data-fr>Arrivée</label><label for="arrivee" data-en>Arrival</label>
-          <input type="date" id="arrivee" name="arrivee">
-        </div>
-        <div class="champ">
-          <label for="depart" data-fr>Départ</label><label for="depart" data-en>Departure</label>
-          <input type="date" id="depart" name="depart">
-        </div>
-      </div>
-      <div class="champ">
-        <label for="message" data-fr>Votre message</label><label for="message" data-en>Your message</label>
-        <textarea id="message" name="message"></textarea>
-      </div>
-      <button type="submit" data-fr>Envoyer la demande</button>
-      <button type="submit" data-en>Send request</button>
-      <p class="note-form" id="note-form"></p>
-    </form>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
+  <div class="enveloppe">
     <span>© <span id="annee"></span> Karine et Romuald Lambert — Saint-Lary-Soulan</span>
     <span data-fr>Location de particulier à particulier</span>
     <span data-en>Rented directly by the owners</span>
@@ -308,109 +312,129 @@
 function langue(code) {
   document.body.className = 'lang-' + code;
   document.documentElement.lang = code;
-  var boutons = document.querySelectorAll('.langues button');
-  boutons[0].classList.toggle('actif', code === 'fr');
-  boutons[1].classList.toggle('actif', code === 'en');
+  var b = document.querySelectorAll('.langues button');
+  b[0].classList.toggle('actif', code === 'fr');
+  b[1].classList.toggle('actif', code === 'en');
   try { localStorage.setItem('langue', code); } catch (e) {}
 }
 
 (function () {
-  var enregistree = null;
-  try { enregistree = localStorage.getItem('langue'); } catch (e) {}
-  var choix = enregistree || (navigator.language && navigator.language.slice(0, 2) === 'fr' ? 'fr' : 'en');
-  langue(choix);
+  var memoire = null;
+  try { memoire = localStorage.getItem('langue'); } catch (e) {}
+  langue(memoire || (navigator.language && navigator.language.slice(0, 2) === 'fr' ? 'fr' : 'en'));
   document.getElementById('annee').textContent = new Date().getFullYear();
 })();
 
+var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* --- Diaporama de la banniere --- */
 (function () {
-  var diapos = document.querySelectorAll('.diapo');
+  var fonds = document.querySelectorAll('.fond');
   var puces = document.querySelectorAll('.puce');
   var banniere = document.querySelector('.banniere');
-  if (diapos.length < 2 || !banniere) return;
-
+  if (fonds.length < 2) return;
   var rang = 0, minuteur = null;
-  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DELAI = 5000;
 
   function montrer(n) {
-    rang = (n + diapos.length) % diapos.length;
-    for (var i = 0; i < diapos.length; i++) {
-      diapos[i].classList.toggle('active', i === rang);
-      if (puces[i]) puces[i].classList.toggle('active', i === rang);
+    rang = (n + fonds.length) % fonds.length;
+    for (var i = 0; i < fonds.length; i++) {
+      fonds[i].classList.toggle('actif', i === rang);
+      if (puces[i]) puces[i].classList.toggle('actif', i === rang);
     }
   }
-  function demarrer() {
-    if (reduit || minuteur) return;
-    minuteur = setInterval(function () { montrer(rang + 1); }, DELAI);
-  }
-  function arreter() { clearInterval(minuteur); minuteur = null; }
+  function lancer() { if (!reduit && !minuteur) minuteur = setInterval(function () { montrer(rang + 1); }, 6000); }
+  function stopper() { clearInterval(minuteur); minuteur = null; }
 
-  Array.prototype.forEach.call(puces, function (puce) {
-    puce.addEventListener('click', function () {
-      montrer(parseInt(puce.getAttribute('data-rang'), 10));
-      arreter(); demarrer();
-    });
+  Array.prototype.forEach.call(puces, function (p) {
+    p.addEventListener('click', function () { montrer(parseInt(p.getAttribute('data-rang'), 10)); stopper(); lancer(); });
   });
-
-  banniere.addEventListener('mouseenter', arreter);
-  banniere.addEventListener('mouseleave', demarrer);
-  document.addEventListener('visibilitychange', function () {
-    if (document.hidden) arreter(); else demarrer();
-  });
-
-  demarrer();
+  banniere.addEventListener('mouseenter', stopper);
+  banniere.addEventListener('mouseleave', lancer);
+  document.addEventListener('visibilitychange', function () { document.hidden ? stopper() : lancer(); });
+  lancer();
 })();
 
+/* --- Apparitions au defilement --- */
 (function () {
-  var cles = document.querySelectorAll('.cle');
-  if (!cles.length) return;
-  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function compter(el, cible, duree) {
-    var debut = null;
-    function etape(t) {
-      if (debut === null) debut = t;
-      var avance = Math.min((t - debut) / duree, 1);
-      var adouci = 1 - Math.pow(1 - avance, 3);
-      el.textContent = Math.round(cible * adouci);
-      if (avance < 1) requestAnimationFrame(etape); else el.textContent = cible;
-    }
-    requestAnimationFrame(etape);
-  }
-
-  function afficherDirect(cle) {
-    cle.classList.add('visible');
-    var n = cle.querySelector('[data-compteur]');
-    if (n) n.textContent = n.getAttribute('data-compteur');
-  }
-
+  var cibles = document.querySelectorAll('.surgit');
+  if (!cibles.length) return;
   if (reduit || !('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(cles, afficherDirect);
+    Array.prototype.forEach.call(cibles, function (c) { c.classList.add('vu'); });
     return;
   }
-
-  var observateur = new IntersectionObserver(function (entrees) {
-    entrees.forEach(function (entree) {
-      if (!entree.isIntersecting) return;
-      observateur.unobserve(entree.target);
-      var rang = Array.prototype.indexOf.call(cles, entree.target);
-      setTimeout(function () {
-        entree.target.classList.add('visible');
-        var n = entree.target.querySelector('[data-compteur]');
-        if (n) compter(n, parseInt(n.getAttribute('data-compteur'), 10), 1100);
-      }, rang * 110);
+  var obs = new IntersectionObserver(function (entrees) {
+    entrees.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      var freres = e.target.parentElement ? e.target.parentElement.querySelectorAll(':scope > .surgit') : [];
+      var rang = Array.prototype.indexOf.call(freres, e.target);
+      setTimeout(function () { e.target.classList.add('vu'); }, Math.max(0, rang) * 85);
     });
-  }, { threshold: 0.35 });
-
-  Array.prototype.forEach.call(cles, function (c) { observateur.observe(c); });
+  }, { threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
+  Array.prototype.forEach.call(cibles, function (c) { obs.observe(c); });
 })();
 
+/* --- Compteurs --- */
+(function () {
+  var nombres = document.querySelectorAll('[data-compteur]');
+  if (!nombres.length) return;
+  if (reduit || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(nombres, function (n) { n.textContent = n.getAttribute('data-compteur'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function (entrees) {
+    entrees.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      var cible = parseInt(e.target.getAttribute('data-compteur'), 10), debut = null;
+      requestAnimationFrame(function etape(t) {
+        if (debut === null) debut = t;
+        var a = Math.min((t - debut) / 1300, 1);
+        e.target.textContent = Math.round(cible * (1 - Math.pow(1 - a, 3)));
+        if (a < 1) requestAnimationFrame(etape); else e.target.textContent = cible;
+      });
+    });
+  }, { threshold: 0.5 });
+  Array.prototype.forEach.call(nombres, function (n) { obs.observe(n); });
+})();
+
+/* --- Navigation flottante et lien actif --- */
+(function () {
+  var nav = document.getElementById('nav');
+  var haut = document.getElementById('haut');
+  var liens = document.querySelectorAll('.nav-liens a');
+
+  if ('IntersectionObserver' in window && haut) {
+    new IntersectionObserver(function (e) {
+      nav.classList.toggle('montree', !e[0].isIntersecting);
+    }, { threshold: 0.22 }).observe(haut);
+  } else {
+    nav.classList.add('montree');
+  }
+
+  var sections = [];
+  Array.prototype.forEach.call(liens, function (l) {
+    var cible = document.querySelector(l.getAttribute('href'));
+    if (cible) sections.push({ lien: l, section: cible });
+  });
+  if (!sections.length || !('IntersectionObserver' in window)) return;
+
+  var suivi = new IntersectionObserver(function (entrees) {
+    entrees.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      sections.forEach(function (s) { s.lien.classList.toggle('actif', s.section === e.target); });
+    });
+  }, { threshold: 0.45 });
+  sections.forEach(function (s) { suivi.observe(s.section); });
+})();
+
+/* --- Formulaire --- */
 document.getElementById('formulaire').addEventListener('submit', function (e) {
   e.preventDefault();
   var fr = document.body.classList.contains('lang-fr');
   document.getElementById('note-form').textContent = fr
-    ? "Le formulaire n'est pas encore actif. Merci de nous appeler ou de nous écrire sur WhatsApp au 06 42 84 55 42."
-    : "This form is not active yet. Please call us or message us on WhatsApp at +33 6 42 84 55 42.";
+    ? "Le formulaire n'est pas encore actif. Appelez-nous ou écrivez sur WhatsApp au 06 42 84 55 42."
+    : "This form is not active yet. Please call or message us on WhatsApp at +33 6 42 84 55 42.";
 });
 </script>
 
