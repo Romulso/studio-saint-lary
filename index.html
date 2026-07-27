@@ -19,7 +19,7 @@
 <link rel="alternate" hreflang="fr" href="https://romulso.github.io/studio-saint-lary/">
 <link rel="alternate" hreflang="en" href="https://romulso.github.io/studio-saint-lary/?lang=en">
 <link rel="alternate" hreflang="x-default" href="https://romulso.github.io/studio-saint-lary/">
-<link rel="stylesheet" href="style.css?v=23">
+<link rel="stylesheet" href="style.css?v=24">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -222,6 +222,12 @@
     <h2 class="titre-section surgit" style="margin-bottom:32px" data-fr>Le lieu,<em>tel quel.</em></h2>
     <h2 class="titre-section surgit" style="margin-bottom:32px" data-en>The place,<em>as it is.</em></h2>
 
+    <div class="teaser surgit">
+      <video id="teaser-video" muted loop playsinline preload="metadata" poster="images/teaser-affiche.jpg" aria-label="Teaser vidéo : Saint-Lary-Soulan, la montagne et le studio de la résidence Royal Milan">
+        <source src="images/teaser.mp4" type="video/mp4">
+      </video>
+    </div>
+
     <div class="mosaique">
       <div class="vignette surgit">
         <img src="images/sejour-baie.jpeg" alt="Séjour et baie vitrée donnant sur le balcon">
@@ -312,6 +318,7 @@
     </div>
 
     <dl class="frais surgit">
+      <div><dt data-fr>7 nuits et plus</dt><dt data-en>7 nights or more</dt><dd>− 10 €</dd></div>
       <div><dt data-fr>Ménage</dt><dt data-en>Cleaning</dt><dd>50 €</dd></div>
       <div><dt data-fr>Dépôt de garantie</dt><dt data-en>Deposit</dt><dd data-fr>nous consulter</dd><dd data-en>on request</dd></div>
       <div><dt data-fr>Taxe de séjour</dt><dt data-en>Tourist tax</dt><dd data-fr>en sus</dd><dd data-en>extra</dd></div>
@@ -354,8 +361,8 @@
 
       <p class="cal-note" id="cal-note"></p>
       <p class="cal-note" style="margin-top:4px">
-        <span data-fr>Prix indicatifs par nuit, calculés depuis le tarif à la semaine.</span>
-        <span data-en>Indicative nightly prices, based on the weekly rate.</span>
+        <span data-fr>Prix indicatifs par nuit, calculés depuis le tarif à la semaine. Remise de 10 € dès 7 nuits d'affilée.</span>
+        <span data-en>Indicative nightly prices, based on the weekly rate. €10 off for 7 consecutive nights or more.</span>
       </p>
     </div>
   </div>
@@ -779,7 +786,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!conteneur) return;
 
   var nuits = {};        /* 'AAAA-MM-JJ' -> 'reserve' | 'option' */
-  var tarifs = { defaut: null, periodes: [] };
+  var tarifs = { defaut: null, periodes: [], remise: 0 };
   var charge = false;
   var arrivee = null, depart = null;
 
@@ -900,8 +907,12 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       d.setDate(d.getDate() + 1);
     }
     total = Math.round(total);
+    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0;
+    if (avecRemise) total -= tarifs.remise;
     var estim = (complet && total)
-      ? (estFr() ? ' · environ ' + total + ' € (hors ménage et taxe de séjour)' : ' · about €' + total + ' (excl. cleaning and tourist tax)')
+      ? (estFr()
+        ? ' · environ ' + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '') + ' (hors ménage et taxe de séjour)'
+        : ' · about €' + total + (avecRemise ? ' incl. 7-night discount' : '') + ' (excl. cleaning and tourist tax)')
       : '';
     document.getElementById('cal-bilan-texte').textContent = (estFr()
       ? 'Du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nuits' : ' nuit')
@@ -965,6 +976,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (donnees.tarifs) {
         tarifs.defaut = donnees.tarifs.defaut || null;
         tarifs.periodes = donnees.tarifs.periodes || [];
+        tarifs.remise = donnees.tarifs.remise_semaine || 0;
       }
       (donnees.reservations || []).forEach(function (resa) {
         if (!resa.arrivee || !resa.depart) return;
@@ -1077,6 +1089,20 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         '<p class="avis-vide" data-fr>Livre d’or momentanément indisponible.</p>' +
         '<p class="avis-vide" data-en>Guest book temporarily unavailable.</p>';
     });
+})();
+
+/* --- Teaser : lecture seulement quand visible --- */
+(function () {
+  var video = document.getElementById('teaser-video');
+  if (!video) return;
+  if (reduit) { video.controls = true; return; }
+  if (!('IntersectionObserver' in window)) { video.play().catch(function () {}); return; }
+  new IntersectionObserver(function (entrees) {
+    entrees.forEach(function (e) {
+      if (e.isIntersecting) video.play().catch(function () {});
+      else video.pause();
+    });
+  }, { threshold: 0.3 }).observe(video);
 })();
 
 /* --- Partage et barre mobile --- */

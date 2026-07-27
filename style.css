@@ -241,6 +241,10 @@ body.lang-fr .ruban-piste[data-en], body.lang-en .ruban-piste[data-fr] { display
 .plan { border: 1px solid var(--ligne-jour); border-radius: var(--rayon); background: #fff; padding: 14px; }
 .plan svg { width: 100%; height: auto; display: block; }
 
+/* ---------- Teaser video ---------- */
+.teaser { margin-bottom: 20px; border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--ligne-nuit); background: var(--nuit-2); }
+.teaser video { display: block; width: 100%; height: auto; }
+
 /* ---------- Galerie ---------- */
 .mosaique { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (min-width: 760px) { .mosaique { gap: 20px; } }

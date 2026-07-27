@@ -1,21 +1,18 @@
 {
   "aide": "Fichier géré depuis admin.html (page cachée). arrivee = premier jour (inclus), depart = jour du départ (la nuit du départ redevient libre). statut = 'option' (demande en attente de validation) ou 'reserve' (confirmé).",
   "tarifs": {
-    "aide": "Prix à la semaine, en euros. 'defaut' s'applique quand aucune période ne correspond. Dans 'periodes' : debut inclus, fin exclue. Ajouter une période temporaire (ex. Tour de France) suffit à majorer les prix sur le calendrier.",
+    "aide": "Prix à la semaine, en euros. 'defaut' s'applique quand aucune période ne correspond. Dans 'periodes' : debut inclus, fin exclue. Ajouter une période temporaire (ex. Tour de France) suffit à majorer les prix sur le calendrier. 'remise_semaine' = remise en euros appliquée automatiquement dès 7 nuits d'affilée.",
     "defaut": 300,
+    "remise_semaine": 10,
     "periodes": [
-      {
-        "debut": "2026-12-19",
-        "fin": "2027-01-04",
-        "prix": 400,
-        "libelle": "Vacances de Noël"
-      },
-      {
-        "debut": "2027-02-06",
-        "fin": "2027-03-08",
-        "prix": 700,
-        "libelle": "Vacances d'hiver"
-      }
+      { "debut": "2026-08-01", "fin": "2026-09-01", "prix": 480, "libelle": "Août" },
+      { "debut": "2026-12-19", "fin": "2026-12-26", "prix": 550, "libelle": "Noël" },
+      { "debut": "2026-12-26", "fin": "2027-01-02", "prix": 650, "libelle": "Nouvel An" },
+      { "debut": "2027-01-02", "fin": "2027-02-06", "prix": 380, "libelle": "Hiver hors vacances" },
+      { "debut": "2027-02-06", "fin": "2027-03-08", "prix": 700, "libelle": "Vacances de février" },
+      { "debut": "2027-03-08", "fin": "2027-04-12", "prix": 380, "libelle": "Fin de saison ski" },
+      { "debut": "2027-07-01", "fin": "2027-08-01", "prix": 420, "libelle": "Juillet" },
+      { "debut": "2027-08-01", "fin": "2027-09-01", "prix": 480, "libelle": "Août" }
     ]
   },
   "reservations": [
