@@ -1141,5 +1141,68 @@ document.getElementById('formulaire').addEventListener('submit', function (e) {
 });
 </script>
 
+<script>
+/* --- Indicateur de progression lateral --- */
+(function () {
+  var noms = {
+    studio:         ['Le studio', 'The flat'],
+    lieu:           ['En images', 'Gallery'],
+    equipements:    ['Équipements', 'Amenities'],
+    tarifs:         ['Tarifs', 'Rates'],
+    disponibilites: ['Disponibilités', 'Availability'],
+    sejour:         ['Séjour', 'Your stay'],
+    avis:           ['Avis', 'Reviews'],
+    contact:        ['Contact', 'Contact']
+  };
+
+  var sections = [];
+  for (var cle in noms) {
+    var el = document.getElementById(cle);
+    if (el) sections.push({ id: cle, el: el, libelle: noms[cle] });
+  }
+  if (sections.length < 2 || !('IntersectionObserver' in window)) return;
+
+  var boite = document.createElement('div');
+  boite.className = 'jalons';
+  boite.setAttribute('aria-label', 'Progression dans la page');
+
+  sections.forEach(function (s) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'jalon';
+    b.setAttribute('aria-label', s.libelle[0]);
+    b.innerHTML =
+      '<span class="jalon-nom" data-fr>' + s.libelle[0] + '</span>' +
+      '<span class="jalon-nom" data-en>' + s.libelle[1] + '</span>' +
+      '<span class="jalon-trait"></span>';
+    b.addEventListener('click', function () {
+      s.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    s.bouton = b;
+    boite.appendChild(b);
+  });
+  document.body.appendChild(boite);
+
+  var haut = document.getElementById('haut');
+  if (haut) {
+    new IntersectionObserver(function (e) {
+      boite.classList.toggle('montres', !e[0].isIntersecting);
+    }, { threshold: 0.22 }).observe(haut);
+  } else {
+    boite.classList.add('montres');
+  }
+
+  sections.forEach(function (s) {
+    new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        sections.forEach(function (autre) { autre.bouton.classList.toggle('actif', autre === s); });
+        boite.classList.toggle('sur-nuit', s.el.classList.contains('ecran-nuit'));
+      });
+    }, { threshold: 0.5 }).observe(s.el);
+  });
+})();
+</script>
+
 </body>
 </html>

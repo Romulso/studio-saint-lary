@@ -499,3 +499,77 @@ body.lang-fr [data-en] { display: none !important; }
 body.lang-en [data-fr] { display: none !important; }
 body.saison-hiver [data-ete] { display: none !important; }
 body.saison-ete [data-hiver] { display: none !important; }
+
+/* =========================================================
+   Transitions cinematographiques entre sections
+   Chaque section recule et s estompe en sortant, la suivante
+   monte au premier plan. Utilise les animations pilotees par
+   le defilement : si le navigateur ne les gere pas, la page
+   se comporte exactement comme avant.
+   ========================================================= */
+@keyframes entree-ecran {
+  from { opacity: .45; transform: translateY(3.5%) scale(.965); }
+  to   { opacity: 1;   transform: none; }
+}
+@keyframes sortie-ecran {
+  from { opacity: 1;   transform: none; }
+  to   { opacity: .28; transform: translateY(-2.5%) scale(.935); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ecran {
+      animation: entree-ecran linear both, sortie-ecran linear both;
+      animation-timeline: view(), view();
+      animation-range: entry 5% entry 65%, exit 20% exit 100%;
+      transform-origin: center 30%;
+      will-change: transform, opacity;
+    }
+    .banniere {
+      animation: sortie-ecran linear both;
+      animation-timeline: view();
+      animation-range: exit 20% exit 100%;
+      transform-origin: center 30%;
+      will-change: transform, opacity;
+    }
+  }
+}
+
+/* ---------- Indicateur de progression ---------- */
+.jalons {
+  position: fixed; z-index: 80; right: 18px; top: 50%; transform: translateY(-50%) translateX(14px);
+  display: none; flex-direction: column; align-items: flex-end; gap: 12px;
+  opacity: 0; transition: opacity .5s, transform .5s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+}
+@media (min-width: 1000px) { .jalons { display: flex; } }
+.jalons.montres { opacity: 1; transform: translateY(-50%) translateX(0); pointer-events: auto; }
+
+.jalon {
+  display: flex; align-items: center; gap: 10px;
+  background: none; border: 0; padding: 3px 0; cursor: pointer;
+}
+.jalon-nom {
+  font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--encre-tenue); opacity: 0; transform: translateX(6px);
+  transition: opacity .35s, transform .35s, color .35s; white-space: nowrap;
+}
+.jalon-trait {
+  display: block; width: 18px; height: 2px; border-radius: 2px;
+  background: rgba(13, 34, 51, .28); transition: width .45s cubic-bezier(.22,.61,.36,1), background .45s;
+}
+.jalon:hover .jalon-nom, .jalon.actif .jalon-nom { opacity: 1; transform: none; }
+.jalon:hover .jalon-trait { background: var(--laiton-fonce); width: 26px; }
+.jalon.actif .jalon-trait { width: 34px; background: var(--laiton-fonce); }
+.jalon:focus-visible { outline: 2px solid var(--laiton-fonce); outline-offset: 4px; border-radius: 4px; }
+
+/* Sur fond sombre, l indicateur s eclaircit */
+.jalons.sur-nuit .jalon-nom { color: var(--tenu); }
+.jalons.sur-nuit .jalon-trait { background: rgba(238, 244, 249, .3); }
+.jalons.sur-nuit .jalon:hover .jalon-trait,
+.jalons.sur-nuit .jalon.actif .jalon-trait { background: var(--laiton); }
+
+@media (prefers-reduced-motion: reduce) {
+  .jalons { transition: none; }
+  .jalon-trait, .jalon-nom { transition: none; }
+}
