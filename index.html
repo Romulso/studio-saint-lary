@@ -622,6 +622,23 @@
 </footer>
 
 <script>
+/* Lit un JSON même si le fichier contient plusieurs documents collés
+   (erreur de copier-coller dans l'éditeur GitHub) : garde le premier. */
+function jsonTolerant(texte) {
+  try { return JSON.parse(texte); } catch (e) {}
+  var prof = 0, dansChaine = false, echappe = false;
+  for (var i = 0; i < texte.length; i++) {
+    var c = texte[i];
+    if (echappe) { echappe = false; continue; }
+    if (c === '\\') { echappe = true; continue; }
+    if (c === '"') dansChaine = !dansChaine;
+    if (dansChaine) continue;
+    if (c === '{') prof++;
+    else if (c === '}') { prof--; if (prof === 0) return JSON.parse(texte.slice(0, i + 1)); }
+  }
+  throw new Error('JSON invalide');
+}
+
 function langue(code) {
   document.body.classList.remove('lang-fr', 'lang-en');
   document.body.classList.add('lang-' + code);
@@ -940,7 +957,8 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   rendre();
 
   fetch('reservations.json?t=' + Date.now())
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(jsonTolerant)
     .then(function (donnees) {
       if (donnees.tarifs) {
         tarifs.defaut = donnees.tarifs.defaut || null;
@@ -1003,7 +1021,8 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
   fetch('guide.json?t=' + Date.now())
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(jsonTolerant)
     .then(function (g) {
       var plans = (g.bonsplans || []).filter(function (p) { return p.visible !== false && p.url_fr; });
       Array.prototype.forEach.call(zones, function (zone) {

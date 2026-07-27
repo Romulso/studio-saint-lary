@@ -181,9 +181,10 @@
     <b>Modifications non publiées</b>
     <ol>
       <li>Cliquez « Copier » sur un fichier marqué modifié ci-dessous.</li>
-      <li>Cliquez « Ouvrir GitHub », sélectionnez tout (Ctrl/Cmd+A), collez, puis « Commit changes ».</li>
-      <li>S'il y a deux fichiers modifiés, recommencez pour le second.</li>
-      <li>Le site est à jour au bout de 1 à 2 minutes.</li>
+      <li>Cliquez « Ouvrir GitHub » pour ouvrir l'éditeur du fichier.</li>
+      <li><b>Important :</b> effacez d'abord TOUT l'ancien contenu — cliquez dans le texte, Ctrl/Cmd+A puis touche Suppr — l'éditeur doit être vide avant de coller.</li>
+      <li>Collez (Ctrl/Cmd+V), puis bouton vert « Commit changes ».</li>
+      <li>S'il y a deux fichiers modifiés, recommencez pour le second. Le site est à jour au bout de 1 à 2 minutes.</li>
     </ol>
     <div class="actions-pub" id="pub-resa" hidden style="margin-bottom:10px">
       <span class="badge badge-option" style="align-self:center">reservations.json — calendrier et tarifs</span>
@@ -215,6 +216,24 @@
 </div>
 
 <script>
+/* Lit un JSON même si le fichier contient plusieurs documents collés
+   (collage sans « tout sélectionner » dans GitHub) : garde le premier.
+   Renvoie {doc, repare} pour signaler qu'une republication nettoiera. */
+function jsonTolerant(texte) {
+  try { return { doc: JSON.parse(texte), repare: false }; } catch (e) {}
+  var prof = 0, dansChaine = false, echappe = false;
+  for (var i = 0; i < texte.length; i++) {
+    var c = texte[i];
+    if (echappe) { echappe = false; continue; }
+    if (c === '\\') { echappe = true; continue; }
+    if (c === '"') dansChaine = !dansChaine;
+    if (dansChaine) continue;
+    if (c === '{') prof++;
+    else if (c === '}') { prof--; if (prof === 0) return { doc: JSON.parse(texte.slice(0, i + 1)), repare: true }; }
+  }
+  throw new Error('JSON invalide');
+}
+
 (function () {
   var donnees = { aide: '', reservations: [] };
   var guide = { bonsplans: [], avis: [] };
@@ -639,11 +658,17 @@
   });
 
   fetch('reservations.json?t=' + Date.now())
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (json) {
-      donnees = json;
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (texte) {
+      var lu = jsonTolerant(texte);
+      donnees = lu.doc;
       if (!donnees.reservations) donnees.reservations = [];
       toutRendre();
+      if (lu.repare) {
+        marquerModifie('resa');
+        document.getElementById('aj-note').textContent =
+          'Le fichier publié contenait un doublon de collage : il a été nettoyé ici, republiez-le (étape 6) pour corriger le site.';
+      }
     })
     .catch(function () {
       document.getElementById('liste').innerHTML = '<p class="vide">Impossible de charger reservations.json — vérifiez que le fichier existe.</p>';
@@ -651,12 +676,18 @@
     });
 
   fetch('guide.json?t=' + Date.now())
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function (json) {
-      guide = json;
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (texte) {
+      var lu = jsonTolerant(texte);
+      guide = lu.doc;
       if (!guide.bonsplans) guide.bonsplans = [];
       if (!guide.avis) guide.avis = [];
       rendreBonsPlans(); rendreAvis();
+      if (lu.repare) {
+        marquerModifie('guide');
+        document.getElementById('bp-note').textContent =
+          'Le fichier publié contenait un doublon de collage : il a été nettoyé ici, republiez-le (étape 6) pour corriger le site.';
+      }
     })
     .catch(function () {
       document.getElementById('bp-liste').innerHTML = '<p class="vide">Impossible de charger guide.json — vérifiez que le fichier existe.</p>';

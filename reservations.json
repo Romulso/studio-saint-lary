@@ -31,15 +31,3 @@
     }
   ]
 }
-{
-  "aide": "Fichier géré depuis admin.html (page cachée). arrivee = premier jour (inclus), depart = jour du départ (la nuit du départ redevient libre). statut = 'option' (demande en attente de validation) ou 'reserve' (confirmé).",
-  "tarifs": {
-    "aide": "Prix à la semaine, en euros. 'defaut' s'applique quand aucune période ne correspond. Dans 'periodes' : debut inclus, fin exclue. Ajouter une période temporaire (ex. Tour de France) suffit à majorer les prix sur le calendrier.",
-    "defaut": 300,
-    "periodes": [
-      { "debut": "2026-12-19", "fin": "2027-01-04", "prix": 400, "libelle": "Vacances de Noël" },
-      { "debut": "2027-02-06", "fin": "2027-03-08", "prix": 700, "libelle": "Vacances d'hiver" }
-    ]
-  },
-  "reservations": []
-}
