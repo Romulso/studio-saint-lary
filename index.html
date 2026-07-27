@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Studio à louer à Saint-Lary-Soulan — 100 m des pistes, balcon vue montagne</title>
 <meta name="description" content="Studio de 27 m² avec balcon 9 m² vue montagne à Saint-Lary-Soulan. 100 m des remontées, 150 m du centre. Piscine, salle de sport, parking. Location en direct auprès des propriétaires.">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body class="lang-fr">
 
@@ -29,7 +29,18 @@
 </header>
 
 <div class="banniere">
-  <img src="images/sejour-baie.jpeg" alt="Séjour lumineux du studio avec grande baie vitrée donnant sur le balcon">
+  <div class="diapos" id="diapos">
+    <img class="diapo active" src="images/sejour-baie.jpeg" alt="Séjour lumineux avec grande baie vitrée donnant sur le balcon">
+    <img class="diapo" src="images/sejour-large.jpeg" alt="Vue d'ensemble du séjour avec canapé-lit et armoire en pin" loading="lazy">
+    <img class="diapo" src="images/sejour-tv.jpeg" alt="Coin salon avec téléviseur et table repas" loading="lazy">
+    <img class="diapo" src="images/cuisine.jpeg" alt="Cuisine équipée avec lave-vaisselle, micro-ondes et plaques de cuisson" loading="lazy">
+  </div>
+  <div class="puces" id="puces">
+    <button type="button" class="puce active" data-rang="0" aria-label="Photo 1 : le séjour et la baie vitrée"></button>
+    <button type="button" class="puce" data-rang="1" aria-label="Photo 2 : vue d'ensemble du séjour"></button>
+    <button type="button" class="puce" data-rang="2" aria-label="Photo 3 : le coin salon"></button>
+    <button type="button" class="puce" data-rang="3" aria-label="Photo 4 : la cuisine"></button>
+  </div>
   <div class="banniere-texte">
     <div class="wrap">
       <p class="sur-titre">Saint-Lary-Soulan · Hautes-Pyrénées</p>
@@ -309,6 +320,45 @@ function langue(code) {
   var choix = enregistree || (navigator.language && navigator.language.slice(0, 2) === 'fr' ? 'fr' : 'en');
   langue(choix);
   document.getElementById('annee').textContent = new Date().getFullYear();
+})();
+
+(function () {
+  var diapos = document.querySelectorAll('.diapo');
+  var puces = document.querySelectorAll('.puce');
+  var banniere = document.querySelector('.banniere');
+  if (diapos.length < 2 || !banniere) return;
+
+  var rang = 0, minuteur = null;
+  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DELAI = 5000;
+
+  function montrer(n) {
+    rang = (n + diapos.length) % diapos.length;
+    for (var i = 0; i < diapos.length; i++) {
+      diapos[i].classList.toggle('active', i === rang);
+      if (puces[i]) puces[i].classList.toggle('active', i === rang);
+    }
+  }
+  function demarrer() {
+    if (reduit || minuteur) return;
+    minuteur = setInterval(function () { montrer(rang + 1); }, DELAI);
+  }
+  function arreter() { clearInterval(minuteur); minuteur = null; }
+
+  Array.prototype.forEach.call(puces, function (puce) {
+    puce.addEventListener('click', function () {
+      montrer(parseInt(puce.getAttribute('data-rang'), 10));
+      arreter(); demarrer();
+    });
+  });
+
+  banniere.addEventListener('mouseenter', arreter);
+  banniere.addEventListener('mouseleave', demarrer);
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) arreter(); else demarrer();
+  });
+
+  demarrer();
 })();
 
 (function () {

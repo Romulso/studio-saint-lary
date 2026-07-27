@@ -51,12 +51,37 @@ img { max-width: 100%; display: block; }
 }
 .langues button.actif { background: var(--bleu); color: #fff; }
 
-/* ---------- Banniere ---------- */
-.banniere { position: relative; background: var(--bleu-fonce); }
-.banniere img { width: 100%; height: clamp(300px, 52vh, 520px); object-fit: cover; opacity: .82; }
+/* ---------- Banniere / diaporama ---------- */
+.banniere { position: relative; background: var(--bleu-fonce); overflow: hidden; }
+.diapos { position: relative; height: clamp(300px, 52vh, 520px); }
+.diapo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 1.2s ease-in-out;
+}
+.diapo.active { opacity: .82; }
+
+.puces {
+  position: absolute; right: 20px; bottom: 20px; z-index: 3;
+  display: flex; gap: 7px;
+}
+.puce {
+  width: 28px; height: 3px; padding: 0; border: 0; border-radius: 2px;
+  background: rgba(255, 255, 255, .38); cursor: pointer;
+  transition: background .35s, transform .35s;
+}
+.puce:hover { background: rgba(255, 255, 255, .65); }
+.puce.active { background: #fff; transform: scaleY(1.6); }
+.puce:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (max-width: 620px) { .puce { width: 20px; } }
+
 .banniere-texte {
-  position: absolute; inset: auto 0 0 0; padding: 28px 0 32px;
+  position: absolute; inset: auto 0 0 0; padding: 28px 0 46px; z-index: 2;
   background: linear-gradient(to top, rgba(16,69,94,.94), rgba(16,69,94,0));
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diapo { transition: none; }
 }
 .banniere-texte .sur-titre { font-size: 11px; letter-spacing: .16em; color: #e8c88a; text-transform: uppercase; }
 .banniere-texte h1 { font-size: clamp(30px, 5.4vw, 46px); color: #fff; margin: 8px 0 10px; }
