@@ -588,3 +588,36 @@ body.saison-ete [data-hiver] { display: none !important; }
   .escapade { margin-top: 20px; padding-top: 18px; }
   .escapade > p { font-size: 13.5px; margin-bottom: 13px; }
 }
+
+/* ---------- Bande photos des espaces communs ---------- */
+.bande { margin-top: 26px; }
+.bande-titre { margin-bottom: 12px; }
+.bande-photos {
+  display: grid; gap: 12px;
+  grid-auto-flow: column; grid-auto-columns: 74%;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding-bottom: 6px; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.bande-photos::-webkit-scrollbar { display: none; }
+@media (min-width: 880px) {
+  .bande-photos {
+    grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-auto-columns: auto;
+    overflow: visible; scroll-snap-type: none; gap: 14px;
+  }
+}
+.bande-photo {
+  position: relative; border-radius: var(--rayon); overflow: hidden;
+  aspect-ratio: 4 / 3; background: var(--nuit-3); scroll-snap-align: start;
+}
+.bande-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s cubic-bezier(.22,.61,.36,1); }
+.bande-photo:hover img { transform: scale(1.06); }
+.bande-photo figcaption {
+  position: absolute; left: 12px; bottom: 10px; z-index: 2;
+  font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #fff;
+  text-shadow: 0 1px 6px rgba(7,16,25,.8);
+}
+.bande-photo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(7,16,25,.55), transparent 55%);
+}
