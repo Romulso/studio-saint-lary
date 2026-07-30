@@ -34,7 +34,7 @@ protéger le domaine.
 
 ## 4 · Mettre à jour les URL dans le code (à demander à Mathieu/Claude)
 
-Remplacer `https://romulso.github.io/studio-saint-lary/` par
+Remplacer `https://lebalcondaure.fr/` par
 `https://lebalcondaure.fr/` dans :
 - `index.html` : balise `canonical`, les 3 `hreflang`, `og:url`, `og:image`,
   le JSON-LD (`url` + `image`), et le texte du bouton de partage
@@ -56,6 +56,6 @@ fonctionnent tels quels, seules les URL absolues ci-dessus changent.
    65170 Saint-Lary-Soulan, lien vers le site, photos du studio.
 3. **Office de tourisme** : demander le référencement du meublé sur
    saintlary.com (et engager le classement « meublé de tourisme » en mairie).
-4. L'ancienne adresse `romulso.github.io/studio-saint-lary` redirigera
+4. L'ancienne adresse `lebalcondaure.fr` redirigera
    automatiquement vers le domaine : les liens déjà partagés continuent
    de fonctionner.

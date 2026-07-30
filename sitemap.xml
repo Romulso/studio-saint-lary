@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://romulso.github.io/studio-saint-lary/</loc>
+    <loc>https://lebalcondaure.fr/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://romulso.github.io/studio-saint-lary/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://romulso.github.io/studio-saint-lary/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lebalcondaure.fr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lebalcondaure.fr/?lang=en"/>
   </url>
   <url>
-    <loc>https://romulso.github.io/studio-saint-lary/?lang=en</loc>
+    <loc>https://lebalcondaure.fr/?lang=en</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://romulso.github.io/studio-saint-lary/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://romulso.github.io/studio-saint-lary/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lebalcondaure.fr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lebalcondaure.fr/?lang=en"/>
   </url>
 </urlset>
