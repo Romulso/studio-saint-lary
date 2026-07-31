@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Balcon d'Aure — flyer A5 recto-verso</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+@font-face { font-family: "Jost"; src: url("fonts/Jost-var.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-italic-var.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: block; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: block; }
+
+:root {
+  --nuit: #071019;
+  --nuit-2: #0d1b2a;
+  --jour: #f5f8fb;
+  --encre: #0d2233;
+  --encre-douce: #4e6a7d;
+  --encre-tenue: #8299ab;
+  --laiton: #c9a86a;
+  --laiton-clair: #e0c894;
+  --laiton-fonce: #8f6a1c;
+  --clair: #eef4f9;
+  --doux: #9db1c4;
+  --sans: "Jost", Helvetica, Arial, sans-serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+img { display: block; max-width: 100%; }
+
+body { background: #52606d; font-family: var(--sans); padding: 24px 0; }
+
+/* ---------- Page A5 ---------- */
+.page {
+  width: 148mm; height: 210mm;
+  margin: 0 auto 22px; position: relative; overflow: hidden;
+  background: #fff; color: var(--encre);
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+  page-break-after: always; break-after: page;
+}
+.page:last-of-type { page-break-after: auto; break-after: auto; margin-bottom: 0; }
+
+/* ================= RECTO ================= */
+.recto { background: var(--nuit); color: var(--clair); }
+.recto-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.recto-voile {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(7,16,25,.62) 0%, rgba(7,16,25,.30) 32%, rgba(7,16,25,.80) 68%, rgba(7,16,25,.96) 100%);
+}
+.recto-contenu { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; padding: 14mm 13mm 11mm; }
+
+.etiquette {
+  align-self: flex-start; border: .35mm solid rgba(201,168,106,.55); border-radius: 20mm;
+  padding: 1.6mm 5mm; font-size: 6.6pt; letter-spacing: .22em; text-transform: uppercase; color: var(--laiton-clair);
+}
+.recto h1 { margin-top: auto; font-size: 34pt; line-height: .92; font-weight: 700; letter-spacing: -.03em; }
+.recto h1 em {
+  display: block; font-family: var(--serif); font-style: italic; font-weight: 500;
+  color: var(--laiton-clair); letter-spacing: -.015em;
+}
+.recto .accroche { margin-top: 5mm; font-size: 10.5pt; line-height: 1.55; color: var(--doux); max-width: 92mm; }
+
+.chiffres { display: flex; gap: 0; margin-top: 8mm; border-top: .3mm solid rgba(201,168,106,.35); }
+.chiffre { flex: 1; padding-top: 4mm; }
+.chiffre + .chiffre { border-left: .3mm solid rgba(201,168,106,.28); padding-left: 5mm; }
+.chiffre b { display: block; font-size: 19pt; font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+.chiffre b span { font-size: 9pt; color: var(--laiton); }
+.chiffre small { display: block; margin-top: 1.6mm; font-size: 6.4pt; letter-spacing: .13em; text-transform: uppercase; color: var(--doux); }
+
+.recto-pied { display: flex; align-items: flex-end; justify-content: space-between; gap: 6mm; margin-top: 9mm; }
+.recto-pied .site { font-family: var(--serif); font-style: italic; font-size: 14pt; color: #fff; }
+.recto-pied .lieu { font-size: 7pt; letter-spacing: .16em; text-transform: uppercase; color: var(--doux); margin-top: 1.5mm; }
+.qr { background: #fff; padding: 2mm; border-radius: 2mm; width: 25mm; height: 25mm; flex: 0 0 auto; }
+.qr img { width: 100%; height: 100%; }
+.qr-legende { font-size: 5.8pt; letter-spacing: .12em; text-transform: uppercase; color: var(--doux); text-align: center; margin-top: 1.5mm; }
+
+/* ================= VERSO ================= */
+.verso { background: var(--jour); display: flex; flex-direction: column; padding: 12mm 13mm 10mm; }
+.verso-tete { border-bottom: .3mm solid rgba(13,34,51,.16); padding-bottom: 4mm; }
+.verso-tete h2 { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 20pt; color: var(--encre); line-height: 1; }
+.verso-tete p { font-size: 7pt; letter-spacing: .16em; text-transform: uppercase; color: var(--laiton-fonce); margin-top: 1.8mm; }
+
+.bandeau-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; margin-top: 5mm; }
+.bandeau-photos img { width: 100%; height: 34mm; object-fit: cover; border-radius: 1.6mm; }
+
+.proximite { margin-top: 6mm; padding: 4mm 5mm; background: rgba(143,106,28,.07); border-left: .6mm solid var(--laiton-fonce); border-radius: 0 2mm 2mm 0; }
+.proximite h3 { font-size: 7pt; letter-spacing: .16em; text-transform: uppercase; color: var(--laiton-fonce); margin-bottom: 2mm; }
+.proximite p { font-size: 8.2pt; line-height: 1.65; color: var(--encre-douce); }
+
+.blocs { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm 7mm; margin-top: 6mm; }
+.bloc h3 { font-size: 7pt; letter-spacing: .16em; text-transform: uppercase; color: var(--laiton-fonce); margin-bottom: 2.5mm; }
+.bloc ul { list-style: none; }
+.bloc li { font-size: 8.4pt; line-height: 1.75; color: var(--encre); display: flex; gap: 2mm; }
+.bloc li::before { content: ""; flex: 0 0 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--laiton-fonce); margin-top: 2.2mm; }
+
+.tarifs { margin-top: auto; padding-top: 5mm; border-top: .3mm solid rgba(13,34,51,.16); }
+.tarifs-grille { display: flex; gap: 0; }
+.tarif { flex: 1; }
+.tarif + .tarif { border-left: .3mm solid rgba(13,34,51,.13); padding-left: 4mm; }
+.tarif b { display: block; font-size: 15pt; font-weight: 700; letter-spacing: -.02em; color: var(--encre); line-height: 1; }
+.tarif small { display: block; font-size: 6.3pt; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-tenue); margin-top: 1.4mm; }
+.mention { font-size: 6.8pt; color: var(--encre-tenue); margin-top: 3mm; line-height: 1.5; }
+
+.contact { margin-top: 5mm; background: var(--nuit); color: var(--clair); border-radius: 2.5mm; padding: 5mm 6mm; display: flex; align-items: center; justify-content: space-between; gap: 5mm; }
+.contact .noms { font-size: 6.6pt; letter-spacing: .16em; text-transform: uppercase; color: var(--laiton-clair); }
+.contact .tel { font-size: 12pt; font-weight: 600; letter-spacing: -.01em; margin-top: 1.5mm; line-height: 1.45; }
+.contact .web { font-family: var(--serif); font-style: italic; font-size: 10pt; color: var(--laiton-clair); margin-top: 1.5mm; }
+.contact .qr { width: 22mm; height: 22mm; padding: 1.6mm; }
+
+/* ---------- Aide à l'écran, jamais imprimée ---------- */
+.aide {
+  max-width: 148mm; margin: 0 auto 22px; background: #fff; border-radius: 6px;
+  padding: 16px 20px; font-size: 13px; line-height: 1.6; color: #0d2233;
+}
+.aide > b:first-child { display: block; margin-bottom: 6px; font-size: 14px; }
+.aide code { background: #eef2f6; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+
+@media print {
+  @page { size: A5 portrait; margin: 0; }
+  body { background: #fff; padding: 0; }
+  .aide { display: none !important; }
+  .page { margin: 0; box-shadow: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="aide">
+  <b>Comment obtenir le PDF à envoyer à l'imprimeur</b>
+  Fais <code>Cmd</code> + <code>P</code>, choisis <b>« Enregistrer au format PDF »</b>, format <b>A5</b>, marges <b>Aucune</b>,
+  et coche <b>« Imprimer les arrière-plans »</b> — sinon les fonds bleus ne sortiront pas.
+  Deux pages : recto puis verso.
+</div>
+
+<!-- ================== RECTO ================== -->
+<div class="page recto">
+  <img class="recto-photo" src="images/vue-montagne.jpeg" alt="">
+  <div class="recto-voile"></div>
+  <div class="recto-contenu">
+    <span class="etiquette">Saint-Lary-Soulan · Vallée d'Aure</span>
+
+    <h1>Le Balcon<em>d'Aure.</em></h1>
+
+    <p class="accroche">
+      Un studio de montagne à deux pas des remontées, prolongé d'un balcon
+      face aux sommets. Piscine, salle de sport et bar dans la résidence.
+      Loué en direct par ses propriétaires.
+    </p>
+
+    <div class="chiffres">
+      <div class="chiffre"><b>200<span> m</span></b><small>des remontées</small></div>
+      <div class="chiffre"><b>27<span> m²</span></b><small>+ 9 m² de balcon</small></div>
+      <div class="chiffre"><b>3</b><small>personnes</small></div>
+    </div>
+
+    <div class="recto-pied">
+      <div>
+        <div class="site">lebalcondaure.fr</div>
+        <div class="lieu">Résidence Royal Milan</div>
+      </div>
+      <div>
+        <div class="qr"><img src="images/qr-site.svg" alt="QR code vers lebalcondaure.fr"></div>
+        <div class="qr-legende">Photos & tarifs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================== VERSO ================== -->
+<div class="page verso">
+  <div class="verso-tete">
+    <h2>Le studio</h2>
+    <p>27 m² · 3 personnes · 1<sup>er</sup> étage</p>
+  </div>
+
+  <div class="bandeau-photos">
+    <img src="images/sejour-baie.jpeg" alt="">
+    <img src="images/residence-salon.jpeg" alt="">
+    <img src="images/residence-bar.jpeg" alt="">
+  </div>
+
+  <div class="blocs">
+    <div class="bloc">
+      <h3>Dans l'appartement</h3>
+      <ul>
+        <li>Balcon 9 m² vue montagne</li>
+        <li>Lave-vaisselle</li>
+        <li>Plaques, micro-ondes, frigo</li>
+        <li>Télévision, chauffage</li>
+      </ul>
+    </div>
+    <div class="bloc">
+      <h3>Dans la résidence</h3>
+      <ul>
+        <li>Piscine, salle de sport</li>
+        <li>Bar et espace commun</li>
+        <li>Casier à skis, parking</li>
+        <li>Lave-linge et wifi</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="proximite">
+    <h3>Aux alentours</h3>
+    <p>
+      Le domaine skiable par télécabine depuis le village, les thermes à 150 m,
+      les lacs du Néouvielle et le tour du lac de l'Oule en été. Balnéa, le lac de
+      Génos et le bike park de Loudenvielle à 35 minutes.
+    </p>
+  </div>
+
+  <div class="tarifs">
+    <div class="tarifs-grille">
+      <div class="tarif"><b>700 €</b><small>Vacances d'hiver</small></div>
+      <div class="tarif"><b>400 €</b><small>Mi-saison</small></div>
+      <div class="tarif"><b>300 €</b><small>Été</small></div>
+    </div>
+    <p class="mention">
+      Tarifs à la semaine. Ménage 50 €, dépôt de garantie 300 €, taxe de séjour en sus.
+      À 200 m des remontées et 150 m des thermes.
+    </p>
+  </div>
+
+  <div class="contact">
+    <div>
+      <div class="noms">Karine et Romuald</div>
+      <div class="tel">06 42 84 55 42<br>06 27 35 23 28</div>
+      <div class="web">lebalcondaure.fr</div>
+    </div>
+    <div class="qr"><img src="images/qr-site.svg" alt="QR code vers lebalcondaure.fr"></div>
+  </div>
+</div>
+
+</body>
+</html>
