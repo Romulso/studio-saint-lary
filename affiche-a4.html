@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Balcon d'Aure — affiche A4 pour vitrine</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+@font-face { font-family: "Jost"; src: url("fonts/Jost-var.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-italic-var.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: block; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: block; }
+
+:root {
+  --nuit: #071019;
+  --jour: #f5f8fb;
+  --encre: #0d2233;
+  --encre-douce: #4e6a7d;
+  --encre-tenue: #8299ab;
+  --laiton: #c9a86a;
+  --laiton-clair: #e0c894;
+  --laiton-fonce: #8f6a1c;
+  --clair: #eef4f9;
+  --doux: #9db1c4;
+  --sans: "Jost", Helvetica, Arial, sans-serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+img { display: block; max-width: 100%; }
+body { background: #52606d; font-family: var(--sans); padding: 24px 0; }
+
+.page {
+  width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden;
+  background: var(--jour); color: var(--encre); display: flex; flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+}
+
+/* ---------- Haut : photo et titre ---------- */
+.haut { position: relative; height: 104mm; flex: 0 0 auto; background: var(--nuit); overflow: hidden; }
+.haut img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.haut .voile {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(7,16,25,.55) 0%, rgba(7,16,25,.18) 34%, rgba(7,16,25,.86) 78%, rgba(7,16,25,.97) 100%);
+}
+.haut .dedans { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 12mm 16mm 9mm; color: var(--clair); }
+.etiquette {
+  align-self: flex-start; border: .4mm solid rgba(201,168,106,.55); border-radius: 20mm;
+  padding: 1.8mm 5.5mm; font-size: 8.5pt; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--laiton-clair); margin-bottom: 5mm;
+}
+h1 { font-size: 44pt; line-height: .9; font-weight: 700; letter-spacing: -.035em; }
+h1 em { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--laiton-clair); letter-spacing: -.02em; }
+.accroche { margin-top: 5mm; font-size: 12.5pt; line-height: 1.5; color: var(--doux); max-width: 130mm; }
+
+/* ---------- Bandeau chiffres ---------- */
+.chiffres { display: flex; background: var(--nuit); color: var(--clair); padding: 0 16mm 7mm; }
+.chiffre { flex: 1; }
+.chiffre + .chiffre { border-left: .3mm solid rgba(201,168,106,.3); padding-left: 8mm; }
+.chiffre b { display: block; font-size: 26pt; font-weight: 700; letter-spacing: -.035em; line-height: 1; }
+.chiffre b span { font-size: 14pt; color: var(--laiton); }
+.chiffre small { display: block; margin-top: 2.5mm; font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: var(--doux); }
+
+/* ---------- Corps ---------- */
+.corps { flex: 1; padding: 8mm 16mm 0; display: flex; flex-direction: column; }
+.photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+.photos img { width: 100%; height: 31mm; object-fit: cover; border-radius: 2mm; }
+
+.listes { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm 10mm; margin-top: 6mm; }
+.listes h2 { font-size: 9.5pt; letter-spacing: .18em; text-transform: uppercase; color: var(--laiton-fonce); margin-bottom: 3mm; }
+.listes ul { list-style: none; }
+.listes li { font-size: 10.5pt; line-height: 1.7; display: flex; gap: 3mm; }
+.listes li::before { content: ""; flex: 0 0 1.6mm; height: 1.6mm; border-radius: 50%; background: var(--laiton-fonce); margin-top: 3.2mm; }
+
+.tarifs { display: flex; margin-top: auto; padding: 5mm 0; border-top: .35mm solid rgba(13,34,51,.16); }
+.tarif { flex: 1; }
+.tarif + .tarif { border-left: .3mm solid rgba(13,34,51,.13); padding-left: 7mm; }
+.tarif b { display: block; font-size: 19pt; font-weight: 700; letter-spacing: -.025em; line-height: 1; }
+.tarif small { display: block; margin-top: 2mm; font-size: 8.5pt; letter-spacing: .13em; text-transform: uppercase; color: var(--encre-tenue); }
+.mention { font-size: 8.5pt; color: var(--encre-tenue); padding-bottom: 5mm; line-height: 1.5; }
+
+/* ---------- Pied contact ---------- */
+.pied { background: var(--nuit); color: var(--clair); padding: 7mm 16mm; display: flex; align-items: center; justify-content: space-between; gap: 10mm; }
+.pied .noms { font-size: 9pt; letter-spacing: .2em; text-transform: uppercase; color: var(--laiton-clair); }
+.pied .tel { font-size: 17pt; font-weight: 600; line-height: 1.35; margin-top: 2.5mm; letter-spacing: -.01em; }
+.pied .web { font-family: var(--serif); font-style: italic; font-size: 15pt; color: var(--laiton-clair); margin-top: 3mm; }
+.qr-bloc { flex: 0 0 auto; text-align: center; }
+.qr { background: #fff; padding: 2.5mm; border-radius: 3mm; width: 36mm; height: 36mm; }
+.qr img { width: 100%; height: 100%; }
+.qr-legende { font-size: 8pt; letter-spacing: .16em; text-transform: uppercase; color: var(--doux); margin-top: 2.5mm; }
+
+/* ---------- Aide écran ---------- */
+.aide { max-width: 210mm; margin: 0 auto 22px; background: #fff; border-radius: 6px; padding: 16px 20px; font-size: 13px; line-height: 1.6; color: #0d2233; }
+.aide > b:first-child { display: block; margin-bottom: 6px; font-size: 14px; }
+.aide code { background: #eef2f6; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  body { background: #fff; padding: 0; }
+  .aide { display: none !important; }
+  .page { box-shadow: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="aide">
+  <b>Affiche A4 pour vitrine — une seule page</b>
+  <code>Cmd</code> + <code>P</code> → <b>Enregistrer au format PDF</b>, format <b>A4</b>, marges <b>Aucune</b>,
+  et surtout cocher <b>« Imprimer les arrière-plans »</b>.
+</div>
+
+<div class="page">
+
+  <div class="haut">
+    <img src="images/vue-montagne.jpeg" alt="">
+    <div class="voile"></div>
+    <div class="dedans">
+      <span class="etiquette">Saint-Lary-Soulan · Vallée d'Aure</span>
+      <h1>Le Balcon<em>d'Aure.</em></h1>
+      <p class="accroche">
+        Studio de montagne à louer, à deux pas des remontées.
+        Balcon face aux sommets, piscine et salle de sport dans la résidence.
+      </p>
+    </div>
+  </div>
+
+  <div class="chiffres">
+    <div class="chiffre"><b>200<span> m</span></b><small>des remontées</small></div>
+    <div class="chiffre"><b>27<span> m²</span></b><small>+ 9 m² de balcon</small></div>
+    <div class="chiffre"><b>3</b><small>personnes</small></div>
+    <div class="chiffre"><b>150<span> m</span></b><small>des thermes</small></div>
+  </div>
+
+  <div class="corps">
+    <div class="photos">
+      <img src="images/sejour-baie.jpeg" alt="">
+      <img src="images/residence-salon.jpeg" alt="">
+      <img src="images/residence-bar.jpeg" alt="">
+    </div>
+
+    <div class="listes">
+      <div>
+        <h2>Dans l'appartement</h2>
+        <ul>
+          <li>Balcon 9 m² vue montagne</li>
+          <li>Lave-vaisselle, micro-ondes</li>
+          <li>Télévision, chauffage</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Dans la résidence</h2>
+        <ul>
+          <li>Piscine et salle de sport</li>
+          <li>Bar et espace commun</li>
+          <li>Casier à skis, parking</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tarifs">
+      <div class="tarif"><b>700 €</b><small>Vacances d'hiver</small></div>
+      <div class="tarif"><b>400 €</b><small>Mi-saison</small></div>
+      <div class="tarif"><b>300 €</b><small>Été</small></div>
+    </div>
+    <p class="mention">Tarifs à la semaine. Ménage 50 €, dépôt de garantie 300 €, taxe de séjour en sus. Location en direct auprès des propriétaires.</p>
+  </div>
+
+  <div class="pied">
+    <div>
+      <div class="noms">Karine et Romuald</div>
+      <div class="tel">06 42 84 55 42<br>06 27 35 23 28</div>
+      <div class="web">lebalcondaure.fr</div>
+    </div>
+    <div class="qr-bloc">
+      <div class="qr"><img src="images/qr-site.svg" alt="QR code vers lebalcondaure.fr"></div>
+      <div class="qr-legende">Photos & tarifs</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
