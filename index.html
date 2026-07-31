@@ -626,7 +626,11 @@
         </div>
       </div>
 
-      <form id="formulaire" class="surgit">
+      <form id="formulaire" class="surgit" action="https://formsubmit.co/ajax/contact@lebalcondaure.fr" method="POST">
+        <input type="hidden" name="_subject" value="Le Balcon d'Aure — demande de réservation">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="duo">
           <div class="champ">
             <label for="nom" data-fr>Nom</label><label for="nom" data-en>Name</label>
@@ -1205,14 +1209,43 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 })();
 
-/* --- Formulaire --- */
-document.getElementById('formulaire').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var fr = document.body.classList.contains('lang-fr');
-  document.getElementById('note-form').textContent = fr
-    ? "Le formulaire n'est pas encore actif. Appelez-nous ou écrivez sur WhatsApp au 06 42 84 55 42."
-    : "This form is not active yet. Please call or message us on WhatsApp at +33 6 42 84 55 42.";
-});
+/* --- Formulaire : envoi sans quitter la page --- */
+(function () {
+  var form = document.getElementById('formulaire');
+  if (!form) return;
+  var note = document.getElementById('note-form');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fr = document.body.classList.contains('lang-fr');
+    var boutons = form.querySelectorAll('button[type=submit]');
+
+    Array.prototype.forEach.call(boutons, function (b) { b.disabled = true; });
+    note.textContent = fr ? 'Envoi en cours…' : 'Sending…';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (String(d.success) !== 'true') throw new Error(d.message || 'refus du service');
+        form.reset();
+        note.textContent = fr
+          ? 'Merci, votre demande est bien partie. Nous vous répondons rapidement.'
+          : 'Thank you, your request has been sent. We will get back to you shortly.';
+      })
+      .catch(function () {
+        note.textContent = fr
+          ? "L'envoi n'a pas abouti. Appelez-nous au 06 42 84 55 42 ou écrivez-nous sur WhatsApp."
+          : 'The message could not be sent. Please call +33 6 42 84 55 42 or message us on WhatsApp.';
+      })
+      .then(function () {
+        Array.prototype.forEach.call(boutons, function (b) { b.disabled = false; });
+      });
+  });
+})();
 </script>
 
 <script>
