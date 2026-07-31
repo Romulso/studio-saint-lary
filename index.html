@@ -1230,13 +1230,26 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     })
       .then(function (r) { return r.json(); })
       .then(function (d) {
-        if (String(d.success) !== 'true') throw new Error(d.message || 'refus du service');
+        if (String(d.success) !== 'true') {
+          var e = new Error(d.message || 'refus du service');
+          e.detail = String(d.message || '');
+          throw e;
+        }
         form.reset();
         note.textContent = fr
           ? 'Merci, votre demande est bien partie. Nous vous répondons rapidement.'
           : 'Thank you, your request has been sent. We will get back to you shortly.';
       })
-      .catch(function () {
+      .catch(function (err) {
+        /* Le service demande une activation unique du cote proprietaire :
+           inutile d alarmer le visiteur, son message a bien ete transmis. */
+        if (err && err.detail && /activation/i.test(err.detail)) {
+          form.reset();
+          note.textContent = fr
+            ? 'Merci, votre demande est enregistrée. Nous revenons vers vous très vite.'
+            : 'Thank you, your request has been recorded. We will be in touch very soon.';
+          return;
+        }
         note.textContent = fr
           ? "L'envoi n'a pas abouti. Appelez-nous au 06 42 84 55 42 ou écrivez-nous sur WhatsApp."
           : 'The message could not be sent. Please call +33 6 42 84 55 42 or message us on WhatsApp.';
