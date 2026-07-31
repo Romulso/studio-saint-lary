@@ -1241,14 +1241,11 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           : 'Thank you, your request has been sent. We will get back to you shortly.';
       })
       .catch(function (err) {
-        /* Le service demande une activation unique du cote proprietaire :
-           inutile d alarmer le visiteur, son message a bien ete transmis. */
+        /* Tant que le service n est pas active, le message ne parvient pas
+           aux proprietaires : on ne fait jamais croire au visiteur que sa
+           demande est passee, on le renvoie vers un canal qui fonctionne. */
         if (err && err.detail && /activation/i.test(err.detail)) {
-          form.reset();
-          note.textContent = fr
-            ? 'Merci, votre demande est enregistrée. Nous revenons vers vous très vite.'
-            : 'Thank you, your request has been recorded. We will be in touch very soon.';
-          return;
+          console.warn('Formulaire non active cote FormSubmit :', err.detail);
         }
         note.textContent = fr
           ? "L'envoi n'a pas abouti. Appelez-nous au 06 42 84 55 42 ou écrivez-nous sur WhatsApp."
