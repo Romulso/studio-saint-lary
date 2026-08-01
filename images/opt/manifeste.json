@@ -1,0 +1,134 @@
+{
+  "balcon-vue": {
+    "hauteur": 1800,
+    "largeur": 1350,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "cuisine": {
+    "hauteur": 1337,
+    "largeur": 1206,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "residence-accueil": {
+    "hauteur": 1350,
+    "largeur": 1800,
+    "variantes": [
+      1600,
+      1200,
+      800,
+      500
+    ]
+  },
+  "residence-bar": {
+    "hauteur": 1350,
+    "largeur": 1800,
+    "variantes": [
+      1600,
+      1200,
+      800,
+      500
+    ]
+  },
+  "residence-billard": {
+    "hauteur": 1350,
+    "largeur": 1800,
+    "variantes": [
+      1600,
+      1200,
+      800,
+      500
+    ]
+  },
+  "residence-entree": {
+    "hauteur": 1800,
+    "largeur": 1350,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "residence-salon": {
+    "hauteur": 1350,
+    "largeur": 1800,
+    "variantes": [
+      1600,
+      1200,
+      800,
+      500
+    ]
+  },
+  "salle-eau": {
+    "hauteur": 1600,
+    "largeur": 1200,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "salle-eau-wc": {
+    "hauteur": 1600,
+    "largeur": 1200,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-baie": {
+    "hauteur": 1800,
+    "largeur": 1350,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-large": {
+    "hauteur": 1385,
+    "largeur": 1206,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-tv": {
+    "hauteur": 1363,
+    "largeur": 1206,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "teaser-affiche": {
+    "hauteur": 1080,
+    "largeur": 1920,
+    "variantes": [
+      1600,
+      1200,
+      800,
+      500
+    ]
+  },
+  "vue-montagne": {
+    "hauteur": 1650,
+    "largeur": 2200,
+    "variantes": [
+      1600,
+      1200,
+      800,
+      500
+    ]
+  }
+}

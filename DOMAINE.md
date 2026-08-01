@@ -32,18 +32,16 @@ Sur https://github.com/Romulso/studio-saint-lary → Settings → Pages :
 Conseillé : Settings (du compte) → Pages → « Verified domains » pour
 protéger le domaine.
 
-## 4 · Mettre à jour les URL dans le code (à demander à Mathieu/Claude)
+## 4 · Mettre à jour les URL dans le code
 
-Remplacer `https://lebalcondaure.fr/` par
-`https://lebalcondaure.fr/` dans :
-- `index.html` : balise `canonical`, les 3 `hreflang`, `og:url`, `og:image`,
-  le JSON-LD (`url` + `image`), et le texte du bouton de partage
-- `sitemap.xml` : toutes les URL
-- `robots.txt` : la ligne Sitemap
+**Fait** : le domaine `lebalcondaure.fr` est actif, HTTPS forcé, et les
+variantes `http://` et `www.` redirigent vers `https://lebalcondaure.fr/`.
 
-Attention : une fois le domaine actif, les chemins ne contiennent plus
-`/studio-saint-lary/` — les chemins relatifs du site (images, CSS, JSON)
-fonctionnent tels quels, seules les URL absolues ci-dessus changent.
+Si le domaine devait changer un jour, une seule ligne est à modifier :
+la constante `DOMAINE` en haut de `outils/build.py`. Elle alimente les
+balises `canonical`, les `hreflang`, l'Open Graph, le JSON-LD et le
+sitemap. Relancer ensuite `python outils/build.py`, et corriger la ligne
+`Sitemap:` de `robots.txt`.
 
 ## 5 · Ensuite (visibilité)
 
@@ -56,6 +54,7 @@ fonctionnent tels quels, seules les URL absolues ci-dessus changent.
    65170 Saint-Lary-Soulan, lien vers le site, photos du studio.
 3. **Office de tourisme** : demander le référencement du meublé sur
    saintlary.com (et engager le classement « meublé de tourisme » en mairie).
-4. L'ancienne adresse `lebalcondaure.fr` redirigera
+4. L'ancienne adresse `romulso.github.io/studio-saint-lary` redirige
    automatiquement vers le domaine : les liens déjà partagés continuent
-   de fonctionner.
+   de fonctionner. De même, les anciens liens `?lang=en` sont renvoyés
+   vers `/en/`.

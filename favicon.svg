@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Le Balcon d'Aure">
+  <rect width="64" height="64" rx="14" fill="#0d2233"/>
+  <path d="M8 44 L22 24 L31 35 L41 19 L56 44 Z" fill="#c9a86a"/>
+  <path d="M41 19 L46 27 L36 27 Z" fill="#f2e6cd"/>
+  <rect x="8" y="47" width="48" height="3" rx="1.5" fill="#8f6a1c"/>
+  <rect x="13" y="50" width="2.5" height="7" rx="1.25" fill="#8f6a1c"/>
+  <rect x="30.75" y="50" width="2.5" height="7" rx="1.25" fill="#8f6a1c"/>
+  <rect x="48.5" y="50" width="2.5" height="7" rx="1.25" fill="#8f6a1c"/>
+</svg>

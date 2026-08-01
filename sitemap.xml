@@ -3,16 +3,16 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://lebalcondaure.fr/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-08-01</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://lebalcondaure.fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lebalcondaure.fr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lebalcondaure.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lebalcondaure.fr/"/>
   </url>
   <url>
-    <loc>https://lebalcondaure.fr/?lang=en</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://lebalcondaure.fr/en/</loc>
+    <lastmod>2026-08-01</lastmod>
     <xhtml:link rel="alternate" hreflang="fr" href="https://lebalcondaure.fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://lebalcondaure.fr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lebalcondaure.fr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lebalcondaure.fr/"/>
   </url>
 </urlset>
