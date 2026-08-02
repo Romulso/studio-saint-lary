@@ -1,4 +1,13 @@
 {
+  "balcon-fleuri": {
+    "hauteur": 1086,
+    "largeur": 1448,
+    "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
   "balcon-vue": {
     "hauteur": 1800,
     "largeur": 1350,

@@ -723,7 +723,10 @@ body.saison-ete [data-hiver] { display: none !important; }
 .prose h3 { margin: 26px 0 8px; font-size: 17.5px; color: var(--encre); }
 .prose ul, .prose ol { padding-left: 20px; }
 .prose li { margin-bottom: 7px; }
-.prose a { color: var(--laiton-fonce); }
+.prose a:not(.pastille):not(.renvoi) { color: var(--laiton-fonce); }
+/* Les boutons et les cartes gardent leurs propres couleurs : sans cette
+   exception, .prose a l'emportait sur .pastille-pleine et ecrivait le
+   libelle en laiton sur un fond laiton. */
 .prose strong { color: var(--encre); }
 .prose .encart { margin: 22px 0; }
 .ecran-nuit .prose > p, .ecran-nuit .prose > ul, .ecran-nuit .prose > ol,

@@ -512,6 +512,17 @@ def construire(gabarit, page, langue, guide):
 
     doc = re.sub(r"(<h[12][^>]*>)(.*?)(</h[12]>)", aerer_titre, doc, flags=re.S)
 
+    # Les pages vivent a des profondeurs differentes (/, /studio/,
+    # /guide/x/, /en/studio/). Un chemin relatif casse partout sauf a la
+    # racine : on force la racine absolue, une bonne fois.
+    doc = re.sub(
+        r'\b(src|href|srcset|poster)="(?!/|https?:|//|#|mailto:|tel:|data:)',
+        lambda m: '%s="/' % m.group(1), doc)
+    doc = re.sub(
+        r'srcset="([^"]*)"',
+        lambda m: 'srcset="%s"' % re.sub(r"(^|,\s*)(?!/|https?:)", r"\g<1>/", m.group(1)),
+        doc)
+
     doc = re.sub(r"[ \t]+\n", "\n", doc)
     doc = re.sub(r"\n{3,}", "\n\n", doc)
 
