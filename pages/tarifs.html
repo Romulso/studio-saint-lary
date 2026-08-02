@@ -1,0 +1,129 @@
+<header class="entete">
+  <img class="entete-fond" src="/images/opt/cuisine-1200.webp"
+       srcset="/images/opt/cuisine-500.webp 500w, /images/opt/cuisine-800.webp 800w, /images/opt/cuisine-1200.webp 1200w"
+       sizes="100vw" fetchpriority="high" decoding="async" alt="Le coin cuisine équipé du studio">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Tarifs et disponibilités</p>
+    <h1 class="surgit" data-fr>En direct,<em>sans commission.</em></h1>
+    <p class="chapo surgit" data-fr>De 300 à 700 euros la semaine selon la saison. Vous réservez auprès de Karine et Romuald, sans intermédiaire et sans frais de plateforme. Le calendrier ci-dessous est tenu à jour en continu.</p>
+    <p class="sur-titre surgit" data-en>Rates and availability</p>
+    <h1 class="surgit" data-en>Direct booking,<em>no commission.</em></h1>
+    <p class="chapo surgit" data-en>From 300 to 700 euros a week depending on the season. You book with Karine and Romuald, with no middleman and no platform fee. The calendar below is kept up to date continuously.</p>
+  </div>
+</header>
+
+<section class="ecran ecran-libre" id="tarifs" data-jalon="Tarifs" data-jalon-en="Rates">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Tarifs</p><p class="sur-titre surgit" data-en>Rates</p>
+    <h2 class="titre-section surgit" style="margin-bottom:32px" data-fr>En direct,<em>sans commission.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:32px" data-en>Direct booking,<em>no commission.</em></h2>
+
+    <div class="grille-tarifs">
+      <div class="tarif tarif-phare surgit">
+        <span class="tarif-ruban" data-fr>Haute saison</span><span class="tarif-ruban" data-en>High season</span>
+        <p class="tarif-saison" data-fr>Vacances d'hiver</p><p class="tarif-saison" data-en>Winter holidays</p>
+        <p class="tarif-prix">700 <span>€</span></p>
+        <p class="tarif-detail" data-fr>la semaine</p><p class="tarif-detail" data-en>per week</p>
+      </div>
+      <div class="tarif surgit">
+        <p class="tarif-saison" data-fr>Mi-saison</p><p class="tarif-saison" data-en>Mid season</p>
+        <p class="tarif-prix">400 <span>€</span></p>
+        <p class="tarif-detail" data-fr>la semaine · vacances de Noël</p><p class="tarif-detail" data-en>per week · Christmas holidays</p>
+      </div>
+      <div class="tarif surgit">
+        <p class="tarif-saison" data-fr>Été</p><p class="tarif-saison" data-en>Summer</p>
+        <p class="tarif-prix">300 <span>€</span></p>
+        <p class="tarif-detail" data-fr>la semaine · randonnée et lacs</p><p class="tarif-detail" data-en>per week · hiking and lakes</p>
+      </div>
+    </div>
+
+    <dl class="frais surgit">
+      <div><dt data-fr>7 nuits et plus</dt><dt data-en>7 nights or more</dt><dd>− 10 €</dd></div>
+      <div><dt data-fr>Ménage</dt><dt data-en>Cleaning</dt><dd>50 €</dd></div>
+      <div><dt data-fr>Dépôt de garantie</dt><dt data-en>Deposit</dt><dd>300 €</dd></div>
+      <div><dt data-fr>Taxe de séjour</dt><dt data-en>Tourist tax</dt><dd data-fr>en sus</dd><dd data-en>extra</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="ecran ecran-jour-2 ecran-libre" id="disponibilites" data-jalon="Calendrier" data-jalon-en="Calendar">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Disponibilités</p><p class="sur-titre surgit" data-en>Availability</p>
+    <h2 class="titre-section surgit" style="margin-bottom:18px" data-fr>Vos dates,<em>en un coup d'œil.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:18px" data-en>Your dates,<em>at a glance.</em></h2>
+    <p class="chapo surgit" style="margin-bottom:26px" data-fr>Touchez votre jour d'arrivée puis votre jour de départ. Dès réception de votre demande, nous posons une option sur vos dates : elles restent bloquées jusqu'à notre confirmation.</p>
+    <p class="chapo surgit" style="margin-bottom:26px" data-en>Tap your arrival day, then your departure day. As soon as we receive your request, we place an option on your dates: they stay held until we confirm.</p>
+
+    <div class="calendrier surgit">
+      <div class="cal-tete">
+        <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents">←</button>
+        <div class="cal-legende">
+          <span><i class="cal-puce cal-puce-libre"></i><span data-fr>Libre</span><span data-en>Available</span></span>
+          <span><i class="cal-puce cal-puce-option"></i><span data-fr>Option en cours</span><span data-en>Option pending</span></span>
+          <span><i class="cal-puce cal-puce-reserve"></i><span data-fr>Réservé</span><span data-en>Booked</span></span>
+        </div>
+        <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants">→</button>
+      </div>
+
+      <div class="cal-mois-grille" id="cal-mois"></div>
+
+      <div class="cal-bilan" id="cal-bilan" hidden>
+        <p class="cal-bilan-texte" id="cal-bilan-texte"></p>
+        <div class="cal-bilan-actions">
+          <button type="button" class="pastille pastille-ligne" id="cal-effacer">
+            <span data-fr>Effacer</span><span data-en>Clear</span>
+          </button>
+          <a class="pastille pastille-pleine" id="cal-whatsapp" href="https://wa.me/33642845542" target="_blank" rel="noopener">
+            <span data-fr>Demander ces dates</span><span data-en>Request these dates</span>
+          </a>
+        </div>
+      </div>
+
+      <p class="cal-note" id="cal-note"></p>
+      <p class="cal-note" style="margin-top:4px">
+        <span data-fr>Prix indicatifs par nuit, calculés depuis le tarif à la semaine. Remise de 10 € dès 7 nuits d'affilée.</span>
+        <span data-en>Indicative nightly prices, based on the weekly rate. €10 off for 7 consecutive nights or more.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="ecran ecran-libre" id="conditions" data-jalon="Conditions" data-jalon-en="Conditions">
+  <div class="enveloppe prose">
+    <h2 class="surgit" data-fr>Ce qui est compris, ce qui s'ajoute</h2>
+    <h2 class="surgit" data-en>What is included, what is extra</h2>
+    <p class="surgit" data-fr>Le tarif à la semaine couvre le logement et l'accès aux espaces communs de la résidence : sauna, jacuzzi, salle de sport, piscine chauffée l'été, casier à skis et parking. Rien de tout cela n'est facturé en supplément.</p>
+    <p class="surgit" data-en>The weekly rate covers the flat and access to the residence's shared spaces: sauna, jacuzzi, fitness room, heated pool in summer, ski locker and car park. None of it is charged as an extra.</p>
+
+    <table class="tableau surgit">
+      <thead>
+        <tr><th data-fr>Poste</th><th data-en>Item</th><th data-fr>Montant</th><th data-en>Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr><td data-fr>Semaine, vacances d'hiver</td><td data-en>Week, winter holidays</td><td>700 €</td></tr>
+        <tr><td data-fr>Semaine, vacances de Noël</td><td data-en>Week, Christmas holidays</td><td>400 €</td></tr>
+        <tr><td data-fr>Semaine, été et hors saison</td><td data-en>Week, summer and off-peak</td><td>300 €</td></tr>
+        <tr><td data-fr>Remise dès 7 nuits d'affilée</td><td data-en>Discount from 7 consecutive nights</td><td>− 10 €</td></tr>
+        <tr><td data-fr>Ménage de fin de séjour</td><td data-en>End-of-stay cleaning</td><td>50 €</td></tr>
+        <tr><td data-fr>Dépôt de garantie</td><td data-en>Security deposit</td><td>300 €</td></tr>
+        <tr><td data-fr>Taxe de séjour</td><td data-en>Tourist tax</td><td data-fr>en sus</td><td data-en>extra</td></tr>
+      </tbody>
+    </table>
+
+    <p class="surgit" data-fr>Le dépôt de garantie n'est pas encaissé : il est restitué après l'état des lieux si le logement est rendu en bon état.</p>
+    <p class="surgit" data-en>The security deposit is not cashed: it is returned after the inventory check if the flat is left in good condition.</p>
+
+    <h2 class="surgit" data-fr>Comment se passe une réservation</h2>
+    <h2 class="surgit" data-en>How booking works</h2>
+    <p class="surgit" data-fr>Vous nous indiquez vos dates, par le calendrier ci-dessus, par WhatsApp ou par téléphone. Dès réception, <strong>nous posons une option</strong> : vos dates sont bloquées et n'apparaissent plus comme libres pour quelqu'un d'autre, le temps que nous échangions. Nous confirmons ensuite, un contrat de location est établi, et l'option devient une réservation ferme.</p>
+    <p class="surgit" data-en>You tell us your dates, using the calendar above, on WhatsApp or by phone. As soon as we receive them, <strong>we place an option</strong>: your dates are held and no longer show as available to anyone else while we talk. We then confirm, a rental contract is drawn up, and the option becomes a firm booking.</p>
+    <p class="surgit" data-fr>Il n'y a pas d'intermédiaire, pas de frais de plateforme et pas de commission. Vous parlez directement à Karine et Romuald, qui répondent eux-mêmes.</p>
+    <p class="surgit" data-en>There is no middleman, no platform fee and no commission. You deal directly with Karine and Romuald, who answer in person.</p>
+
+    <div class="encart surgit">
+      <strong data-fr>À préciser avant publication</strong><strong data-en>To be confirmed</strong>
+      <p data-fr>[À COMPLÉTER] Moyens de paiement acceptés, montant et échéance de l'acompte, conditions d'annulation, heures d'arrivée et de départ. Ce sont les quatre questions qui bloquent une réservation quand la réponse n'est pas écrite noir sur blanc.</p>
+      <p data-en>[À COMPLÉTER] Accepted payment methods, deposit amount and due date, cancellation terms, check-in and check-out times.</p>
+    </div>
+  </div>
+</section>

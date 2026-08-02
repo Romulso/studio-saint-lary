@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- FICHIER GENERE — toute modification sera perdue.
-     Modifier source.html, puis : python outils/build.py -->
+     Modifier pages/accueil.html ou gabarits/base.html, puis : python outils/build.py -->
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -15,23 +15,22 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Le Balcon d'Aure">
 <meta property="og:title" content="Le Balcon d'Aure — studio à Saint-Lary-Soulan, 200 m des pistes">
-<meta property="og:description" content="27 m² et un balcon face aux sommets, résidence Royal Milan : sauna, jacuzzi, thermes à 150 m. Location en direct auprès des propriétaires.">
+<meta property="og:description" content="Studio 27 m² avec balcon vue montagne à Saint-Lary-Soulan, à 200 m des remontées. Sauna, jacuzzi, thermes à 150 m. Location en direct, sans commission.">
 <meta property="og:url" content="https://lebalcondaure.fr/">
 <meta property="og:image" content="https://lebalcondaure.fr/images/opt/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Le studio Le Balcon d'Aure et la vallée d'Aure vus depuis le balcon">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:locale:alternate" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://lebalcondaure.fr/images/opt/og-image.jpg">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/Jost-var.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/CormorantGaramond-italic-var.woff2">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon-96.png" sizes="96x96" type="image/png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Jost-var.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/CormorantGaramond-italic-var.woff2">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/style.css?v=26">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -139,18 +138,11 @@
 <body class="lang-fr saison-hiver">
 
 <nav class="nav" id="nav">
-  <a class="nav-marque" href="#haut">Le Balcon d'Aure</a>
-  <div class="nav-liens">
-    <a href="#studio" data-fr>Le studio</a>
-    <a href="#lieu" data-fr>En images</a>
-    <a href="#tarifs" data-fr>Tarifs</a>
-    <a href="#disponibilites" data-fr>Disponibilités</a>
-    <a href="#sejour" data-fr>Séjour</a>
-  </div>
+  <a class="nav-marque" href="/">Le Balcon d'Aure</a>
+  <div class="nav-liens"><a href="/studio/">Le studio</a><a href="/residence-royal-milan/">La résidence</a><a href="/tarifs-disponibilites/">Tarifs &amp; dispos</a><a href="/hiver/">Hiver</a><a href="/ete/">Été</a><a href="/cure-thermale/">Cure thermale</a><a href="/velo/">Vélo</a></div>
   <div class="nav-droite">
-    <div class="langues"><a class="actif" href="./" hreflang="fr" lang="fr" aria-current="page">FR</a><a href="en/" hreflang="en" lang="en">EN</a></div>
-    <a class="pastille pastille-pleine" href="#contact" data-fr>Réserver</a>
-
+    <div class="langues"><a class="actif" href="/" hreflang="fr" lang="fr" aria-current="page">FR</a><a href="/en/" hreflang="en" lang="en">EN</a></div>
+    <a class="pastille pastille-pleine" href="/contact/">Réserver</a>
   </div>
 </nav>
 
@@ -186,7 +178,7 @@
     <div class="enveloppe">
       <p class="etiquette surgit" data-fr>Saint-Lary-Soulan · Vallée d'Aure</p>
 
-      <h1 class="titre surgit">Le Balcon <em>d'Aure.</em><span class="hors-ecran" data-fr>Studio à louer à Saint-Lary-Soulan, résidence Royal Milan, à 200 m des pistes.</span></h1>
+      <h1 class="titre surgit">Le Balcon <em>d'Aure.</em> <span class="hors-ecran" data-fr>Studio à louer à Saint-Lary-Soulan, résidence Royal Milan, à 200 m des pistes.</span></h1>
 
       <p class="chapo surgit" data-fr>Vingt-sept mètres carrés à deux cents mètres des remontées, prolongés d'un balcon face aux sommets. Sauna, jacuzzi, piscine chauffée l'été, et le silence de la vallée.</p>
 
@@ -219,458 +211,61 @@
   <a class="pastille pastille-ligne" href="https://wa.me/33642845542" target="_blank" rel="noopener">WhatsApp</a>
 </div>
 
-<section class="ecran" id="studio">
+<section class="ecran" id="apercu" data-jalon="Le studio">
   <div class="enveloppe">
-    <div class="situation">
-      <div>
-        <p class="sur-titre surgit" data-fr>Le studio</p>
-        <h2 class="titre-section surgit" data-fr>Petit par la taille,<em>bien placé par nature.</em></h2>
+    <p class="sur-titre surgit" data-fr>Le logement</p>
+    <h2 class="titre-section surgit" style="margin-bottom:18px" data-fr>Petit par la taille, <em>bien placé par nature.</em></h2>
 
-        <p class="chapo surgit" style="margin:20px 0 28px" data-fr>Au premier étage de la résidence Royal Milan, avec neuf mètres carrés de balcon ouverts sur les sommets. Décoration franchement montagne : bois clair, tissus rouges, rien d'affecté. Et surtout, l'emplacement : les skis sur l'épaule, vous y êtes.</p>
+    <p class="chapo surgit" style="margin-bottom:28px" data-fr>Vingt-sept mètres carrés au premier étage de la résidence Royal Milan, prolongés d'un balcon de neuf mètres carrés face aux sommets. Les remontées sont à deux cents mètres, les thermes à cent cinquante, le centre du village à quatre cents.</p>
 
-        <div class="cles surgit">
-          <div class="cle">
-            <p class="cle-nombre"><span data-compteur="200">0</span><span class="cle-unite">m</span></p>
-            <p class="cle-label" data-fr>des remontées</p>
-          </div>
-          <div class="cle">
-            <p class="cle-nombre"><span data-compteur="27">0</span><span class="cle-unite">m²</span></p>
-            <p class="cle-label" data-fr>+ 9 m² balcon</p>
-          </div>
-          <div class="cle">
-            <p class="cle-nombre"><span data-compteur="3">0</span></p>
-            <p class="cle-label" data-fr>personnes</p>
-          </div>
-          <div class="cle">
-            <p class="cle-nombre"><span data-compteur="150">0</span><span class="cle-unite">m</span></p>
-            <p class="cle-label" data-fr>des thermes</p>
-          </div>
-        </div>
+    <div class="cles surgit">
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="200">0</span><span class="cle-unite">m</span></p>
+        <p class="cle-label" data-fr>des remontées</p>
       </div>
-
-      <div class="plan surgit">
-        <svg viewBox="0 0 400 300" role="img" aria-label="Plan de situation : le studio à la résidence Royal Milan, les thermes à 150 mètres, les remontées à 200 mètres et le centre-village à 400 mètres">
-          <path d="M0 96 L58 44 L104 84 L150 30 L214 92 L268 52 L330 100 L400 62 L400 128 L0 128 Z" fill="#e9f0f6"/>
-          <path d="M150 30 L172 51 L128 51 Z" fill="#ffffff"/>
-          <path d="M58 44 L74 60 L42 60 Z" fill="#ffffff"/>
-          <rect x="0" y="128" width="400" height="172" fill="#f5f8fb"/>
-
-          <path d="M78 200 L200 172 L322 204" stroke="#c9c3b4" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
-          <path d="M200 172 L200 218" stroke="#c9c3b4" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
-
-          <g>
-            <circle cx="200" cy="172" r="26" fill="rgba(143,106,28,.10)"/>
-            <circle cx="200" cy="172" r="9" fill="#8f6a1c"/>
-            <text x="200" y="140" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-weight="500" font-size="17" fill="#0d2233">Le Balcon d'Aure</text>
-            <text x="200" y="156" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#8299ab" data-fr>RÉSIDENCE ROYAL MILAN</text>
-
-          </g>
-
-          <g>
-            <circle cx="78" cy="200" r="7" fill="#0d2233"/>
-            <text x="78" y="228" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#0d2233" data-fr>Remontées</text>
-
-            <text x="78" y="245" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="12" fill="#8f6a1c">200 m</text>
-          </g>
-
-          <g>
-            <circle cx="200" cy="218" r="7" fill="#0d2233"/>
-            <text x="200" y="246" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#0d2233" data-fr>Thermes Sensoria</text>
-
-            <text x="200" y="263" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="12" fill="#8f6a1c">150 m</text>
-          </g>
-
-          <g>
-            <circle cx="322" cy="204" r="7" fill="#0d2233"/>
-            <text x="322" y="232" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#0d2233" data-fr>Centre-village</text>
-
-            <text x="322" y="249" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="12" fill="#8f6a1c">400 m</text>
-          </g>
-
-          <text x="200" y="288" text-anchor="middle" font-family="-apple-system, Helvetica, sans-serif" font-size="11" fill="#8299ab" data-fr>Tout se fait à pied</text>
-
-        </svg>
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="27">0</span><span class="cle-unite">m²</span></p>
+        <p class="cle-label" data-fr>+ 9 m² balcon</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="ecran ecran-nuit" id="lieu">
-  <div class="enveloppe">
-    <p class="sur-titre surgit" data-fr>En images</p>
-    <h2 class="titre-section surgit" style="margin-bottom:32px" data-fr>Le lieu,<em>tel quel.</em></h2>
-
-    <div class="teaser surgit">
-      <video id="teaser-video" muted loop playsinline preload="none" width="1280" height="720" poster="images/opt/teaser-affiche-1200.webp" aria-label="Teaser vidéo : Saint-Lary-Soulan, la montagne et le studio de la résidence Royal Milan">
-        <source src="images/opt/teaser.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="mosaique">
-      <div class="vignette surgit">
-        <img src="images/opt/sejour-baie-800.webp"
-             srcset="images/opt/sejour-baie-500.webp 500w, images/opt/sejour-baie-800.webp 800w, images/opt/sejour-baie-1200.webp 1200w"
-             sizes="(min-width: 900px) 260px, 48vw" width="1350" height="1800" loading="lazy" decoding="async"
-             alt="Séjour et baie vitrée donnant sur le balcon">
-        <span class="vignette-legende" data-fr>Le séjour</span>
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="3">0</span></p>
+        <p class="cle-label" data-fr>personnes</p>
       </div>
-      <div class="vignette vignette-decalee surgit">
-        <img src="images/opt/balcon-vue-800.webp"
-             srcset="images/opt/balcon-vue-500.webp 500w, images/opt/balcon-vue-800.webp 800w, images/opt/balcon-vue-1200.webp 1200w"
-             sizes="(min-width: 900px) 260px, 48vw" width="1350" height="1800" loading="lazy" decoding="async"
-             alt="Le balcon de 9 m² face au sommet">
-        <span class="vignette-legende" data-fr>Le balcon</span>
-      </div>
-      <div class="vignette surgit">
-        <img src="images/opt/salle-eau-800.webp"
-             srcset="images/opt/salle-eau-500.webp 500w, images/opt/salle-eau-800.webp 800w, images/opt/salle-eau-1200.webp 1200w"
-             sizes="(min-width: 900px) 260px, 48vw" width="1200" height="1600" loading="lazy" decoding="async"
-             alt="Salle d'eau avec douche et lavabo">
-        <span class="vignette-legende" data-fr>La salle d'eau</span>
-      </div>
-      <div class="vignette vignette-decalee surgit">
-        <img src="images/opt/sejour-large-800.webp"
-             srcset="images/opt/sejour-large-500.webp 500w, images/opt/sejour-large-800.webp 800w, images/opt/sejour-large-1200.webp 1200w"
-             sizes="(min-width: 900px) 260px, 48vw" width="1206" height="1385" loading="lazy" decoding="async"
-             alt="Séjour vu depuis le fond, canapé-lit et armoire en pin">
-        <span class="vignette-legende" data-fr>Les couchages</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ecran ecran-jour-2" id="equipements">
-  <div class="enveloppe">
-    <p class="sur-titre surgit" data-fr>Équipements</p>
-    <h2 class="titre-section surgit" style="margin-bottom:32px" data-fr>Tout est là,<em>rien à prévoir.</em></h2>
-
-    <div class="duo-colonnes">
-      <div class="surgit">
-        <p class="sur-titre" style="margin-bottom:12px" data-fr>À la résidence Royal Milan</p>
-
-        <p style="font-size:14px;color:var(--encre-douce);margin-bottom:14px" data-fr>Une résidence à taille humaine de 45 appartements, chemin de Vielle-Aure, face aux thermes, avec un espace bien-être en accès libre.</p>
-
-        <ul class="liste">
-          <li data-fr>Sauna et jacuzzi en accès libre</li>
-          <li data-fr>Piscine extérieure chauffée l'été</li>
-          <li data-fr>Salle de sport</li>
-          <li data-fr>Espace commun avec bar, billard et baby-foot</li>
-          <li data-fr>Casier à skis et local à vélos</li>
-          <li data-fr>Parking</li>
-          <li data-fr>Lave-linge commun et wifi</li>
-        </ul>
-      </div>
-      <div class="surgit">
-        <p class="sur-titre" style="margin-bottom:12px" data-fr>Dans l'appartement</p>
-
-        <ul class="liste">
-          <li data-fr>Balcon de 9 m² vue montagne</li>
-          <li data-fr>Lave-vaisselle</li>
-          <li data-fr>Plaques, micro-ondes, frigo</li>
-          <li data-fr>Cafetière et grille-pain</li>
-          <li data-fr>Télévision</li>
-          <li data-fr>Chauffage électrique</li>
-        </ul>
-        <div class="encart">
-          <strong data-fr>À savoir</strong>
-          <p data-fr>Premier étage sans ascenseur. Le wifi se capte dans les espaces communs, pas dans l'appartement. Les couchages sont dans la pièce de vie, il n'y a pas de chambre séparée. Chiens acceptés l'été uniquement, sous conditions (nous consulter) ; pas d'animaux en hiver.</p>
-
-        </div>
+      <div class="cle">
+        <p class="cle-nombre"><span data-compteur="150">0</span><span class="cle-unite">m</span></p>
+        <p class="cle-label" data-fr>des thermes</p>
       </div>
     </div>
 
-    <div class="bande surgit">
-      <p class="sur-titre bande-titre" data-fr>Les espaces communs de la résidence</p>
-
-      <div class="bande-photos">
-        <figure class="bande-photo">
-          <img src="images/opt/residence-salon-800.webp"
-               srcset="images/opt/residence-salon-500.webp 500w, images/opt/residence-salon-800.webp 800w, images/opt/residence-salon-1200.webp 1200w"
-               sizes="(min-width: 880px) 260px, 74vw" width="1800" height="1350" loading="lazy" decoding="async"
-               alt="Salon commun avec cheminée en pierre et canapés">
-          <figcaption data-fr>Le salon</figcaption>
-        </figure>
-        <figure class="bande-photo">
-          <img src="images/opt/residence-bar-800.webp"
-               srcset="images/opt/residence-bar-500.webp 500w, images/opt/residence-bar-800.webp 800w, images/opt/residence-bar-1200.webp 1200w"
-               sizes="(min-width: 880px) 260px, 74vw" width="1800" height="1350" loading="lazy" decoding="async"
-               alt="Bar de la résidence et ses tabourets en peau">
-          <figcaption data-fr>Le bar</figcaption>
-        </figure>
-        <figure class="bande-photo">
-          <img src="images/opt/residence-billard-800.webp"
-               srcset="images/opt/residence-billard-500.webp 500w, images/opt/residence-billard-800.webp 800w, images/opt/residence-billard-1200.webp 1200w"
-               sizes="(min-width: 880px) 260px, 74vw" width="1800" height="1350" loading="lazy" decoding="async"
-               alt="Billard face à la baie vitrée">
-          <figcaption data-fr>Le billard</figcaption>
-        </figure>
-        <figure class="bande-photo">
-          <img src="images/opt/residence-accueil-800.webp"
-               srcset="images/opt/residence-accueil-500.webp 500w, images/opt/residence-accueil-800.webp 800w, images/opt/residence-accueil-1200.webp 1200w"
-               sizes="(min-width: 880px) 260px, 74vw" width="1800" height="1350" loading="lazy" decoding="async"
-               alt="Hall d'accueil de la résidence avec baby-foot">
-          <figcaption data-fr>L'accueil</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ecran" id="tarifs">
-  <div class="enveloppe">
-    <p class="sur-titre surgit" data-fr>Tarifs</p>
-    <h2 class="titre-section surgit" style="margin-bottom:32px" data-fr>En direct,<em>sans commission.</em></h2>
-
-    <div class="grille-tarifs">
-      <div class="tarif tarif-phare surgit">
-        <span class="tarif-ruban" data-fr>Haute saison</span>
-        <p class="tarif-saison" data-fr>Vacances d'hiver</p>
-        <p class="tarif-prix">700 <span>€</span></p>
-        <p class="tarif-detail" data-fr>la semaine</p>
-      </div>
-      <div class="tarif surgit">
-        <p class="tarif-saison" data-fr>Mi-saison</p>
-        <p class="tarif-prix">400 <span>€</span></p>
-        <p class="tarif-detail" data-fr>la semaine · vacances de Noël</p>
-      </div>
-      <div class="tarif surgit">
-        <p class="tarif-saison" data-fr>Été</p>
-        <p class="tarif-prix">300 <span>€</span></p>
-        <p class="tarif-detail" data-fr>la semaine · randonnée et lacs</p>
-      </div>
-    </div>
-
-    <dl class="frais surgit">
-      <div><dt data-fr>7 nuits et plus</dt><dd>− 10 €</dd></div>
-      <div><dt data-fr>Ménage</dt><dd>50 €</dd></div>
-      <div><dt data-fr>Dépôt de garantie</dt><dd>300 €</dd></div>
-      <div><dt data-fr>Taxe de séjour</dt><dd data-fr>en sus</dd></div>
-    </dl>
-  </div>
-</section>
-
-<section class="ecran ecran-jour-2" id="disponibilites">
-  <div class="enveloppe">
-    <p class="sur-titre surgit" data-fr>Disponibilités</p>
-    <h2 class="titre-section surgit" style="margin-bottom:18px" data-fr>Vos dates,<em>en un coup d'œil.</em></h2>
-
-    <p class="chapo surgit" style="margin-bottom:26px" data-fr>Touchez votre jour d'arrivée puis votre jour de départ. Dès réception de votre demande, nous posons une option sur vos dates : elles restent bloquées jusqu'à notre confirmation.</p>
-
-    <div class="calendrier surgit">
-      <div class="cal-tete">
-        <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents">←</button>
-        <div class="cal-legende">
-          <span><i class="cal-puce cal-puce-libre"></i><span data-fr>Libre</span></span>
-          <span><i class="cal-puce cal-puce-option"></i><span data-fr>Option en cours</span></span>
-          <span><i class="cal-puce cal-puce-reserve"></i><span data-fr>Réservé</span></span>
-        </div>
-        <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants">→</button>
-      </div>
-
-      <div class="cal-mois-grille" id="cal-mois"></div>
-
-      <div class="cal-bilan" id="cal-bilan" hidden>
-        <p class="cal-bilan-texte" id="cal-bilan-texte"></p>
-        <div class="cal-bilan-actions">
-          <button type="button" class="pastille pastille-ligne" id="cal-effacer">
-            <span data-fr>Effacer</span>
-          </button>
-          <a class="pastille pastille-pleine" id="cal-whatsapp" href="https://wa.me/33642845542" target="_blank" rel="noopener">
-            <span data-fr>Demander ces dates</span>
-          </a>
-        </div>
-      </div>
-
-      <p class="cal-note" id="cal-note"></p>
-      <p class="cal-note" style="margin-top:4px">
-        <span data-fr>Prix indicatifs par nuit, calculés depuis le tarif à la semaine. Remise de 10 € dès 7 nuits d'affilée.</span>
-
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="ecran ecran-nuit" id="sejour">
-  <div class="enveloppe">
-    <p class="sur-titre surgit" data-fr>Votre séjour</p>
-    <h2 class="titre-section surgit" style="margin-bottom:22px" data-fr>Deux saisons,<em>deux montagnes.</em></h2>
-
-    <div class="saisons surgit" role="group" aria-label="Choix de la saison">
-      <button type="button" class="saison-btn actif" onclick="saison('hiver')">
-        <span data-fr>Hiver</span>
-      </button>
-      <button type="button" class="saison-btn" onclick="saison('ete')">
-        <span data-fr>Été</span>
-      </button>
-    </div>
-
-    <!-- ================= HIVER ================= -->
-    <div data-hiver>
-      <div class="grille-services">
-        <div class="service surgit">
-          <span class="service-numero">01</span>
-          <span class="avantage" hidden data-fr>Tarif préférentiel</span>
-          <h3 data-fr>Forfaits</h3>
-          <p data-fr>Plus de 100 km de pistes sur le Pla d'Adet, Espiaube et le Vallon du Portet. Achat en ligne, pas de file d'attente.</p>
-
-          <a class="service-lien" href="https://saint-lary.altiservice.com/" target="_blank" rel="noopener" data-fr>Réserver →</a>
-
-        </div>
-        <div class="service surgit">
-          <span class="service-numero">02</span>
-          <span class="avantage" hidden data-fr>Réduction locataires</span>
-          <h3 data-fr>Location de skis</h3>
-          <p data-fr>Skis, snowboard, chaussures et casques chez un loueur du village, à quelques pas du studio.</p>
-
-          <span class="service-lien attente" data-fr>Partenaire à venir</span>
-
-        </div>
-        <div class="service surgit">
-          <span class="service-numero">03</span>
-          <h3 data-fr>Après-ski</h3>
-          <p data-fr>Bains chauds des thermes, patinoire, chiens de traîneau, et le sauna-jacuzzi de la résidence pour finir la journée.</p>
-
-          <a class="service-lien" href="https://www.saintlary.com/" target="_blank" rel="noopener" data-fr>Explorer →</a>
-
-        </div>
-      </div>
-
-      <div class="lieux surgit">
-        <div><b>Pla d'Adet</b><span data-fr>Le domaine, par télécabine</span></div>
-        <div><b>Espiaube</b><span data-fr>Le secteur intermédiaire</span></div>
-        <div><b>Vallon du Portet</b><span data-fr>L'altitude et l'enneigement</span></div>
-      </div>
-
-      <div class="activites surgit" data-bonsplans="hiver"><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/hiver/a-faire-sur-place/glisse/domaine-skiable/le-plan-des-pistes/"><b>Plan des pistes</b><span>Les trois secteurs, de 1 700 à 2 515 m</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.chiendetraineau65.fr/"><b>Chiens de traîneau</b><span>Baptêmes et conduite d&#x27;attelage</span><span class="activite-mot">« Baptêmes en traîneau à chiens sur le secteur du vallon du Portet au cœur de la station de Saint-Lary. La Fille aux Loups saura vous accueillir et vous faire passer un excellent moment d&#x27;évasion. » — Karine &amp; Romuald</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/hiver/a-faire-sur-place/bouger/randonnees-hivernales/randonnees-en-raquettes/"><b>Randonnées raquettes</b><span>Sorties encadrées, demi-journée ou journée</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/hiver/a-faire-sur-place/glisse/la-patinoire/"><b>Patinoire du village</b><span>En plein air, rue Vincent Mir</span></a><a class="activite" target="_blank" rel="noopener" href="https://existenciel-parapente.fr/"><b>Parapente biplace</b><span>Baptêmes l&#x27;été, vols à ski l&#x27;hiver</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.gouffre-esparros.fr/"><b>Gouffre d&#x27;Esparros</b><span>Cristaux d&#x27;aragonite, dans les Baronnies</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/hiver/a-faire-sur-place/savourer/restaurants/"><b>Les restaurants du village</b><span>L&#x27;annuaire officiel, du bistrot au gastronomique</span></a><a class="activite" target="_blank" rel="noopener" href="https://restaurant-saint-lary.fr/"><b>La Grange</b><span>Cuisine traditionnelle faite maison, au village</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.restaurant-lapergola.fr/"><b>La Pergola — Hôtel Mir</b><span>Cuisine régionale, rue Vincent Mir</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/hiver/a-faire-sur-place/savourer/les-marches/"><b>Les marchés</b><span>Saint-Lary le samedi matin, Arreau le jeudi</span></a><a class="activite" target="_blank" rel="noopener" href="https://grottesdegargas.fr/"><b>Grottes de Gargas</b><span>Grottes ornées préhistoriques, sur réservation</span></a></div>
-    </div>
-
-    <!-- ================= ETE ================= -->
-    <div data-ete>
-      <div class="grille-services">
-        <div class="service surgit">
-          <span class="service-numero">01</span>
-          <h3 data-fr>Lac de l'Oule</h3>
-          <div class="service-meta">
-            <span data-fr>Facile</span>
-            <span data-fr>Demi-journée</span>
-            <span data-fr>En famille</span>
-          </div>
-          <p data-fr>Le tour du lac, presque plat, au pied du barrage. La sortie idéale avec de jeunes enfants ou des grands-parents. Refuge sur place pour déjeuner.</p>
-
-          <a class="service-lien" href="https://www.visorando.com/randonnee-tour-du-lac-de-l-oule/" target="_blank" rel="noopener" data-fr>Voir l'itinéraire →</a>
-
-        </div>
-
-        <div class="service surgit">
-          <span class="service-numero">02</span>
-          <h3 data-fr>Lacs du Néouvielle</h3>
-          <div class="service-meta">
-            <span data-fr>Moyen</span>
-            <span data-fr>Journée</span>
-            <span data-fr>Dès 10 ans</span>
-          </div>
-          <p data-fr>Aumar, Aubert, et les pins à crochets de la réserve naturelle. Le grand classique des Pyrénées, à faire au moins une fois. Prévoir de bonnes chaussures.</p>
-
-          <a class="service-lien" href="https://www.saintlary.com/ete/experiences-a-vivre/randonnee-autour-des-lacs-du-neouvielle/" target="_blank" rel="noopener" data-fr>Voir l'itinéraire →</a>
-
-        </div>
-
-        <div class="service surgit">
-          <span class="service-numero">03</span>
-          <h3 data-fr>Pla d'Adet</h3>
-          <div class="service-meta">
-            <span data-fr>Très facile</span>
-            <span data-fr>1 à 2 h</span>
-            <span data-fr>Tous publics</span>
-          </div>
-          <p data-fr>Montée en télécabine depuis le village, puis balades sur le plateau. Panorama sans effort : parfait pour une première journée ou pour ceux qui marchent peu.</p>
-
-          <a class="service-lien" href="https://www.saintlary.com/ete/randonnees/randonner-sur-la-station/" target="_blank" rel="noopener" data-fr>Voir les circuits →</a>
-
-        </div>
-      </div>
-
-      <div class="lieux surgit">
-        <div><b data-fr>Rioumajou</b><span data-fr>Forêt ombragée, facile</span></div>
-        <div><b data-fr>Réserve d'Aulon</b><span data-fr>Faune et marmottes, moyen</span></div>
-        <div><b data-fr>Lacs de Bastan</b><span data-fr>Bons marcheurs, sportif</span></div>
-      </div>
-
-      <div class="activites surgit" data-bonsplans="ete"><a class="activite" target="_blank" rel="noopener" href="https://existenciel-parapente.fr/"><b>Parapente biplace</b><span>Baptêmes l&#x27;été, vols à ski l&#x27;hiver</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.guides-saintlary.com/activites-estivales.html"><b>Canyoning et via ferrata</b><span>Avec le Bureau des Guides de Saint-Lary</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/ete/a-faire-sur-place/savourer/producteurs-locaux/"><b>Fermes et producteurs</b><span>D&#x27;Aure en Louron, à la découverte des fermes</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.altiservice.com/saint-lary/activites/sentier-theme-du-pic-de-tourette"><b>Sentier du Pic de Tourette</b><span>Balade famille au sommet, marmottes au rendez-vous</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.gouffre-esparros.fr/"><b>Gouffre d&#x27;Esparros</b><span>Cristaux d&#x27;aragonite, dans les Baronnies</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/ete/a-faire-sur-place/savourer/restaurants/"><b>Les restaurants du village</b><span>L&#x27;annuaire officiel, du bistrot au gastronomique</span></a><a class="activite" target="_blank" rel="noopener" href="https://restaurant-saint-lary.fr/"><b>La Grange</b><span>Cuisine traditionnelle faite maison, au village</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.restaurant-lapergola.fr/"><b>La Pergola — Hôtel Mir</b><span>Cuisine régionale, rue Vincent Mir</span></a><a class="activite" target="_blank" rel="noopener" href="https://www.saintlary.com/ete/a-faire-sur-place/savourer/les-marches/"><b>Les marchés</b><span>Saint-Lary le samedi matin, Vielle-Aure le mardi</span></a><a class="activite" target="_blank" rel="noopener" href="https://grottesdegargas.fr/"><b>Grottes de Gargas</b><span>Grottes ornées préhistoriques, sur réservation</span></a></div>
-
-      <p class="chapo surgit" style="margin-top:18px;font-size:13px" data-fr>Niveaux donnés à titre indicatif. Vérifiez la météo et l'ouverture des accès avant de partir : en montagne, les conditions changent vite.</p>
-
-    </div>
-
-    <div class="sejour-extra surgit">
-      <a class="service service-or" href="https://www.valvital.fr/Spa-Sejours/Saint-Lary-Soulan-Station-thermale-de-Saint-Lary-Soulan" target="_blank" rel="noopener" data-fr>
-        <span class="avantage">À 150 m du studio</span>
-        <h3>Sensoria Rio, les thermes</h3>
-        <p>Bassins chauffés en plein air, jets et geysers, sauna et hammam. Ouvert été comme hiver, face à la résidence, à cent cinquante mètres à pied : l'après-montagne idéal.</p>
-        <span class="service-lien">Découvrir →</span>
-      </a>
-
-      <div class="service service-or" data-fr>
-        <span class="avantage">Avantage locataires</span>
-        <h3>Des réductions négociées</h3>
-        <p>Nous disposons de codes de réduction auprès de certains partenaires de la station (balnéo, activités, matériel). Ils vous sont transmis avec la confirmation de votre réservation.</p>
-        <span class="service-lien attente">Code transmis à la réservation</span>
-      </div>
-
-    </div>
-
-    <div class="escapade surgit">
-      <div class="escapade-tete">
-        <h3 data-fr>Loudenvielle et la vallée du Louron</h3>
-
-        <span class="distance" data-fr>35 minutes de route</span>
-
-      </div>
-      <p data-fr>La vallée voisine, et la meilleure idée pour un jour de mauvais temps comme pour une journée d'été. Un grand lac de montagne, un centre thermoludique réputé, des parcs conçus pour les enfants et un domaine VTT parmi les plus étendus des Pyrénées. De quoi occuper une journée entière sans jamais reprendre la voiture une fois sur place.</p>
-
-      <div class="lieux">
-        <div>
-          <b>Balnéa</b>
-          <span data-fr>Bains chauds, six espaces, bassin couvert</span>
-
-        </div>
-        <div>
-          <b data-fr>Lac de Génos-Loudenvielle</b>
-          <span data-fr>32 hectares, plage, paddle et pédalo</span>
-
-        </div>
-        <div>
-          <b data-fr>Bike park et VTT</b>
-          <span data-fr>Enduro et cross-country, sentiers balisés</span>
-
-        </div>
-        <div>
-          <b>Ludik Parc</b>
-          <span data-fr>Structures gonflables, poneys, tyrolienne</span>
-
-        </div>
-        <div>
-          <b>Ludéo</b>
-          <span data-fr>Pataugeoire et pentagliss, dès le plus jeune âge</span>
-
-        </div>
-        <div>
-          <b data-fr>Tyrolienne de Peyragudes</b>
-          <span data-fr>Descente en cascade, sensations garanties</span>
-
-        </div>
-      </div>
-
-      <a class="service-lien" href="https://www.vallee-du-louron.com/" target="_blank" rel="noopener" data-fr>Préparer la journée →</a>
+    <div class="renvois renvois-3">
+        <a class="renvoi" href="/studio/" data-fr><b>Le studio en détail</b><span>Séjour, coin cuisine, salle d'eau, couchages et balcon de 9 m².</span><span class="renvoi-fleche">Visiter →</span></a>
+        <a class="renvoi" href="/residence-royal-milan/" data-fr><b>La résidence Royal Milan</b><span>Sauna, jacuzzi, piscine chauffée l'été, salle de sport et billard.</span><span class="renvoi-fleche">Découvrir →</span></a>
+        <a class="renvoi" href="/tarifs-disponibilites/" data-fr><b>Tarifs et disponibilités</b><span>De 300 à 700 € la semaine, en direct et sans commission.</span><span class="renvoi-fleche">Voir le calendrier →</span></a>
 
     </div>
   </div>
 </section>
 
-<section class="ecran" id="avis">
+<section class="ecran ecran-nuit" id="saisons" data-jalon="Les saisons">
+  <div class="enveloppe">
+    <p class="sur-titre surgit" data-fr>Quatre façons de venir</p>
+    <h2 class="titre-section surgit" style="margin-bottom:18px" data-fr>La même vallée, <em>quatre saisons.</em></h2>
+
+    <p class="chapo surgit" style="margin-bottom:26px" data-fr>Le studio ne se loue pas de la même manière en février, en juillet ou en octobre. Chaque séjour a sa page, avec ses tarifs, ses distances et ce qu'il y a à faire au pas de la porte.</p>
+
+    <div class="renvois">
+        <a class="renvoi" href="/hiver/" data-fr><b>Séjour au ski</b><span>200 m du télécabine, 100 km de pistes, casier à skis et sauna au retour.</span><span class="renvoi-fleche">L'hiver →</span></a>
+        <a class="renvoi" href="/ete/" data-fr><b>Randonnée et lacs</b><span>Néouvielle, lac de l'Oule, piscine chauffée. 300 € la semaine.</span><span class="renvoi-fleche">L'été →</span></a>
+        <a class="renvoi" href="/cure-thermale/" data-fr><b>Séjour en cure</b><span>À 150 mètres des thermes, tout à pied, sans voiture.</span><span class="renvoi-fleche">La cure →</span></a>
+        <a class="renvoi" href="/velo/" data-fr><b>Séjour vélo</b><span>Pla d'Adet, Aspin, Peyresourde et Azet au départ de la porte.</span><span class="renvoi-fleche">Les cols →</span></a>
+
+    </div>
+  </div>
+</section>
+<section class="ecran ecran-jour-2" id="avis" data-jalon="Livre d'or">
   <div class="enveloppe">
     <p class="sur-titre surgit" data-fr>Livre d'or</p>
-    <h2 class="titre-section surgit" style="margin-bottom:14px" data-fr>Ils y ont<em>séjourné.</em></h2>
+    <h2 class="titre-section surgit" style="margin-bottom:14px" data-fr>Ils y ont <em>séjourné.</em></h2>
 
     <p class="chapo surgit" style="margin-bottom:26px" data-fr>Les avis de nos locataires, sur le studio comme sur les bons plans du coin. Nous les recevons par message et les publions nous-mêmes, tels quels.</p>
 
@@ -682,68 +277,6 @@
       <button type="button" class="pastille pastille-ligne" id="partager">
         <span data-fr>Faire découvrir à un ami</span>
       </button>
-    </div>
-  </div>
-</section>
-
-<section class="ecran ecran-jour-2" id="contact">
-  <div class="enveloppe">
-    <div class="grille-contact">
-      <div>
-        <p class="sur-titre surgit" data-fr>Contact</p>
-        <h2 class="titre-section surgit" data-fr>Dites-nous<em>vos dates.</em></h2>
-
-        <p class="chapo surgit" style="margin-top:16px" data-fr>Karine et Romuald, propriétaires. Nous répondons vite, et toujours nous-mêmes.</p>
-
-        <div class="contacts-directs surgit">
-          <a class="contact-direct" href="tel:+33642845542">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3.5 5.2 2 2 0 0 1 5.5 3Z"/></svg>
-            <span><b>06 42 84 55 42</b><span>Romuald</span></span>
-          </a>
-          <a class="contact-direct" href="tel:+33627352328">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3.5 5.2 2 2 0 0 1 5.5 3Z"/></svg>
-            <span><b>06 27 35 23 28</b><span>Karine</span></span>
-          </a>
-          <a class="contact-direct" href="https://wa.me/33642845542" target="_blank" rel="noopener">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 5 16.4A8.5 8.5 0 1 1 8.2 19.6l-4.7.9Z"/><path d="M9 9.2c.3 2.2 3.6 5.5 5.8 5.8l1-1.4 2 .9v1.6c-3.4.6-8.6-4.4-8.4-8.3h1.6l.9 2L9 9.2Z"/></svg>
-            <span><b>WhatsApp</b><span data-fr>Écrire un message</span></span>
-          </a>
-        </div>
-      </div>
-
-      <form id="formulaire" class="surgit" action="https://formsubmit.co/ajax/4264bc8c56269952fc5517e3d871c20a" method="POST">
-        <input type="hidden" name="_subject" value="Le Balcon d'Aure — demande de réservation">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-        <div class="duo">
-          <div class="champ">
-            <label for="nom" data-fr>Nom</label>
-            <input type="text" id="nom" name="nom" required>
-          </div>
-          <div class="champ">
-            <label for="email" data-fr>Email</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-        </div>
-        <div class="duo">
-          <div class="champ">
-            <label for="arrivee" data-fr>Arrivée</label>
-            <input type="date" id="arrivee" name="arrivee">
-          </div>
-          <div class="champ">
-            <label for="depart" data-fr>Départ</label>
-            <input type="date" id="depart" name="depart">
-          </div>
-        </div>
-        <div class="champ">
-          <label for="message" data-fr>Message</label>
-          <textarea id="message" name="message"></textarea>
-        </div>
-        <button type="submit" class="pastille pastille-pleine" data-fr>Envoyer la demande</button>
-
-        <p class="note-form" id="note-form"></p>
-      </form>
     </div>
   </div>
 </section>
@@ -787,9 +320,12 @@
 
 <footer>
   <div class="enveloppe">
-    <span>© <span id="annee"></span> Le Balcon d'Aure — Karine et Romuald Lambert, Saint-Lary-Soulan</span>
-    <span data-fr>Location de particulier à particulier</span>
+    <div class="pied-liens"><div><p class="sur-titre">Le logement</p><ul><li><a href="/studio/">Le studio</a></li><li><a href="/residence-royal-milan/">La résidence</a></li><li><a href="/tarifs-disponibilites/">Tarifs et disponibilités</a></li></ul></div><div><p class="sur-titre">Séjours</p><ul><li><a href="/hiver/">Séjour en hiver</a></li><li><a href="/ete/">Séjour en été</a></li><li><a href="/cure-thermale/">Séjour en cure</a></li><li><a href="/velo/">Séjour vélo</a></li></ul></div><div><p class="sur-titre">Guide de la vallée</p><ul><li><a href="/guide/skier-a-saint-lary/">Skier à Saint-Lary</a></li><li><a href="/guide/lacs-du-neouvielle/">Les lacs du Néouvielle</a></li><li><a href="/guide/saint-lary-quand-il-pleut/">Quand il pleut</a></li><li><a href="/guide/venir-a-saint-lary/">Venir à Saint-Lary</a></li></ul></div><div><p class="sur-titre">Informations</p><ul><li><a href="/livre-d-or/">Livre d&#x27;or</a></li><li><a href="/contact/">Contact</a></li><li><a href="/mentions-legales/">Mentions légales</a></li></ul></div></div>
+    <div class="pied-bas">
+      <span>© <span id="annee"></span> Le Balcon d'Aure — Karine et Romuald Lambert, Saint-Lary-Soulan</span>
+      <span data-fr>Location de particulier à particulier</span>
 
+    </div>
   </div>
 </footer>
 
@@ -821,8 +357,11 @@ function saison(nom) {
   document.body.classList.remove('saison-hiver', 'saison-ete');
   document.body.classList.add('saison-' + nom);
   var b = document.querySelectorAll('.saison-btn');
-  b[0].classList.toggle('actif', nom === 'hiver');
-  b[1].classList.toggle('actif', nom === 'ete');
+  /* La bascule n'existe que sur les pages qui melangent les deux saisons. */
+  if (b.length === 2) {
+    b[0].classList.toggle('actif', nom === 'hiver');
+    b[1].classList.toggle('actif', nom === 'ete');
+  }
   var bloc = document.querySelector(nom === 'hiver' ? '[data-hiver]' : '[data-ete]');
   if (bloc) {
     var aReveler = bloc.querySelectorAll('.surgit');
@@ -928,9 +467,14 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     new IntersectionObserver(function (e) { nav.classList.toggle('montree', !e[0].isIntersecting); }, { threshold: 0.22 }).observe(haut);
   } else { nav.classList.add('montree'); }
 
+  /* Le menu pointe desormais vers d'autres pages : le lien de la page
+     courante est marque au build. Seules les ancres internes (#...) sont
+     suivies au defilement. */
   var paires = [];
   Array.prototype.forEach.call(liens, function (l) {
-    var cible = document.querySelector(l.getAttribute('href'));
+    var href = l.getAttribute('href') || '';
+    if (href.charAt(0) !== '#') return;
+    var cible = document.querySelector(href);
     if (cible) paires.push({ lien: l, section: cible });
   });
   if (!paires.length || !('IntersectionObserver' in window)) return;
@@ -1127,7 +671,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   noteDefaut();
   rendre();
 
-  fetch('reservations.json?t=' + Date.now())
+  fetch('/reservations.json?t=' + Date.now())
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(jsonTolerant)
     .then(function (donnees) {
@@ -1192,7 +736,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     return a;
   }
 
-  fetch('guide.json?t=' + Date.now())
+  fetch('/guide.json?t=' + Date.now())
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(jsonTolerant)
     .then(function (g) {
@@ -1341,21 +885,16 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 <script>
 /* --- Indicateur de progression lateral --- */
 (function () {
-  var noms = {
-    studio:         ['Le studio', 'The flat'],
-    lieu:           ['En images', 'Gallery'],
-    equipements:    ['Équipements', 'Amenities'],
-    tarifs:         ['Tarifs', 'Rates'],
-    disponibilites: ['Disponibilités', 'Availability'],
-    sejour:         ['Séjour', 'Your stay'],
-    avis:           ['Avis', 'Reviews'],
-    contact:        ['Contact', 'Contact']
-  };
-
+  /* Chaque page declare ses reperes : <section id="..." data-jalon="Libelle">.
+     L'indicateur s'adapte donc au decoupage sans liste codee en dur. */
   var sections = [];
-  for (var cle in noms) {
-    var el = document.getElementById(cle);
-    if (el) sections.push({ id: cle, el: el, libelle: noms[cle] });
+  var reperes = document.querySelectorAll('section[data-jalon][id]');
+  for (var i = 0; i < reperes.length; i++) {
+    var el = reperes[i];
+    var libelle = (!estFr() && el.getAttribute('data-jalon-en'))
+      ? el.getAttribute('data-jalon-en')
+      : el.getAttribute('data-jalon');
+    sections.push({ id: el.id, el: el, libelle: libelle });
   }
   if (sections.length < 2 || !('IntersectionObserver' in window)) return;
 
@@ -1367,7 +906,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'jalon';
-    var libelle = s.libelle[estFr() ? 0 : 1];
+    var libelle = s.libelle;
     b.setAttribute('aria-label', libelle);
     b.innerHTML =
       '<span class="jalon-nom"></span>' +
