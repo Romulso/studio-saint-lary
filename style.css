@@ -631,3 +631,132 @@ body.saison-ete [data-hiver] { display: none !important; }
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(to top, rgba(7,16,25,.55), transparent 55%);
 }
+
+/* ==========================================================================
+   Arborescence multi-pages : en-tete de page, fil d'Ariane, pied etendu
+   ========================================================================== */
+
+/* --- Menu : defilement horizontal sur mobile plutot que disparition --- */
+@media (max-width: 939px) {
+  .nav-liens {
+    display: flex; gap: 18px; overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; margin: 0 4px; min-width: 0;
+  }
+  .nav-liens::-webkit-scrollbar { display: none; }
+  .nav-liens a { font-size: 13px; white-space: nowrap; }
+}
+@media (max-width: 520px) {
+  .nav-marque { max-width: 40vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* --- En-tete des pages interieures (l'accueil garde sa banniere) --- */
+.entete {
+  position: relative; padding: 132px 0 46px; overflow: hidden;
+  background: var(--nuit); color: #fff;
+}
+@media (min-width: 900px) { .entete { padding: 158px 0 60px; } }
+.entete-fond {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: .38;
+}
+.entete::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, var(--nuit) 4%, rgba(7,16,25,.62) 70%, rgba(7,16,25,.78) 100%);
+}
+.entete .enveloppe { position: relative; z-index: 2; }
+.entete .sur-titre { color: var(--laiton-clair); }
+.entete h1 {
+  font-size: clamp(30px, 6.4vw, 54px); line-height: 1.02;
+  letter-spacing: -.03em; font-weight: 700; margin: 10px 0 0;
+}
+.entete h1 em {
+  display: block; font-family: var(--serif); font-style: italic;
+  font-weight: 500; color: var(--laiton-clair); letter-spacing: -.015em;
+}
+.entete .chapo { color: var(--doux); margin-top: 16px; }
+
+/* --- Fil d'Ariane --- */
+.fil-ariane {
+  position: relative; z-index: 3; background: var(--jour-2);
+  border-bottom: 1px solid var(--ligne-jour); padding: 9px 0; font-size: 12.5px;
+}
+.fil-ariane .enveloppe { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fil-ariane a { color: var(--encre-douce); text-decoration: none; }
+.fil-ariane a:hover { color: var(--encre); text-decoration: underline; }
+.fil-ariane span { color: var(--encre-tenue); }
+.fil-ariane a + a::before,
+.fil-ariane a + span::before { content: "›"; margin-right: 6px; color: var(--encre-tenue); }
+
+/* --- Cartes de renvoi vers les autres pages --- */
+.renvois { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 30px; }
+@media (min-width: 700px) { .renvois { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .renvois-3 { grid-template-columns: repeat(3, 1fr); } }
+.renvoi {
+  display: block; padding: 20px 22px; border-radius: var(--rayon);
+  border: 1px solid var(--ligne-jour); background: #fff; text-decoration: none;
+  transition: transform .35s cubic-bezier(.22,.61,.36,1), border-color .35s, box-shadow .35s;
+}
+.renvoi:hover {
+  transform: translateY(-3px); border-color: rgba(143,106,28,.35);
+  box-shadow: 0 12px 30px rgba(13,34,51,.07);
+}
+.renvoi b { display: block; font-size: 16.5px; color: var(--encre); margin-bottom: 5px; }
+.renvoi span { display: block; font-size: 13.5px; color: var(--encre-douce); line-height: 1.5; }
+.renvoi .renvoi-fleche { margin-top: 10px; font-size: 13px; color: var(--laiton-fonce); font-weight: 600; }
+.ecran-nuit .renvoi { background: var(--nuit-3); border-color: var(--ligne-nuit); }
+.ecran-nuit .renvoi b { color: #fff; }
+.ecran-nuit .renvoi span { color: var(--doux); }
+
+/* --- Appel a l'action de fin de page --- */
+.rappel {
+  margin-top: 34px; padding: 26px 24px; border-radius: var(--rayon);
+  background: var(--jour-2); border: 1px solid var(--ligne-jour); text-align: center;
+}
+.rappel p { color: var(--encre-douce); margin-bottom: 16px; max-width: 56ch; margin-inline: auto; }
+.rappel .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.ecran-nuit .rappel { background: var(--nuit-3); border-color: var(--ligne-nuit); }
+.ecran-nuit .rappel p { color: var(--doux); }
+
+/* --- Corps de texte des pages guides --- */
+.prose > p, .prose > ul, .prose > ol { max-width: 68ch; margin-bottom: 16px; color: var(--encre-douce); }
+.prose h2 { margin: 38px 0 14px; font-size: clamp(22px, 4.2vw, 30px); letter-spacing: -.02em; color: var(--encre); }
+.prose h3 { margin: 26px 0 8px; font-size: 17.5px; color: var(--encre); }
+.prose ul, .prose ol { padding-left: 20px; }
+.prose li { margin-bottom: 7px; }
+.prose a { color: var(--laiton-fonce); }
+.prose strong { color: var(--encre); }
+.prose .encart { margin: 22px 0; }
+.ecran-nuit .prose > p, .ecran-nuit .prose > ul, .ecran-nuit .prose > ol,
+.ecran-nuit .prose li { color: var(--doux); }
+.ecran-nuit .prose h2, .ecran-nuit .prose h3, .ecran-nuit .prose strong { color: #fff; }
+
+/* --- Tableau simple (distances, tarifs detailles) --- */
+.tableau { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14.5px; }
+.tableau th, .tableau td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--ligne-jour); }
+.tableau th { font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--encre-tenue); font-weight: 600; }
+.tableau td { color: var(--encre-douce); }
+.tableau td:first-child { color: var(--encre); font-weight: 600; }
+
+/* --- Pied de page etendu --- */
+footer .enveloppe { display: block; }
+.pied-liens {
+  display: grid; gap: 26px 30px; grid-template-columns: repeat(2, 1fr);
+  padding-bottom: 26px; margin-bottom: 22px; border-bottom: 1px solid var(--ligne-nuit);
+}
+@media (min-width: 820px) { .pied-liens { grid-template-columns: repeat(4, 1fr); } }
+.pied-liens .sur-titre { color: var(--laiton-clair); margin-bottom: 10px; }
+.pied-liens ul { list-style: none; }
+.pied-liens li { margin-bottom: 7px; }
+.pied-liens a { color: var(--doux); text-decoration: none; font-size: 13.5px; transition: color .3s; }
+.pied-liens a:hover { color: #fff; text-decoration: underline; }
+.pied-bas {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: space-between; font-size: 12.5px;
+}
+
+/* --- Pages de contenu : ni plein ecran, ni accrochage au defilement.
+       L'accrochage sert la mise en scene de l'accueil, pas la lecture. --- */
+body.corps-texte { scroll-snap-type: none; }
+body.corps-texte .ecran { min-height: 0; scroll-snap-align: none; display: block; }
+.ecran-libre { min-height: 0 !important; scroll-snap-align: none !important; display: block !important; }
+.pied-langue { font-size: 11.5px; color: var(--tenu); }
