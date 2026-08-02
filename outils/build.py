@@ -123,6 +123,32 @@ def retirer(doc, attribut):
     return _rendre_scripts("".join(sortie), gardes)
 
 
+EXTERNE = ("/", "http:", "https:", "//", "data:")
+
+
+def srcset_absolu(valeur):
+    """Passe chaque candidate d'un srcset en chemin racine-absolu.
+
+    Decoupage explicite plutot qu'une expression reguliere : une regex sur
+    « virgule suivie d'espaces optionnels » inserait un slash devant l'espace
+    quand le chemin etait deja absolu, produisant « 500w,/ /images/... ».
+    Le navigateur jetait alors toutes les candidates sauf la premiere et
+    affichait la vignette 500 px en pleine largeur.
+    """
+    candidates = []
+    for brut in valeur.split(","):
+        brut = brut.strip()
+        if not brut:
+            continue
+        morceaux = brut.split(None, 1)
+        url = morceaux[0]
+        descripteur = " " + morceaux[1] if len(morceaux) > 1 else ""
+        if not url.startswith(EXTERNE):
+            url = "/" + url
+        candidates.append(url + descripteur)
+    return ", ".join(candidates)
+
+
 def att(texte):
     """Echappe pour un attribut, sans toucher a l'apostrophe."""
     return (str(texte).replace("&", "&amp;").replace("<", "&lt;")
@@ -516,12 +542,10 @@ def construire(gabarit, page, langue, guide):
     # /guide/x/, /en/studio/). Un chemin relatif casse partout sauf a la
     # racine : on force la racine absolue, une bonne fois.
     doc = re.sub(
-        r'\b(src|href|srcset|poster)="(?!/|https?:|//|#|mailto:|tel:|data:)',
+        r'\b(src|href|poster)="(?!/|https?:|//|#|mailto:|tel:|data:)',
         lambda m: '%s="/' % m.group(1), doc)
-    doc = re.sub(
-        r'srcset="([^"]*)"',
-        lambda m: 'srcset="%s"' % re.sub(r"(^|,\s*)(?!/|https?:)", r"\g<1>/", m.group(1)),
-        doc)
+    doc = re.sub(r'srcset="([^"]*)"',
+                 lambda m: 'srcset="%s"' % srcset_absolu(m.group(1)), doc)
 
     doc = re.sub(r"[ \t]+\n", "\n", doc)
     doc = re.sub(r"\n{3,}", "\n\n", doc)

@@ -26,8 +26,12 @@ QUALITE = 72
 # Budget de poids par largeur, en octets. Une photo tres texturee (neige,
 # feuillage, grain) peut peser trois fois plus qu'une autre a qualite egale :
 # on baisse la qualite de ces seules images jusqu'a rentrer dans le budget.
-BUDGET = {1600: 260_000, 1200: 170_000, 800: 90_000, 500: 45_000}
+BUDGET = {1600: 260_000, 1448: 230_000, 1200: 170_000, 800: 90_000, 500: 45_000}
 PALIERS = [72, 66, 60, 55, 50, 45, 40]
+
+# La photo d'ouverture est vue par tous les visiteurs, en plein cadre : elle
+# merite une qualite superieure et un budget plus large que les vignettes.
+SOIGNEES = {"balcon-fleuri": {"qualite": 84, "budget": 1.9}}
 
 
 def variantes(chemin):
@@ -36,15 +40,27 @@ def variantes(chemin):
     with Image.open(chemin) as im:
         im = im.convert("RGB")
         large, haut = im.size
+        # Si l'original tombe entre deux paliers (1448 px par exemple), on
+        # ajoute sa largeur native : sans elle on plafonnerait a 1200 px et
+        # on jetterait de la definition deja disponible.
+        cibles = [c for c in LARGEURS if c <= large]
+        if large not in cibles and (not cibles or large > cibles[0] * 1.08):
+            cibles = sorted(set(cibles + [large]), reverse=True)
+
+        soin = SOIGNEES.get(nom)
+        paliers = ([soin["qualite"]] + PALIERS) if soin else PALIERS
+
         produites = []
-        for cible in LARGEURS:
+        for cible in cibles:
             if cible > large:
                 continue
             hauteur = round(haut * cible / large)
             copie = im.resize((cible, hauteur), Image.LANCZOS)
             dest = os.path.join(SORTIE, "%s-%d.webp" % (nom, cible))
             budget = BUDGET.get(cible)
-            for qualite in PALIERS:
+            if budget and soin:
+                budget = int(budget * soin["budget"])
+            for qualite in paliers:
                 copie.save(dest, "WEBP", quality=qualite, method=6)
                 if budget is None or os.path.getsize(dest) <= budget:
                     break
