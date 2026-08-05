@@ -333,10 +333,36 @@ def bloc_fil(page, langue):
     elements = []
     for i, p in enumerate(chaine, start=1):
         item = {"@type": "ListItem", "position": i, "name": p["fil"].get(langue, p["fil"]["fr"])}
-        if not p.get("virtuel"):
+        if p.get("virtuel"):
+            # Marqueur interne : ce maillon reste dans le fil affiche, mais
+            # sera retire du JSON-LD par fil_structure().
+            item["_sans_page"] = True
+        else:
             item["item"] = registre.url(p["slug"], langue)
         elements.append(item)
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": elements}
+
+
+def fil_structure(fil):
+    """Version du fil destinee a Google.
+
+    Les maillons sans page propre (rubrique "guide") n ont pas d URL. Google
+    refuse un ListItem depourvu du champ "item" (« Champ item manquant »), et
+    les lier a /guide/ pointerait vers une 404. On les retire donc du JSON-LD
+    en renumerotant les positions, alors qu ils restent visibles a l ecran.
+    """
+    if not fil:
+        return None
+    reels = []
+    for item in fil["itemListElement"]:
+        if item.get("_sans_page"):
+            continue
+        propre = {c: v for c, v in item.items() if not c.startswith("_")}
+        propre["position"] = len(reels) + 1
+        reels.append(propre)
+    if len(reels) < 2:
+        return None
+    return {**fil, "itemListElement": reels}
 
 
 def donnees_structurees(page, langue, avis):
@@ -349,7 +375,7 @@ def donnees_structurees(page, langue, avis):
         blocs.append({"@context": "https://schema.org", "@type": "ContactPage",
                       "url": registre.url(page["slug"], langue), "inLanguage": langue,
                       "about": {"@id": DOMAINE + "/#logement"}})
-    fil = bloc_fil(page, langue)
+    fil = fil_structure(bloc_fil(page, langue))
     if fil:
         blocs.append(fil)
     return "\n".join(

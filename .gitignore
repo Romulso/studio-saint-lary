@@ -1,2 +1,4 @@
 .DS_Store
 images/originales/
+__pycache__/
+*.pyc
