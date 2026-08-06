@@ -226,9 +226,16 @@ def bloc_logement(page, langue, avis):
                        "Heated outdoor pool in summer", "Fitness room", "Dishwasher",
                        "Ski locker", "Car park", "Wi-Fi (common areas)"]
 
+    # LodgingBusiness plutot que VacationRental : ce dernier n est exploite que
+    # par le programme partenaire Google Vacation Rentals, reserve aux societes
+    # de gestion locative disposant d un acces Hotel Center. Un particulier n y
+    # sera jamais eligible, et Search Console signalait donc en permanence sept
+    # champs « manquants » impossibles a satisfaire utilement. LodgingBusiness
+    # decrit le meme bien, accepte les memes proprietes, et n a pas de rapport
+    # dedie susceptible de rester rouge.
     ld = {
         "@context": "https://schema.org",
-        "@type": "VacationRental",
+        "@type": "LodgingBusiness",
         "@id": DOMAINE + "/#logement",
         "name": "Le Balcon d'Aure",
         "url": registre.url(page["slug"], langue),
@@ -250,6 +257,8 @@ def bloc_logement(page, langue, avis):
         "petsAllowed": animaux,
         "priceRange": "300 € – 700 €",
         "currenciesAccepted": "EUR",
+        "checkinTime": "16:00:00",
+        "checkoutTime": "10:00:00",
         "amenityFeature": [
             {"@type": "LocationFeatureSpecification", "name": n, "value": True} for n in equipements
         ],

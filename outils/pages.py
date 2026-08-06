@@ -184,6 +184,25 @@ PAGES = [
         },
     },
     # --------------------------------------------------------------- guides
+    # Page d index de la rubrique. Sa presence rend le maillon « Guide de la
+    # vallee » cliquable et pourvu d une URL : il repasse donc automatiquement
+    # dans le fil d Ariane structure, la ou il en etait exclu faute de page.
+    {
+        "slug": "guide",
+        "fichier": "guide.html",
+        "bilingue": False,
+        "menu": None,
+        "fil": {"fr": "Guide de la vallée"},
+        "parent": "",
+        "jsonld": None,
+        "fr": {
+            "titre": "Guide de la vallée d'Aure : ski, lacs, pluie, accès | Le Balcon d'Aure",
+            "description": "Quatre guides pratiques pour préparer votre séjour à Saint-Lary-Soulan : les "
+                           "secteurs de ski, la randonnée des lacs du Néouvielle, les idées de mauvais temps "
+                           "et comment venir jusqu'à la vallée.",
+            "og_titre": "Le guide de la vallée d'Aure, par des propriétaires",
+        },
+    },
     {
         "slug": "guide/skier-a-saint-lary",
         "fichier": "guide/skier.html",
