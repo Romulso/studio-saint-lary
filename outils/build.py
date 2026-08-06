@@ -257,7 +257,9 @@ def bloc_logement(page, langue, avis):
             "@type": "Accommodation",
             "name": logement,
             "floorSize": {"@type": "QuantitativeValue", "value": 27, "unitCode": "MTK"},
-            "occupancy": {"@type": "QuantitativeValue", "maxValue": 3},
+            # "value" en plus de "maxValue" : Google signale le premier comme
+            # manquant lorsque seul le second est fourni.
+            "occupancy": {"@type": "QuantitativeValue", "value": 3, "maxValue": 3},
             "numberOfBedrooms": 0,
             "numberOfBathroomsTotal": 1,
         },
