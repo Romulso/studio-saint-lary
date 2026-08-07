@@ -144,7 +144,32 @@
     <p class="note-etat" id="bp-note">Décochez « Visible » pour masquer sans supprimer. Les flèches changent l'ordre d'affichage. « Mot perso » : votre commentaire affiché sur la carte, signé Karine &amp; Romuald.</p>
   </div>
 
-  <h2>5 · Livre d'or</h2>
+  <h2>5 · Partenaires et codes <span style="font-size:.62em;letter-spacing:.14em;text-transform:uppercase;color:var(--laiton-fonce)">— privé, jamais publié</span></h2>
+  <div class="admin-carte">
+    <div id="pa-liste"></div>
+    <div class="admin-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--ligne-jour)">
+      <div class="champ" style="flex:1.2 1 150px">
+        <label for="pa-nom">Partenaire</label>
+        <input type="text" id="pa-nom" placeholder="ex. Skiset Saint-Lary">
+      </div>
+      <div class="champ" style="flex:1 1 130px">
+        <label for="pa-contact">Contact</label>
+        <input type="text" id="pa-contact" placeholder="ex. Julien, 05 62 …">
+      </div>
+      <div class="champ" style="flex:1 1 120px">
+        <label for="pa-code">Code / remise</label>
+        <input type="text" id="pa-code" placeholder="ex. AURE15 — 15 %">
+      </div>
+      <div class="champ" style="flex:1.4 1 170px">
+        <label for="pa-note">Note</label>
+        <input type="text" id="pa-note" placeholder="ex. accord verbal, à confirmer en octobre">
+      </div>
+      <button type="button" class="pastille pastille-pleine" id="pa-bouton">Ajouter</button>
+    </div>
+    <p class="note-etat" id="pa-note-etat"></p>
+  </div>
+
+  <h2>6 · Livre d'or</h2>
   <div class="admin-carte">
     <div id="avis-liste"></div>
     <div class="admin-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--ligne-jour)">
@@ -180,7 +205,7 @@
     <p class="note-etat" id="av-note-etat">Vos locataires envoient leur avis par WhatsApp via le bouton « Laisser un avis » du site ; recopiez-le ici pour le publier.</p>
   </div>
 
-  <h2>6 · Publier sur le site</h2>
+  <h2>7 · Publier sur le site</h2>
   <div class="publier" id="publier" hidden>
     <b>Modifications non publiées</b>
     <ol>
@@ -702,6 +727,105 @@ function jsonTolerant(texte) {
     .catch(function () {
       document.getElementById('bp-liste').innerHTML = '<p class="vide">Impossible de charger guide.json — vérifiez que le fichier existe.</p>';
     });
+})();
+
+/* =======================================================================
+   Partenaires et codes de reduction — prive
+   -----------------------------------------------------------------------
+   Le site est entierement public : guide.json, reservations.json et cette
+   page elle-meme sont lisibles par n importe qui. Un code negocie ne peut
+   donc pas y etre stocke, sinon il circulerait sans reservation.
+   Ces fiches restent dans le navigateur (localStorage) : elles ne partent
+   jamais vers le serveur, ne sont pas dans le depot, et ne sont donc lisibles
+   que sur cet appareil. D ou le bouton d export, seule sauvegarde possible.
+   ======================================================================= */
+(function () {
+  var CLE = 'balcondaure.partenaires';
+  var liste = document.getElementById('pa-liste');
+  var etat = document.getElementById('pa-note-etat');
+  if (!liste) return;
+
+  function lire() {
+    try { return JSON.parse(localStorage.getItem(CLE)) || []; }
+    catch (e) { return []; }
+  }
+  function ecrire(v) {
+    try { localStorage.setItem(CLE, JSON.stringify(v)); return true; }
+    catch (e) { return false; }
+  }
+  function ech(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function rendre() {
+    var v = lire();
+    if (!v.length) {
+      liste.innerHTML = '<p class="vide">Aucun partenaire enregistré. Ajoutez-en un dès qu\'un accord est conclu.</p>';
+    } else {
+      liste.innerHTML = v.map(function (p, i) {
+        return '<div class="admin-ligne">'
+          + '<div style="flex:1 1 auto;min-width:0">'
+          +   '<b>' + ech(p.nom) + '</b>'
+          +   (p.code ? ' <span style="color:var(--laiton-fonce);font-weight:600">' + ech(p.code) + '</span>' : '')
+          +   (p.contact ? '<br><span class="menu-note">' + ech(p.contact) + '</span>' : '')
+          +   (p.note ? '<br><span class="menu-note">' + ech(p.note) + '</span>' : '')
+          + '</div>'
+          + '<button type="button" class="mini" data-suppr="' + i + '">Retirer</button>'
+          + '</div>';
+      }).join('');
+      Array.prototype.forEach.call(liste.querySelectorAll('[data-suppr]'), function (b) {
+        b.addEventListener('click', function () {
+          var t = lire(); t.splice(parseInt(b.getAttribute('data-suppr'), 10), 1);
+          ecrire(t); rendre();
+        });
+      });
+    }
+    etat.innerHTML = 'Ces fiches restent <b>sur cet appareil uniquement</b> : elles ne sont ni publiées, '
+      + 'ni envoyées sur GitHub, ni visibles par vos locataires. Elles disparaissent si vous videz les '
+      + 'données du navigateur — pensez à les exporter. '
+      + '<button type="button" class="mini" id="pa-export">Exporter</button> '
+      + '<button type="button" class="mini" id="pa-import">Importer</button>';
+
+    document.getElementById('pa-export').addEventListener('click', function () {
+      var v = lire();
+      if (!v.length) { alert('Rien à exporter.'); return; }
+      var texte = JSON.stringify(v, null, 2);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texte).then(function () {
+          alert('Copié. Collez-le dans une note ou votre gestionnaire de mots de passe.');
+        }, function () { window.prompt('Copiez ce texte :', texte); });
+      } else { window.prompt('Copiez ce texte :', texte); }
+    });
+    document.getElementById('pa-import').addEventListener('click', function () {
+      var t = window.prompt('Collez ici un export précédent :', '');
+      if (!t) return;
+      try {
+        var v = JSON.parse(t);
+        if (!Array.isArray(v)) throw new Error('format');
+        ecrire(v); rendre();
+      } catch (e) { alert('Texte non reconnu : ce n\'est pas un export valide.'); }
+    });
+  }
+
+  document.getElementById('pa-bouton').addEventListener('click', function () {
+    var nom = document.getElementById('pa-nom').value.trim();
+    if (!nom) { alert('Indiquez au moins le nom du partenaire.'); return; }
+    var v = lire();
+    v.push({
+      nom: nom,
+      contact: document.getElementById('pa-contact').value.trim(),
+      code: document.getElementById('pa-code').value.trim(),
+      note: document.getElementById('pa-note').value.trim()
+    });
+    if (!ecrire(v)) { alert('Impossible d\'enregistrer : stockage du navigateur indisponible.'); return; }
+    ['pa-nom', 'pa-contact', 'pa-code', 'pa-note'].forEach(function (id) {
+      document.getElementById(id).value = '';
+    });
+    rendre();
+  });
+
+  rendre();
 })();
 </script>
 
