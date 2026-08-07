@@ -183,6 +183,21 @@ PAGES = [
             "og_titre": "Les cols d'Aure à vélo, depuis le pied de la montée",
         },
     },
+    {
+        "slug": "bons-plans-vallee-d-aure",
+        "fichier": "bons-plans.html",
+        "bilingue": False,
+        "menu": {"fr": "Bons plans"},
+        "fil": {"fr": "Bons plans de la vallée"},
+        "parent": "",
+        "jsonld": None,
+        "fr": {
+            "titre": "Bons plans vallée d'Aure : où manger, que visiter",
+            "description": "Nos adresses et celles de nos locataires à Saint-Lary-Soulan et dans la vallée "
+                           "d'Aure : restaurants, activités, visites, marchés et producteurs.",
+            "og_titre": "Les bons plans de la vallée d'Aure, testés et partagés",
+        },
+    },
     # --------------------------------------------------------------- guides
     # Page d index de la rubrique. Sa presence rend le maillon « Guide de la
     # vallee » cliquable et pourvu d une URL : il repasse donc automatiquement

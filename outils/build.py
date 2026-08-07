@@ -533,12 +533,19 @@ def prerendre(doc, langue, guide):
              if p.get("visible") is not False and p.get("url_fr")]
 
     def remplir(m):
-        saison = m.group(1)
-        choisis = [p for p in plans if p.get("saison") in (saison, "toute")]
-        return (m.group(0)[:-len("</div>")]
+        saison, categorie = m.group(1), m.group(2)
+        # "tout" ignore le filtre saisonnier : la page des bons plans presente
+        # l ensemble du carnet, regroupe par categorie plutot que par saison.
+        choisis = [p for p in plans
+                   if saison == "tout" or p.get("saison") in (saison, "toute")]
+        if categorie:
+            choisis = [p for p in choisis if p.get("categorie") == categorie]
+        return ('<div class="activites surgit">'
                 + "".join(carte_bonplan(p, langue) for p in choisis) + "</div>")
 
-    doc = re.sub(r'<div class="activites surgit" data-bonsplans="(\w+)"></div>', remplir, doc)
+    doc = re.sub(
+        r'<div class="activites surgit" data-bonsplans="(\w+)"(?: data-categorie="([\w-]+)")?></div>',
+        remplir, doc)
 
     avis = [v for v in guide.get("avis", [])
             if v.get("visible") is not False and v.get("texte")]
