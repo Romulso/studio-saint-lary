@@ -30,7 +30,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=26">
+<link rel="stylesheet" href="/style.css?v=27">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -877,6 +877,112 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         Array.prototype.forEach.call(boutons, function (b) { b.disabled = false; });
       });
   });
+})();
+
+/* --- Visionneuse : cliquer une vignette pour l agrandir --- */
+(function () {
+  var vignettes = document.querySelectorAll('.vignette');
+  if (!vignettes.length) return;
+
+  var photos = Array.prototype.map.call(vignettes, function (v) {
+    var img = v.querySelector('img');
+    var leg = v.querySelector('.vignette-legende:not([hidden])');
+    if (!img) return null;
+    // On vise la plus grande source declaree dans le srcset ; a defaut, le src.
+    var large = img.currentSrc || img.src;
+    if (img.srcset) {
+      var candidats = img.srcset.split(',').map(function (s) {
+        var p = s.trim().split(/\s+/);
+        return { url: p[0], largeur: parseInt(p[1], 10) || 0 };
+      });
+      candidats.sort(function (a, b) { return b.largeur - a.largeur; });
+      if (candidats[0]) large = candidats[0].url;
+    }
+    return { url: large, alt: img.alt || '', legende: leg ? leg.textContent : '' };
+  }).filter(Boolean);
+  if (!photos.length) return;
+
+  var fr = document.documentElement.lang !== 'en';
+  var rang = 0, ouvreur = null;
+
+  var boite = document.createElement('div');
+  boite.className = 'loupe';
+  boite.setAttribute('role', 'dialog');
+  boite.setAttribute('aria-modal', 'true');
+  boite.setAttribute('aria-label', fr ? 'Photo agrandie' : 'Enlarged photo');
+  boite.innerHTML =
+      '<button type="button" class="loupe-fermer" aria-label="' + (fr ? 'Fermer' : 'Close') + '">&times;</button>'
+    + '<button type="button" class="loupe-prec" aria-label="' + (fr ? 'Photo précédente' : 'Previous photo') + '">&#8249;</button>'
+    + '<img alt="">'
+    + '<button type="button" class="loupe-suiv" aria-label="' + (fr ? 'Photo suivante' : 'Next photo') + '">&#8250;</button>'
+    + '<p class="loupe-legende"><span class="loupe-titre"></span><span class="loupe-compteur"></span></p>';
+  document.body.appendChild(boite);
+
+  var image = boite.querySelector('img');
+  var titre = boite.querySelector('.loupe-titre');
+  var compteur = boite.querySelector('.loupe-compteur');
+  var fermer = boite.querySelector('.loupe-fermer');
+
+  function montrer(n) {
+    rang = (n + photos.length) % photos.length;
+    var p = photos[rang];
+    image.src = p.url;
+    image.alt = p.alt;
+    titre.textContent = p.legende;
+    compteur.textContent = (rang + 1) + ' / ' + photos.length;
+  }
+  function ouvrir(n, depuis) {
+    ouvreur = depuis || null;
+    montrer(n);
+    boite.classList.add('ouverte');
+    document.body.style.overflow = 'hidden';
+    fermer.focus();
+  }
+  function refermer() {
+    boite.classList.remove('ouverte');
+    document.body.style.overflow = '';
+    if (ouvreur && ouvreur.focus) ouvreur.focus();
+  }
+
+  Array.prototype.forEach.call(vignettes, function (v, i) {
+    v.setAttribute('tabindex', '0');
+    v.setAttribute('role', 'button');
+    v.setAttribute('aria-label', (fr ? 'Agrandir : ' : 'Enlarge: ')
+      + ((v.querySelector('img') || {}).alt || ''));
+    v.addEventListener('click', function () { ouvrir(i, v); });
+    v.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(i, v); }
+    });
+  });
+
+  fermer.addEventListener('click', refermer);
+  boite.querySelector('.loupe-prec').addEventListener('click', function () { montrer(rang - 1); });
+  boite.querySelector('.loupe-suiv').addEventListener('click', function () { montrer(rang + 1); });
+  boite.addEventListener('click', function (e) { if (e.target === boite) refermer(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!boite.classList.contains('ouverte')) return;
+    if (e.key === 'Escape') refermer();
+    else if (e.key === 'ArrowLeft') montrer(rang - 1);
+    else if (e.key === 'ArrowRight') montrer(rang + 1);
+    else if (e.key === 'Tab') {
+      // Le clavier reste dans la visionneuse tant qu elle est ouverte.
+      var focalisables = boite.querySelectorAll('button');
+      var premier = focalisables[0], dernier = focalisables[focalisables.length - 1];
+      if (e.shiftKey && document.activeElement === premier) { e.preventDefault(); dernier.focus(); }
+      else if (!e.shiftKey && document.activeElement === dernier) { e.preventDefault(); premier.focus(); }
+    }
+  });
+
+  // Balayage horizontal sur ecran tactile.
+  var departX = null;
+  boite.addEventListener('touchstart', function (e) { departX = e.changedTouches[0].clientX; }, { passive: true });
+  boite.addEventListener('touchend', function (e) {
+    if (departX === null) return;
+    var ecart = e.changedTouches[0].clientX - departX;
+    if (Math.abs(ecart) > 50) montrer(rang + (ecart < 0 ? 1 : -1));
+    departX = null;
+  }, { passive: true });
 })();
 </script>
 
