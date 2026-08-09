@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Balcon d'Aure — fiche d'accueil A5 à plastifier</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+@font-face { font-family: "Jost"; src: url("fonts/Jost-var.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: block; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-italic-var.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: block; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/CormorantGaramond-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: block; }
+
+:root {
+  --nuit: #071019;
+  --jour: #f5f8fb;
+  --encre: #0d2233;
+  --encre-tenue: #8299ab;
+  --laiton: #c9a86a;
+  --laiton-clair: #e0c894;
+  --laiton-fonce: #8f6a1c;
+  --clair: #eef4f9;
+  --doux: #9db1c4;
+  --sans: "Jost", Helvetica, Arial, sans-serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+img { display: block; max-width: 100%; }
+body { background: #52606d; font-family: var(--sans); padding: 24px 0; }
+
+.page {
+  width: 148mm; height: 210mm; margin: 0 auto; position: relative; overflow: hidden;
+  background: var(--jour); color: var(--encre);
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  display: flex; flex-direction: column;
+}
+
+/* ---------- Bandeau de tête ---------- */
+.tete { background: var(--nuit); color: var(--clair); padding: 7mm 10mm 6mm; }
+.tete .etiquette {
+  display: inline-block; border: .3mm solid rgba(201,168,106,.5); border-radius: 20mm;
+  padding: 1.2mm 4mm; font-size: 6pt; letter-spacing: .2em; text-transform: uppercase; color: var(--laiton-clair);
+}
+.tete h1 { margin-top: 3mm; font-size: 21pt; line-height: .9; font-weight: 700; letter-spacing: -.03em; }
+.tete h1 em { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--laiton-clair); letter-spacing: -.015em; }
+.tete p { margin-top: 2.8mm; font-size: 7.4pt; line-height: 1.45; color: var(--doux); }
+
+/* ---------- Corps ---------- */
+.corps { flex: 1; padding: 5.5mm 10mm 0; display: flex; flex-direction: column; gap: 4mm; }
+
+.titrail { font-size: 5.8pt; letter-spacing: .18em; text-transform: uppercase; color: var(--laiton-fonce); }
+
+/* Wifi : le bloc le plus regarde de la fiche, donc le plus grand */
+.wifi { border: .4mm solid rgba(13,34,51,.18); border-radius: 2.5mm; padding: 4mm 5mm; }
+.wifi .lignes { margin-top: 2.8mm; display: flex; flex-direction: column; gap: 3mm; }
+.wifi .ligne { display: flex; align-items: baseline; gap: 3mm; }
+.wifi .ligne b { flex: 0 0 26mm; font-size: 7.4pt; font-weight: 600; letter-spacing: .04em; }
+.wifi .valeur {
+  flex: 1; font-size: 13pt; font-weight: 600; letter-spacing: .02em;
+  border-bottom: .35mm dashed rgba(13,34,51,.35); padding-bottom: 1mm; min-height: 5.5mm;
+}
+.wifi .note { margin-top: 2.6mm; font-size: 6.1pt; line-height: 1.5; color: var(--encre-tenue); }
+
+/* Livret : QR a gauche, explication a droite */
+.livret { display: flex; align-items: center; gap: 5mm; background: #fff; border-radius: 2.5mm; padding: 4mm 5mm; border: .4mm solid rgba(13,34,51,.14); }
+.livret .qr { flex: 0 0 auto; width: 27mm; height: 27mm; }
+.livret .qr img { width: 100%; height: 100%; }
+.livret h2 { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 13.5pt; line-height: 1.05; }
+.livret p { margin-top: 1.8mm; font-size: 6.5pt; line-height: 1.5; color: #405a6e; }
+.livret .adresse { margin-top: 2mm; font-size: 6.4pt; font-weight: 600; letter-spacing: .02em; color: var(--laiton-fonce); }
+
+/* Contacts */
+.contact { background: var(--nuit); color: var(--clair); border-radius: 2.5mm; padding: 4mm 5mm; }
+.contact .titrail { color: var(--laiton-clair); }
+.contact .noms { display: flex; gap: 5mm; margin-top: 2.5mm; }
+.contact .qui { flex: 1; }
+.contact .qui + .qui { border-left: .25mm solid rgba(201,168,106,.3); padding-left: 6mm; }
+.contact .qui b { display: block; font-size: 11.5pt; font-weight: 600; letter-spacing: -.01em; line-height: 1; }
+.contact .qui small { display: block; margin-top: 1.6mm; font-size: 6pt; letter-spacing: .12em; text-transform: uppercase; color: var(--doux); }
+.contact .mot { margin-top: 2.8mm; font-size: 6.2pt; line-height: 1.45; color: var(--doux); }
+
+/* Urgences */
+.urgences { display: flex; align-items: center; gap: 4.5mm; padding: 3.2mm 5mm; border: .4mm solid rgba(143,106,28,.4); border-radius: 2.5mm; }
+.urgences .gros { font-size: 19pt; font-weight: 700; letter-spacing: -.03em; color: var(--laiton-fonce); line-height: 1; }
+.urgences .quoi b { display: block; font-size: 7.6pt; font-weight: 600; }
+.urgences .quoi span { display: block; margin-top: 1.2mm; font-size: 6.4pt; line-height: 1.5; color: var(--encre-tenue); }
+
+/* Pied */
+.pied { margin-top: auto; padding: 4mm 10mm 5mm; display: flex; align-items: flex-end; justify-content: space-between; gap: 5mm; }
+.pied .site { font-family: var(--serif); font-style: italic; font-size: 10pt; color: var(--encre); }
+.pied .lieu { margin-top: 1mm; font-size: 5.6pt; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-tenue); }
+.pied .depart { text-align: right; font-size: 6.4pt; line-height: 1.6; color: var(--encre-tenue); }
+.pied .depart b { display: block; margin-bottom: .8mm; color: var(--encre); font-size: 7.4pt; }
+
+/* ---------- Aide écran, jamais imprimée ---------- */
+.aide { max-width: 148mm; margin: 0 auto 20px; background: #fff; border-radius: 6px; padding: 16px 20px; font-size: 13px; line-height: 1.6; color: #0d2233; }
+.aide > b:first-child { display: block; margin-bottom: 6px; font-size: 14px; }
+.aide code { background: #eef2f6; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+.aide ul { margin: 8px 0 0 18px; }
+
+@media print {
+  @page { size: A5 portrait; margin: 0; }
+  body { background: #fff; padding: 0; }
+  .aide { display: none !important; }
+  .page { margin: 0; box-shadow: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="aide">
+  <b>Fiche d'accueil A5 — à plastifier et laisser dans le studio</b>
+  <code>Cmd</code> + <code>P</code> → <b>Enregistrer au format PDF</b>, format <b>A5</b>, marges <b>Aucune</b>,
+  cocher <b>« Imprimer les arrière-plans »</b>.
+  <ul>
+    <li>Les deux lignes du wifi sont volontairement <b>vides, en pointillés</b> : tu peux imprimer et plastifier
+      dès maintenant, puis écrire au feutre effaçable. Dès que tu me donnes le nom du réseau et le mot de passe,
+      je les imprime directement dans la fiche.</li>
+    <li>À plastifier : c'est un studio de montagne, la fiche va prendre de l'humidité et des doigts mouillés.</li>
+    <li>Ne mets <b>jamais</b> le code de la boîte à clés sur cette fiche : elle reste dans le logement entre deux
+      séjours, et tout le monde la voit.</li>
+  </ul>
+</div>
+
+<div class="page">
+
+  <div class="tete">
+    <span class="etiquette">Résidence Royal Milan — Saint-Lary-Soulan</span>
+    <h1>Bienvenue<em>au Balcon d'Aure.</em></h1>
+    <p>L'essentiel tient sur cette fiche. Le reste — équipements, résidence, bons plans de la vallée — est dans le livret, en scannant le code.</p>
+  </div>
+
+  <div class="corps">
+
+    <div class="wifi">
+      <div class="titrail">Le wifi</div>
+      <div class="lignes">
+        <div class="ligne"><b>Réseau</b><span class="valeur"></span></div>
+        <div class="ligne"><b>Mot de passe</b><span class="valeur"></span></div>
+      </div>
+      <p class="note">Le wifi est accessible depuis les espaces communs de la résidence.</p>
+    </div>
+
+    <div class="livret">
+      <div class="qr"><img src="images/qr-livret.svg" alt="QR code vers le livret d'accueil"></div>
+      <div>
+        <h2>Le livret d'accueil</h2>
+        <p>Comment tout fonctionne, les services de la résidence, les numéros utiles et notre carnet d'adresses dans la vallée d'Aure.</p>
+        <div class="adresse">lebalcondaure.fr/livret</div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <div class="titrail">Une question, un souci</div>
+      <div class="noms">
+        <div class="qui"><b>06 42 84 55 42</b><small>Romuald</small></div>
+        <div class="qui"><b>06 27 35 23 28</b><small>Karine</small></div>
+      </div>
+      <p class="mot">Appel, SMS ou WhatsApp. N'hésitez pas, même pour une petite chose : c'est toujours plus simple de le régler tout de suite.</p>
+    </div>
+
+    <div class="urgences">
+      <div class="gros">112</div>
+      <div class="quoi">
+        <b>Urgences, et secours en montagne</b>
+        <span>Gratuit depuis n'importe quel téléphone, même sans forfait. SAMU 15 · Pompiers 18 · Gendarmerie 17 · Médecin de garde 116 117</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pied">
+    <div>
+      <div class="site">lebalcondaure.fr</div>
+      <div class="lieu">Meublé de tourisme n° 65388002324GP</div>
+    </div>
+    <div class="depart">
+      <b>Départ avant 10 h</b>
+      Lave-vaisselle vidé · poubelles au local<br>
+      Draps sortis · lit laissé ouvert
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

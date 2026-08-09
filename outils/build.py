@@ -174,6 +174,11 @@ def metas(page, langue):
         '<link rel="canonical" href="%s">' % url,
     ]
 
+    # Page reservee aux locataires (livret d'accueil) : hors index, et surtout
+    # nofollow pour qu'elle ne fasse pas decouvrir a Google des URL par ce biais.
+    if page.get("prive"):
+        lignes.append('<meta name="robots" content="noindex, nofollow">')
+
     # hreflang uniquement si la traduction existe reellement
     if page["bilingue"]:
         lignes += [
@@ -629,6 +634,8 @@ def construire(gabarit, page, langue, guide):
 def sitemap(jour):
     blocs = []
     for p in registre.PAGES:
+        if p.get("prive"):
+            continue  # une page en noindex n'a rien a faire dans le sitemap
         langues = ["fr", "en"] if p["bilingue"] else ["fr"]
         for langue in langues:
             alternances = ""

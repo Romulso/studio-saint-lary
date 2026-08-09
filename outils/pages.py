@@ -329,6 +329,27 @@ PAGES = [
             "og_titre": "Mentions légales",
         },
     },
+    {
+        # Livret d'accueil des locataires : accessible uniquement par le QR code
+        # affiche dans le studio. "prive" la sort du sitemap et lui ajoute un
+        # noindex. Aucune autre page du site ne doit pointer vers elle, sans quoi
+        # Google la decouvrirait malgre le noindex et la traiterait comme une
+        # page mince, au detriment du reste du site.
+        "slug": "livret",
+        "fichier": "livret.html",
+        "bilingue": False,
+        "menu": None,
+        "prive": True,
+        "fil": {"fr": "Livret d'accueil"},
+        "parent": "",
+        "jsonld": None,
+        "fr": {
+            "titre": "Livret d'accueil | Le Balcon d'Aure",
+            "description": "Informations pratiques du séjour : arrivée, équipements du studio, "
+                           "services de la résidence, consignes de départ.",
+            "og_titre": "Livret d'accueil",
+        },
+    },
 ]
 
 # Rubrique sans page propre, presente uniquement dans le fil d'Ariane.
