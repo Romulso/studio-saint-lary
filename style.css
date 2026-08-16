@@ -770,7 +770,7 @@ body.corps-texte .ecran { min-height: 0; scroll-snap-align: none; display: block
    disponible s affiche par-dessus la page, avec navigation
    au clavier et au doigt.
    ========================================================= */
-.vignette { cursor: zoom-in; }
+.vignette, .bande-photo { cursor: zoom-in; }
 
 .loupe {
   position: fixed; inset: 0; z-index: 200;

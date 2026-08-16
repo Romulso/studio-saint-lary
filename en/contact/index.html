@@ -30,7 +30,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=27">
+<link rel="stylesheet" href="/style.css?v=28">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -755,26 +755,44 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* --- Visionneuse : cliquer une vignette pour l agrandir --- */
 (function () {
-  var vignettes = document.querySelectorAll('.vignette');
+  // .vignette : les photos du studio.  .bande-photo : les espaces communs de la
+  // residence. Deux habillages differents, meme comportement au clic.
+  var vignettes = document.querySelectorAll('.vignette, .bande-photo');
   if (!vignettes.length) return;
 
   var photos = Array.prototype.map.call(vignettes, function (v) {
     var img = v.querySelector('img');
-    var leg = v.querySelector('.vignette-legende:not([hidden])');
+    var leg = v.querySelector('.vignette-legende, figcaption');
     if (!img) return null;
-    // On vise la plus grande source declaree dans le srcset ; a defaut, le src.
-    var large = img.currentSrc || img.src;
+    var candidats = [];
     if (img.srcset) {
-      var candidats = img.srcset.split(',').map(function (s) {
+      candidats = img.srcset.split(',').map(function (s) {
         var p = s.trim().split(/\s+/);
         return { url: p[0], largeur: parseInt(p[1], 10) || 0 };
-      });
-      candidats.sort(function (a, b) { return b.largeur - a.largeur; });
-      if (candidats[0]) large = candidats[0].url;
+      }).sort(function (a, b) { return a.largeur - b.largeur; });
     }
-    return { url: large, alt: img.alt || '', legende: leg ? leg.textContent : '' };
+    return {
+      candidats: candidats,
+      repli: img.currentSrc || img.src,
+      alt: img.alt || '',
+      legende: leg ? leg.textContent : ''
+    };
   }).filter(Boolean);
   if (!photos.length) return;
+
+  /* Choisit la plus petite source qui couvre encore l ecran, plutot que la plus
+     grande disponible. Certaines photos de la residence pesent 324 Ko en 1800 px :
+     les servir a un telephone sur le reseau d une station de montagne serait
+     paye cher pour une nettete que l ecran ne montre pas. */
+  function sourcePourEcran(p) {
+    if (!p.candidats.length) return p.repli;
+    var besoin = Math.min(window.innerWidth, window.innerHeight * 1.6)
+               * Math.min(window.devicePixelRatio || 1, 2);
+    for (var i = 0; i < p.candidats.length; i++) {
+      if (p.candidats[i].largeur >= besoin) return p.candidats[i].url;
+    }
+    return p.candidats[p.candidats.length - 1].url;
+  }
 
   var fr = document.documentElement.lang !== 'en';
   var rang = 0, ouvreur = null;
@@ -800,7 +818,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function montrer(n) {
     rang = (n + photos.length) % photos.length;
     var p = photos[rang];
-    image.src = p.url;
+    image.src = sourcePourEcran(p);
     image.alt = p.alt;
     titre.textContent = p.legende;
     compteur.textContent = (rang + 1) + ' / ' + photos.length;
