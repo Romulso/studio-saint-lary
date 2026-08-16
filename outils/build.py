@@ -565,6 +565,31 @@ def prerendre(doc, langue, guide):
 # Assemblage
 # --------------------------------------------------------------------------
 
+def textes_alternatifs(doc, langue):
+    """Applique la traduction anglaise des attributs alt.
+
+    Meme principe que data-jalon-en : le fragment porte la version francaise
+    dans alt et l anglaise dans data-alt-en, juste apres. Ces textes ne sont
+    pas decoratifs — ce sont eux que lisent les lecteurs d ecran et Google.
+
+    Le remplacement exige que les deux attributs soient adjacents. Si l un des
+    deux se retrouve isole (attribut intercale, faute de frappe), la traduction
+    ne s appliquerait pas et la page anglaise partirait en ligne avec un texte
+    francais, sans que rien ne le signale : on compte donc les substitutions et
+    on interrompt le build si le compte n y est pas.
+    """
+    attendus = len(re.findall(r'data-alt-en="', doc))
+    if langue == "en":
+        doc, faits = re.subn(r'alt="[^"]*"\s+data-alt-en="([^"]*)"',
+                             lambda m: 'alt="%s"' % m.group(1), doc)
+        if faits != attendus:
+            raise ValueError(
+                "%d data-alt-en sur %d appliques : verifiez que chaque data-alt-en "
+                "suit immediatement son alt." % (faits, attendus))
+    # En francais l attribut n a plus rien a faire dans la page livree.
+    return re.sub(r'\s+data-alt-en="[^"]*"', "", doc)
+
+
 def construire(gabarit, page, langue, guide):
     fragment = open(os.path.join(FRAGMENTS, page["fichier"]), encoding="utf-8").read()
     doc = gabarit.replace("<!--CONTENU-->", fragment, 1)
@@ -577,6 +602,8 @@ def construire(gabarit, page, langue, guide):
         doc = re.sub(r'data-jalon="[^"]*"\s+data-jalon-en="([^"]*)"',
                      lambda m: 'data-jalon="%s"' % m.group(1), doc)
     doc = re.sub(r'\s+data-jalon-en="[^"]*"', "", doc)
+
+    doc = textes_alternatifs(doc, langue)
 
     # Dans les titres, <em> passe a la ligne par le CSS mais reste colle au
     # mot precedent dans le texte extrait : « Les cols commencentau bas de la
