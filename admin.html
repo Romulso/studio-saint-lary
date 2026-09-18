@@ -129,6 +129,18 @@
         <label for="bp-url">Lien (https://…)</label>
         <input type="url" id="bp-url">
       </div>
+      <div class="champ" style="flex:0 1 170px">
+        <label for="bp-categorie">Rubrique</label>
+        <select id="bp-categorie">
+          <option value="restaurant">Restaurant (À table)</option>
+          <option value="activite">Activité</option>
+          <option value="visite">Visite</option>
+          <option value="terroir">Marché, producteur</option>
+          <option value="rando">Randonnée</option>
+          <option value="glisse">Ski, glisse</option>
+          <option value="famille">En famille</option>
+        </select>
+      </div>
       <div class="champ" style="flex:0 1 130px">
         <label for="bp-saison">Saison</label>
         <select id="bp-saison">
@@ -268,6 +280,8 @@ function jsonTolerant(texte) {
 (function () {
   var donnees = { aide: '', reservations: [] };
   var guide = { bonsplans: [], avis: [] };
+  /* Rubriques de la page Bons plans (data-categorie de pages/bons-plans.html). */
+  var RUBRIQUES = {restaurant: 'Restaurant (À table)', activite: 'Activité', visite: 'Visite', terroir: 'Marché, producteur', rando: 'Randonnée', glisse: 'Ski, glisse', famille: 'En famille'};
   var modifieResa = false, modifieGuide = false;
 
   var ajd = new Date(); ajd.setHours(0, 0, 0, 0);
@@ -509,7 +523,7 @@ function jsonTolerant(texte) {
       infos.className = 'resa-dates';
       var saison = p.saison === 'hiver' ? 'Hiver' : p.saison === 'ete' ? 'Été' : 'Toute l’année';
       infos.innerHTML = (p.nom_fr || p.id) + '<small>' + saison +
-        (p.categorie ? ' · ' + p.categorie : '') +
+        (p.categorie ? ' · ' + (RUBRIQUES[p.categorie] || p.categorie) : '') +
         (p.commentaire ? ' · « ' + p.commentaire + ' »' : '') + '</small>';
       ligne.appendChild(infos);
 
@@ -523,6 +537,16 @@ function jsonTolerant(texte) {
         lab.appendChild(document.createTextNode(libelle));
         return lab;
       }
+      var rub = document.createElement('select');
+      rub.title = 'Rubrique de la page Bons plans';
+      rub.style.cssText = 'padding:6px 8px;border-radius:8px;border:1px solid var(--ligne-jour);font-size:12px;font-family:inherit';
+      Object.keys(RUBRIQUES).forEach(function (k) {
+        var o = document.createElement('option'); o.value = k; o.textContent = RUBRIQUES[k];
+        if (p.categorie === k) o.selected = true;
+        rub.appendChild(o);
+      });
+      rub.addEventListener('change', function () { p.categorie = rub.value; marquerModifie('guide'); rendreBonsPlans(); });
+      ligne.appendChild(rub);
       ligne.appendChild(caseCocher('Visible', p.visible !== false, function (v) { p.visible = v; }));
       ligne.appendChild(caseCocher('Réduc', !!p.reduction, function (v) { p.reduction = v; }));
 
@@ -669,7 +693,7 @@ function jsonTolerant(texte) {
     guide.bonsplans.push({
       id: nom.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
       saison: document.getElementById('bp-saison').value,
-      categorie: 'activite',
+      categorie: document.getElementById('bp-categorie').value,
       nom_fr: nom,
       desc_fr: document.getElementById('bp-desc').value.trim(),
       url_fr: url,

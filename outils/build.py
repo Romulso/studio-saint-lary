@@ -545,6 +545,18 @@ def prerendre(doc, langue, guide):
                    if saison == "tout" or p.get("saison") in (saison, "toute")]
         if categorie:
             choisis = [p for p in choisis if p.get("categorie") == categorie]
+        if saison == "tout":
+            # Certaines adresses existent en deux fiches, hiver et ete, qui ne
+            # different que par le lien saisonnier de l office de tourisme.
+            # Sur une page toutes saisons, on n en garde qu une par nom.
+            vus, uniques = set(), []
+            for p in choisis:
+                nom = (p.get("nom_fr") or p.get("id") or "").strip().lower()
+                if nom in vus:
+                    continue
+                vus.add(nom)
+                uniques.append(p)
+            choisis = uniques
         return ('<div class="activites surgit">'
                 + "".join(carte_bonplan(p, langue) for p in choisis) + "</div>")
 
