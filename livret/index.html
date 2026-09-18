@@ -604,7 +604,16 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       d.setDate(d.getDate() + 1);
     }
     total = Math.round(total);
-    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0;
+    /* Pas de remise si une nuit tombe dans une periode "sans_remise"
+       (vacances de Noel, de fevrier et d'ete). */
+    var exclue = false;
+    for (var e = depuisIso(arrivee); iso(e) < depart; e.setDate(e.getDate() + 1)) {
+      for (var k = 0; k < tarifs.periodes.length; k++) {
+        var q = tarifs.periodes[k];
+        if (q.sans_remise && q.debut <= iso(e) && iso(e) < q.fin) exclue = true;
+      }
+    }
+    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0 && !exclue;
     if (avecRemise) total -= tarifs.remise;
     var estim = (complet && total)
       ? (estFr()

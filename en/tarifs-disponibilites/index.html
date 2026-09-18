@@ -217,7 +217,7 @@
       <div><dt data-en>Check-out</dt><dd data-en>by 10 am</dd></div>
     </dl>
 
-    <p class="surgit" style="margin-top:18px;font-size:14px;color:var(--encre-tenue)" data-en>During French school holidays, the flat is let by the week, <strong>Saturday to Saturday</strong>.</p>
+    <p class="surgit" style="margin-top:18px;font-size:14px;color:var(--encre-tenue)" data-en>During French school holidays, the flat is let by the week, <strong>Saturday to Saturday</strong>. The €10 seven-night discount does not apply during the Christmas, February and summer holidays.</p>
   </div>
 </section>
 
@@ -257,7 +257,7 @@
       <p class="cal-note" id="cal-note"></p>
       <p class="cal-note" style="margin-top:4px">
 
-        <span data-en>Indicative nightly prices, based on the weekly rate. €10 off for 7 consecutive nights or more.</span>
+        <span data-en>Indicative nightly prices, based on the weekly rate. €10 off for 7 consecutive nights or more, except during the Christmas, February and summer holidays.</span>
       </p>
     </div>
   </div>
@@ -283,7 +283,7 @@
         <tr><td data-en>Week in July</td><td>420 €</td></tr>
         <tr><td data-en>Off-peak week (spring, June, September, autumn)</td><td>300 €</td></tr>
         <tr><td data-en>Week, autumn half-term</td><td>270 €</td></tr>
-        <tr><td data-en>Discount from 7 consecutive nights</td><td>− 10 €</td></tr>
+        <tr><td data-en>Discount from 7 consecutive nights (except Christmas, February and summer holidays)</td><td>− 10 €</td></tr>
         <tr><td data-en>End-of-stay cleaning, optional</td><td>50 €</td></tr>
         <tr><td data-en>Security deposit</td><td>300 €</td></tr>
         <tr><td data-en>Tourist tax</td><td data-en>extra</td></tr>
@@ -697,7 +697,16 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       d.setDate(d.getDate() + 1);
     }
     total = Math.round(total);
-    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0;
+    /* Pas de remise si une nuit tombe dans une periode "sans_remise"
+       (vacances de Noel, de fevrier et d'ete). */
+    var exclue = false;
+    for (var e = depuisIso(arrivee); iso(e) < depart; e.setDate(e.getDate() + 1)) {
+      for (var k = 0; k < tarifs.periodes.length; k++) {
+        var q = tarifs.periodes[k];
+        if (q.sans_remise && q.debut <= iso(e) && iso(e) < q.fin) exclue = true;
+      }
+    }
+    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0 && !exclue;
     if (avecRemise) total -= tarifs.remise;
     var estim = (complet && total)
       ? (estFr()

@@ -215,7 +215,7 @@
       <div><dt data-fr>Arrivée</dt><dd data-fr>dès 15 h</dd></div>
       <div><dt data-fr>Départ</dt><dd data-fr>avant 10 h</dd></div>
     </dl>
-    <p class="surgit" style="margin-top:18px;font-size:14px;color:var(--encre-tenue)" data-fr>Pendant les vacances scolaires, le studio se loue à la semaine, <strong>du samedi au samedi</strong>.</p>
+    <p class="surgit" style="margin-top:18px;font-size:14px;color:var(--encre-tenue)" data-fr>Pendant les vacances scolaires, le studio se loue à la semaine, <strong>du samedi au samedi</strong>. La remise de 10 € dès 7 nuits ne s'applique pas pendant les vacances de Noël, de février et d'été.</p>
 
   </div>
 </section>
@@ -254,7 +254,7 @@
 
       <p class="cal-note" id="cal-note"></p>
       <p class="cal-note" style="margin-top:4px">
-        <span data-fr>Prix indicatifs par nuit, calculés depuis le tarif à la semaine. Remise de 10 € dès 7 nuits d'affilée.</span>
+        <span data-fr>Prix indicatifs par nuit, calculés depuis le tarif à la semaine. Remise de 10 € dès 7 nuits d'affilée, sauf pendant les vacances de Noël, de février et d'été.</span>
 
       </p>
     </div>
@@ -280,7 +280,7 @@
         <tr><td data-fr>Semaine en juillet</td><td>420 €</td></tr>
         <tr><td data-fr>Semaine hors saison (printemps, juin, septembre, automne)</td><td>300 €</td></tr>
         <tr><td data-fr>Semaine, vacances de la Toussaint</td><td>270 €</td></tr>
-        <tr><td data-fr>Remise dès 7 nuits d'affilée</td><td>− 10 €</td></tr>
+        <tr><td data-fr>Remise dès 7 nuits d'affilée (sauf vacances de Noël, de février et d'été)</td><td>− 10 €</td></tr>
         <tr><td data-fr>Ménage de fin de séjour, en option</td><td>50 €</td></tr>
         <tr><td data-fr>Dépôt de garantie</td><td>300 €</td></tr>
         <tr><td data-fr>Taxe de séjour</td><td data-fr>en sus</td></tr>
@@ -695,7 +695,16 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       d.setDate(d.getDate() + 1);
     }
     total = Math.round(total);
-    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0;
+    /* Pas de remise si une nuit tombe dans une periode "sans_remise"
+       (vacances de Noel, de fevrier et d'ete). */
+    var exclue = false;
+    for (var e = depuisIso(arrivee); iso(e) < depart; e.setDate(e.getDate() + 1)) {
+      for (var k = 0; k < tarifs.periodes.length; k++) {
+        var q = tarifs.periodes[k];
+        if (q.sans_remise && q.debut <= iso(e) && iso(e) < q.fin) exclue = true;
+      }
+    }
+    var avecRemise = complet && total && n >= 7 && tarifs.remise > 0 && !exclue;
     if (avecRemise) total -= tarifs.remise;
     var estim = (complet && total)
       ? (estFr()
