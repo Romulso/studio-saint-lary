@@ -262,7 +262,7 @@ def bloc_logement(page, langue, avis):
         "petsAllowed": animaux,
         "priceRange": "270 € – 700 €",
         "currenciesAccepted": "EUR",
-        "checkinTime": "16:00:00",
+        "checkinTime": "15:00:00",
         "checkoutTime": "10:00:00",
         "amenityFeature": [
             {"@type": "LocationFeatureSpecification", "name": n, "value": True} for n in equipements
