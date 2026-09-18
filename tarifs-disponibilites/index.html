@@ -212,7 +212,11 @@
       <div><dt data-fr>Ménage, en option</dt><dd>50 €</dd></div>
       <div><dt data-fr>Dépôt de garantie</dt><dd>300 €</dd></div>
       <div><dt data-fr>Taxe de séjour</dt><dd data-fr>en sus</dd></div>
+      <div><dt data-fr>Arrivée</dt><dd data-fr>dès 16 h</dd></div>
+      <div><dt data-fr>Départ</dt><dd data-fr>avant 10 h</dd></div>
     </dl>
+    <p class="surgit" style="margin-top:18px;font-size:14px;color:var(--encre-tenue)" data-fr>Pendant les vacances scolaires, le studio se loue à la semaine, <strong>du samedi au samedi</strong>.</p>
+
   </div>
 </section>
 
@@ -280,8 +284,14 @@
         <tr><td data-fr>Ménage de fin de séjour, en option</td><td>50 €</td></tr>
         <tr><td data-fr>Dépôt de garantie</td><td>300 €</td></tr>
         <tr><td data-fr>Taxe de séjour</td><td data-fr>en sus</td></tr>
+        <tr><td data-fr>Arrivée</td><td data-fr>à partir de 16 h</td></tr>
+        <tr><td data-fr>Départ, logement libéré</td><td data-fr>avant 10 h</td></tr>
       </tbody>
     </table>
+
+    <p class="surgit" data-fr><strong>Vacances scolaires : du samedi au samedi.</strong> Pendant les vacances de la Toussaint, de Noël, de février et d'été, les séjours commencent et se terminent un samedi. Le reste de l'année, vous choisissez librement vos dates.</p>
+
+    <p class="surgit" data-fr><strong>Le jour du départ, le studio doit être libéré avant 10 h</strong>, pour laisser le temps de le préparer pour les locataires suivants, qui arrivent à partir de 16 h.</p>
 
     <p class="surgit" data-fr><strong>Le ménage de fin de séjour est en option.</strong> Si vous ne souhaitez pas le prendre, contactez-nous avant votre arrivée : nous vous indiquerons les modalités, c'est-à-dire ce qui est attendu pour rendre le studio dans l'état où vous l'avez trouvé.</p>
 
@@ -295,7 +305,7 @@
 
     <div class="encart surgit">
       <strong data-fr>À préciser avant publication</strong>
-      <p data-fr>[À COMPLÉTER] Moyens de paiement acceptés, montant et échéance de l'acompte, conditions d'annulation, heures d'arrivée et de départ. Ce sont les quatre questions qui bloquent une réservation quand la réponse n'est pas écrite noir sur blanc.</p>
+      <p data-fr>[À COMPLÉTER] Moyens de paiement acceptés, montant et échéance de l'acompte, conditions d'annulation. Ce sont les trois questions qui bloquent une réservation quand la réponse n'est pas écrite noir sur blanc.</p>
 
     </div>
   </div>
@@ -537,8 +547,36 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.getElementById('cal-note').textContent = estFr() ? fr : en;
   }
   function noteDefaut() {
-    noter('Le jour d’un départ redevient disponible pour une nouvelle arrivée.',
-      'A departure day becomes available again for a new arrival.');
+    noter('Le jour d’un départ redevient disponible pour une nouvelle arrivée. Pendant les vacances scolaires, séjours du samedi au samedi.',
+      'A departure day becomes available again for a new arrival. During school holidays, stays run Saturday to Saturday.');
+  }
+
+  /* Vacances scolaires : les periodes marquees "samedi" ne se louent que du
+     samedi au samedi. Une regle s'applique des qu'une seule nuit du sejour
+     tombe dans une telle periode. */
+  function periodeSamedi(cle) {
+    for (var i = 0; i < tarifs.periodes.length; i++) {
+      var p = tarifs.periodes[i];
+      if (p.samedi && p.debut <= cle && cle < p.fin) return p;
+    }
+    return null;
+  }
+  function touchePeriodeSamedi(a, b) {  /* nuits de a (inclus) à b (exclu) */
+    var d = depuisIso(a);
+    while (iso(d) < b) {
+      var p = periodeSamedi(iso(d));
+      if (p) return p;
+      d.setDate(d.getDate() + 1);
+    }
+    return null;
+  }
+  function estSamedi(cle) { return depuisIso(cle).getDay() === 6; }
+  function arriveeRefusee(cle) {
+    var p = periodeSamedi(cle);
+    if (!p || estSamedi(cle)) return false;
+    noter('Pendant les vacances scolaires (' + (p.libelle || 'vacances') + '), le studio se loue du samedi au samedi : choisissez un samedi pour votre arrivée.',
+      'During school holidays the flat is let Saturday to Saturday: please pick a Saturday to arrive.');
+    return true;
   }
 
   function prixSemaine(cle) {  /* prix à la semaine pour la nuit donnée */
@@ -664,16 +702,23 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           'That date is already taken. Please pick a free day for your arrival.');
         return;
       }
+      if (arriveeRefusee(cle)) return;
       arrivee = cle; depart = null;
       noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.');
     } else if (cle <= arrivee) {
       if (nuits[cle]) { return; }
+      if (arriveeRefusee(cle)) return;
       arrivee = cle;
       noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.');
     } else if (!nuitsLibres(arrivee, cle)) {
       noter('Ces dates contiennent des nuits déjà prises. Choisissez un autre créneau.',
         'These dates include nights already taken. Please pick another slot.');
       arrivee = nuits[cle] ? null : cle; depart = null;
+    } else if (touchePeriodeSamedi(arrivee, cle) && !(estSamedi(arrivee) && estSamedi(cle))) {
+      var vac = touchePeriodeSamedi(arrivee, cle);
+      noter('Ces dates tombent pendant les vacances scolaires (' + (vac.libelle || 'vacances') + ') : le séjour doit commencer et finir un samedi.',
+        'These dates fall in the school holidays: the stay must start and end on a Saturday.');
+      return;
     } else {
       depart = cle;
       noteDefaut();

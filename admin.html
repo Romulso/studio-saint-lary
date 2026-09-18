@@ -110,6 +110,7 @@
         <label for="pt-prix">€ / semaine</label>
         <input type="number" id="pt-prix" min="0" step="10">
       </div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:14px;flex:1 1 100%"><input type="checkbox" id="pt-samedi"> Vacances scolaires : séjours du samedi au samedi uniquement</label>
       <button type="button" class="pastille pastille-pleine" id="pt-bouton">Ajouter la période</button>
     </div>
     <p class="note-etat" id="pt-note">Pour majorer ponctuellement (Tour de France, événement…), ajoutez une période : elle prend le dessus sur le prix par défaut, et se retire aussi facilement.</p>
@@ -331,6 +332,19 @@ function jsonTolerant(texte) {
       infos.innerHTML = (p.libelle ? p.libelle : 'Période') +
         '<small>Du ' + joli(p.debut) + ' au ' + joli(p.fin) + ' (exclu)</small>';
       ligne.appendChild(infos);
+
+      var sam = document.createElement('label');
+      sam.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:12px;color:var(--encre-tenue)';
+      var samCase = document.createElement('input');
+      samCase.type = 'checkbox'; samCase.checked = !!p.samedi;
+      samCase.addEventListener('change', function () {
+        if (samCase.checked) p.samedi = true; else delete p.samedi;
+        marquerModifie();
+      });
+      sam.appendChild(samCase);
+      sam.appendChild(document.createTextNode('sam. → sam.'));
+      sam.title = 'Vacances scolaires : séjours du samedi au samedi uniquement';
+      ligne.appendChild(sam);
 
       var prix = document.createElement('input');
       prix.type = 'number'; prix.min = 0; prix.step = 10; prix.value = p.prix;
@@ -596,7 +610,10 @@ function jsonTolerant(texte) {
     var note = document.getElementById('pt-note');
     if (!de || !fi || !px) { note.textContent = 'Renseignez les dates et le prix.'; return; }
     if (fi <= de) { note.textContent = 'La fin doit être après le début.'; return; }
-    tarifsCourants().periodes.push({ debut: de, fin: fi, prix: px, libelle: lib || 'Période' });
+    var periode = { debut: de, fin: fi, prix: px, libelle: lib || 'Période' };
+    if (document.getElementById('pt-samedi').checked) periode.samedi = true;
+    tarifsCourants().periodes.push(periode);
+    document.getElementById('pt-samedi').checked = false;
     document.getElementById('pt-libelle').value = '';
     document.getElementById('pt-debut').value = '';
     document.getElementById('pt-fin').value = '';
