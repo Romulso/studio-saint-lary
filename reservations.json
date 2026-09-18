@@ -6,8 +6,9 @@
     "remise_semaine": 10,
     "periodes": [
       { "debut": "2026-08-01", "fin": "2026-09-01", "prix": 480, "libelle": "Août" },
-      { "debut": "2026-12-19", "fin": "2026-12-26", "prix": 550, "libelle": "Noël" },
-      { "debut": "2026-12-26", "fin": "2027-01-02", "prix": 650, "libelle": "Nouvel An" },
+      { "debut": "2026-10-17", "fin": "2026-11-02", "prix": 270, "libelle": "Vacances de la Toussaint" },
+      { "debut": "2026-12-19", "fin": "2026-12-26", "prix": 450, "libelle": "Noël" },
+      { "debut": "2026-12-26", "fin": "2027-01-02", "prix": 600, "libelle": "Nouvel An" },
       { "debut": "2027-01-02", "fin": "2027-02-06", "prix": 380, "libelle": "Hiver hors vacances" },
       { "debut": "2027-02-06", "fin": "2027-03-08", "prix": 700, "libelle": "Vacances de février" },
       { "debut": "2027-03-08", "fin": "2027-04-12", "prix": 380, "libelle": "Fin de saison ski" },

@@ -260,7 +260,7 @@ def bloc_logement(page, langue, avis):
         "telephone": ["+33642845542", "+33627352328"],
         "numberOfRooms": 1,
         "petsAllowed": animaux,
-        "priceRange": "300 € – 700 €",
+        "priceRange": "270 € – 700 €",
         "currenciesAccepted": "EUR",
         "checkinTime": "16:00:00",
         "checkoutTime": "10:00:00",

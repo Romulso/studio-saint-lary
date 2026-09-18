@@ -99,13 +99,13 @@ PAGES = [
         "jsonld": "logement",
         "fr": {
             "titre": "Tarifs et disponibilités — studio en vallée d'Aure",
-            "description": "De 300 € à 700 € la semaine en vallée d'Aure, en direct et sans commission. "
+            "description": "De 270 € à 700 € la semaine en vallée d'Aure, en direct et sans commission. "
                            "Calendrier des disponibilités, ménage, dépôt de garantie et conditions.",
             "og_titre": "Tarifs et calendrier — location en direct, sans commission",
         },
         "en": {
             "titre": "Rates and availability, Saint-Lary studio | Le Balcon d'Aure",
-            "description": "From €300 to €700 per week depending on the season, booked directly with no agency "
+            "description": "From €270 to €700 per week depending on the season, booked directly with no agency "
                            "fee. Live availability calendar, cleaning, deposit and booking conditions.",
             "og_titre": "Rates and calendar — booked directly, no commission",
         },
@@ -142,7 +142,7 @@ PAGES = [
         "jsonld": "logement",
         "fr": {
             "titre": "Location été vallée d'Aure : randonnée, lacs, Saint-Lary",
-            "description": "Studio en vallée d'Aure à 300 € la semaine l'été, au départ des lacs du Néouvielle. "
+            "description": "Studio en vallée d'Aure dès 300 € la semaine l'été, au départ des lacs du Néouvielle. "
                            "Piscine chauffée à la résidence, thermes à 150 m.",
             "og_titre": "L'été à Saint-Lary — randonnée, lacs et piscine chauffée",
         },
@@ -179,7 +179,7 @@ PAGES = [
         "fr": {
             "titre": "Séjour vélo à Saint-Lary : Aspin, Peyresourde, Azet",
             "description": "Camp de base cycliste en vallée d'Aure : Pla d'Adet, Aspin, Peyresourde, Azet. "
-                           "Local à vélos fermé, sauna et jacuzzi, 300 € la semaine.",
+                           "Local à vélos fermé, sauna et jacuzzi, dès 300 € la semaine.",
             "og_titre": "Les cols d'Aure à vélo, depuis le pied de la montée",
         },
     },
