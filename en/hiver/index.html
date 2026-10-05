@@ -818,8 +818,8 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var lien = document.querySelector('link[rel="canonical"]');
       var url = lien ? lien.href : location.href.split('#')[0];
       var texte = fr
-        ? 'Regarde ce studio à Saint-Lary, à 200 m des pistes : '
-        : 'Look at this flat in Saint-Lary, 200 m from the slopes: ';
+        ? 'Regarde ce studio à Saint-Lary, à 200 m des remontées : '
+        : 'Look at this flat in Saint-Lary, 200 m from the ski lifts: ';
       if (navigator.share) {
         navigator.share({ title: "Le Balcon d'Aure", text: texte, url: url }).catch(function () {});
       } else {

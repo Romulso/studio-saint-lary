@@ -35,10 +35,10 @@ PAGES = [
         "parent": None,
         "jsonld": "logement",
         "fr": {
-            "titre": "Studio à louer à Saint-Lary-Soulan, 200 m des pistes",
+            "titre": "Studio à Saint-Lary-Soulan, 200 m des remontées",
             "description": "Studio 27 m² avec balcon vue montagne à Saint-Lary-Soulan, vallée d'Aure, à 200 m des "
                            "remontées. Sauna, jacuzzi, thermes à 150 m. Location en direct.",
-            "og_titre": "Le Balcon d'Aure — studio à Saint-Lary-Soulan, 200 m des pistes",
+            "og_titre": "Le Balcon d'Aure — studio à Saint-Lary-Soulan, 200 m des remontées",
         },
         "en": {
             "titre": "Ski studio to rent in Saint-Lary-Soulan, Pyrenees",
