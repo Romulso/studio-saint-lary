@@ -26,7 +26,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=28">
+<link rel="stylesheet" href="/style.css?v=29">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -362,7 +362,7 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!conteneur) return;
 
   var nuits = {};        /* 'AAAA-MM-JJ' -> 'reserve' | 'option' */
-  var tarifs = { defaut: null, periodes: [], remise: 0 };
+  var tarifs = { defaut: null, periodes: [], remise: 0, menage: 0, minNuits: 1 };
   var charge = false;
   var arrivee = null, depart = null;
 
@@ -521,17 +521,26 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
     var avecRemise = complet && total && n >= 7 && tarifs.remise > 0 && !exclue;
     if (avecRemise) total -= tarifs.remise;
+    /* Le menage est une option : le visiteur peut le decocher s il prefere
+       s en charger lui-meme, et l estimation suit son choix. */
+    var caseMenage = document.getElementById('cal-menage');
+    var avecMenage = tarifs.menage > 0 && caseMenage && caseMenage.checked;
+    if (avecMenage) total += tarifs.menage;
     var estim = (complet && total)
       ? (estFr()
-        ? ' · environ ' + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '') + ' (hors ménage et taxe de séjour)'
-        : ' · about €' + total + (avecRemise ? ' incl. 7-night discount' : '') + ' (excl. cleaning and tourist tax)')
+        ? ' · environ ' + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '')
+          + (avecMenage ? ' ménage compris' : ' sans le ménage') + ', hors taxe de séjour'
+        : ' · about €' + total + (avecRemise ? ' incl. 7-night discount' : '')
+          + (avecMenage ? ' incl. cleaning' : ' without cleaning') + ', excl. tourist tax')
       : '';
     document.getElementById('cal-bilan-texte').textContent = (estFr()
       ? 'Du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nuits' : ' nuit')
       : joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nights' : ' night')) + estim;
     var msg = estFr()
-      ? 'Bonjour ! Nous souhaitons réserver Le Balcon d’Aure du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nuits' : ' nuit') + '). Est-ce disponible ?'
-      : 'Hello! We would like to book Le Balcon d’Aure from ' + joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nights' : ' night') + '). Is it available?';
+      ? 'Bonjour ! Nous souhaitons réserver Le Balcon d’Aure du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nuits' : ' nuit') + ')'
+        + (tarifs.menage ? (avecMenage ? ', avec le forfait ménage' : ', sans le forfait ménage (nous ferons le ménage nous-mêmes)') : '') + '. Est-ce disponible ?'
+      : 'Hello! We would like to book Le Balcon d’Aure from ' + joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nights' : ' night') + ')'
+        + (tarifs.menage ? (avecMenage ? ', with the cleaning option' : ', without the cleaning option (we will clean ourselves)') : '') + '. Is it available?';
     document.getElementById('cal-whatsapp').href = 'https://wa.me/33642845542?text=' + encodeURIComponent(msg);
     var champA = document.getElementById('arrivee'), champD = document.getElementById('depart');
     if (champA) champA.value = arrivee;
@@ -560,6 +569,11 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       noter('Ces dates contiennent des nuits déjà prises. Choisissez un autre créneau.',
         'These dates include nights already taken. Please pick another slot.');
       arrivee = nuits[cle] ? null : cle; depart = null;
+    } else if (!touchePeriodeSamedi(arrivee, cle)
+               && Math.round((depuisIso(cle) - depuisIso(arrivee)) / 86400000) < tarifs.minNuits) {
+      noter('Nous louons à partir de ' + tarifs.minNuits + ' nuits. Choisissez un jour de départ plus tardif.',
+        'We rent from ' + tarifs.minNuits + ' nights. Please pick a later departure day.');
+      return;
     } else if (touchePeriodeSamedi(arrivee, cle) && !(estSamedi(arrivee) && estSamedi(cle))) {
       var vac = touchePeriodeSamedi(arrivee, cle);
       noter('Ces dates tombent pendant les vacances scolaires (' + (vac.libelle || 'vacances') + ') : le séjour doit commencer et finir un samedi.',
@@ -578,6 +592,9 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.getElementById('cal-suiv').addEventListener('click', function () {
     moisAffiche = new Date(moisAffiche.getFullYear(), moisAffiche.getMonth() + 1, 1); rendre();
   });
+  var caseMenage = document.getElementById('cal-menage');
+  if (caseMenage) caseMenage.addEventListener('change', bilan);
+
   document.getElementById('cal-effacer').addEventListener('click', function () {
     arrivee = null; depart = null; noteDefaut(); rendre(); bilan();
   });
@@ -592,6 +609,8 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         tarifs.defaut = donnees.tarifs.defaut || null;
         tarifs.periodes = donnees.tarifs.periodes || [];
         tarifs.remise = donnees.tarifs.remise_semaine || 0;
+        tarifs.menage = donnees.tarifs.menage || 0;
+        tarifs.minNuits = donnees.tarifs.min_nuits || 1;
       }
       (donnees.reservations || []).forEach(function (resa) {
         if (!resa.arrivee || !resa.depart) return;

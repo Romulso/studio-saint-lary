@@ -90,6 +90,14 @@
         <label for="tarif-remise">Remise dès 7 nuits (€)</label>
         <input type="number" id="tarif-remise" min="0" step="5">
       </div>
+      <div class="champ" style="flex:0 1 200px">
+        <label for="tarif-menage">Forfait ménage, en option (€)</label>
+        <input type="number" id="tarif-menage" min="0" step="5">
+      </div>
+      <div class="champ" style="flex:0 1 200px">
+        <label for="tarif-min">Nuits minimum hors vacances</label>
+        <input type="number" id="tarif-min" min="1" step="1">
+      </div>
       <p class="note-etat" style="flex:1 1 240px;margin:0">Le prix par défaut s'applique hors périodes particulières. La remise est déduite automatiquement de l'estimation dès 7 nuits d'affilée.</p>
     </div>
     <div id="tarif-liste"></div>
@@ -331,6 +339,8 @@ function jsonTolerant(texte) {
     var t = tarifsCourants();
     document.getElementById('tarif-defaut').value = t.defaut || '';
     document.getElementById('tarif-remise').value = t.remise_semaine || '';
+    document.getElementById('tarif-menage').value = t.menage || '';
+    document.getElementById('tarif-min').value = t.min_nuits || '';
     var zone = document.getElementById('tarif-liste');
     zone.innerHTML = '';
     if (!t.periodes.length) {
@@ -637,6 +647,16 @@ function jsonTolerant(texte) {
 
   document.getElementById('tarif-remise').addEventListener('change', function () {
     tarifsCourants().remise_semaine = +this.value || 0;
+    marquerModifie();
+  });
+
+  document.getElementById('tarif-menage').addEventListener('change', function () {
+    tarifsCourants().menage = +this.value || 0;
+    marquerModifie();
+  });
+
+  document.getElementById('tarif-min').addEventListener('change', function () {
+    tarifsCourants().min_nuits = +this.value || 1;
     marquerModifie();
   });
 

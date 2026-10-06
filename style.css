@@ -412,6 +412,11 @@ a.service { text-decoration: none; }
   background: rgba(143,106,28,.05);
 }
 .cal-bilan-texte { font-size: 14.5px; font-weight: 600; color: var(--encre); }
+.cal-menage {
+  display: flex; align-items: flex-start; gap: 9px; margin: 10px 0 2px;
+  font-size: 13px; line-height: 1.45; color: var(--doux); cursor: pointer;
+}
+.cal-menage input { margin-top: 2px; flex: 0 0 auto; accent-color: var(--laiton); }
 .cal-bilan-actions { display: flex; flex-wrap: wrap; gap: 9px; }
 .pastille-ligne { border-color: var(--ligne-jour); color: var(--encre-douce); background: #fff; }
 .pastille-ligne:hover { border-color: var(--laiton-fonce); color: var(--laiton-fonce); transform: translateY(-2px); }
