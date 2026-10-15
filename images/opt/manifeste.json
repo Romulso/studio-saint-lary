@@ -28,6 +28,16 @@
       500
     ]
   },
+  "cuisine-neuve": {
+    "hauteur": 1125,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
   "residence-accueil": {
     "hauteur": 1350,
     "largeur": 1800,
@@ -91,6 +101,16 @@
       500
     ]
   },
+  "salle-eau-neuve": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
   "salle-eau-wc": {
     "hauteur": 1600,
     "largeur": 1200,
@@ -105,6 +125,36 @@
     "largeur": 1350,
     "variantes": [
       1350,
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-baie-neuve": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-canape": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-ensemble": {
+    "hauteur": 1125,
+    "largeur": 1500,
+    "variantes": [
+      1500,
       1200,
       800,
       500
@@ -133,6 +183,45 @@
     "largeur": 1920,
     "variantes": [
       1920,
+      1600,
+      1200,
+      800,
+      500
+    ]
+  },
+  "terrasse-cafe": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "terrasse-depuis-sejour": {
+    "hauteur": 724,
+    "largeur": 960,
+    "variantes": [
+      960,
+      800,
+      500
+    ]
+  },
+  "terrasse-soleil": {
+    "hauteur": 724,
+    "largeur": 960,
+    "variantes": [
+      960,
+      800,
+      500
+    ]
+  },
+  "terrasse-transats": {
+    "hauteur": 1500,
+    "largeur": 2000,
+    "variantes": [
+      2000,
       1600,
       1200,
       800,

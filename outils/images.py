@@ -77,13 +77,13 @@ def image_partage():
 
     En JPEG et non en WebP : plusieurs robots d'apercu ne lisent toujours pas
     le WebP et afficheraient un lien sans image."""
-    source = os.path.join(SOURCE, "vue-montagne.jpeg")
+    source = os.path.join(SOURCE, "terrasse-transats.jpg")
     if not os.path.isfile(source):
         return
-    # Cadrage choisi a la main sur l'original 2200x1650 : on garde le sommet,
-    # le ciel et les arbres, on coupe la toiture en gravier du bas qui ne dit
-    # rien de bon dans un apercu de lien. Ratio 1,905 ~ 1200x630.
-    CADRE = (400, 60, 2200, 1005)
+    # Cadrage choisi a la main sur l'original 2000x1500 : on garde le sommet,
+    # les arbres et la terrasse meublee, on coupe le ciel nuageux du haut qui
+    # ne dit rien d'un apercu de lien. Ratio 1,905 ~ 1200x630.
+    CADRE = (0, 190, 2000, 1240)
     with Image.open(source) as im:
         im = im.convert("RGB").crop(CADRE).resize((1200, 630), Image.LANCZOS)
         dest = os.path.join(SORTIE, "og-image.jpg")
