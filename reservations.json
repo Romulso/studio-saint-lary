@@ -59,6 +59,30 @@
         "libelle": "Fin de saison ski"
       },
       {
+        "debut": "2027-07-10",
+        "fin": "2027-07-17",
+        "prix": 480,
+        "libelle": "Juillet, avant le Tour",
+        "samedi": true,
+        "sans_remise": true
+      },
+      {
+        "debut": "2027-07-17",
+        "fin": "2027-07-24",
+        "prix": 950,
+        "libelle": "Tour de France, étape du col du Portet",
+        "samedi": true,
+        "sans_remise": true
+      },
+      {
+        "debut": "2027-07-24",
+        "fin": "2027-07-31",
+        "prix": 480,
+        "libelle": "Juillet, après le Tour",
+        "samedi": true,
+        "sans_remise": true
+      },
+      {
         "debut": "2027-07-01",
         "fin": "2027-08-01",
         "prix": 420,

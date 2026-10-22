@@ -179,7 +179,7 @@ PAGES = [
         "fr": {
             "titre": "Séjour vélo à Saint-Lary : Aspin, Peyresourde, Azet",
             "description": "Camp de base cycliste en vallée d'Aure : Pla d'Adet, Aspin, Peyresourde, Azet. "
-                           "Local à vélos fermé, sauna et jacuzzi, dès 300 € la semaine.",
+                           "Le Tour y arrive au col du Portet le 22 juillet 2027. Local à vélos fermé, sauna et jacuzzi.",
             "og_titre": "Les cols d'Aure à vélo, depuis le pied de la montée",
         },
     },
