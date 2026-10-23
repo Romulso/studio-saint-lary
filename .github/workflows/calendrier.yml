@@ -1,0 +1,52 @@
+# Tient calendrier.ics a jour tout seul.
+#
+# Karine et Romuald modifient leurs reservations depuis admin.html, qui
+# enregistre reservations.json directement sur GitHub, sans passer par un
+# ordinateur ou le site est reconstruit. Sans cette automatisation, le
+# calendrier partage aux plateformes resterait fige sur la derniere version
+# construite a la main — et bloquerait de mauvaises dates chez elles.
+name: Calendrier iCalendar
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - reservations.json
+      - outils/build.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendrier
+  cancel-in-progress: true
+
+jobs:
+  regenerer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerer calendrier.ics depuis reservations.json
+        run: |
+          python3 - <<'PY'
+          import sys, pathlib
+          sys.path.insert(0, "outils")
+          import build
+          ics = build.calendrier_ics()
+          pathlib.Path("calendrier.ics").write_text(ics, encoding="utf-8", newline="")
+          print("%d date(s) occupee(s)" % ics.count("BEGIN:VEVENT"))
+          PY
+
+      - name: Publier si le calendrier a change
+        run: |
+          if git diff --quiet calendrier.ics; then
+            echo "Calendrier inchange, rien a publier."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add calendrier.ics
+          git commit -m "Mettre a jour calendrier.ics apres modification des reservations"
+          git push

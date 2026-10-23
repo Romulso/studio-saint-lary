@@ -32,6 +32,7 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GABARIT = os.path.join(RACINE, "gabarits", "base.html")
 FRAGMENTS = os.path.join(RACINE, "pages")
 GUIDE_JSON = os.path.join(RACINE, "guide.json")
+RESERVATIONS = os.path.join(RACINE, "reservations.json")
 
 DOMAINE = registre.DOMAINE
 
@@ -709,6 +710,49 @@ def sitemap(jour):
             + "\n".join(blocs) + "\n</urlset>\n")
 
 
+def calendrier_ics():
+    """Calendrier iCalendar des dates deja prises, a donner aux plateformes.
+
+    Airbnb, Booking et les centrales de reservation savent importer une
+    adresse .ics et bloquer automatiquement les dates qu elle contient.
+    C est la seule parade serieuse au risque de double reservation quand
+    le logement est propose a plusieurs endroits a la fois.
+
+    Une seule precaution de format : DTEND est exclusif en iCalendar,
+    comme le jour de depart l est chez nous. Les deux conventions
+    coincident, il n y a donc rien a decaler.
+    """
+    donnees = json.load(open(RESERVATIONS, encoding="utf-8"))
+    horodatage = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+    lignes = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Le Balcon d'Aure//Calendrier des disponibilites//FR",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "X-WR-CALNAME:Le Balcon d'Aure — dates occupées",
+    ]
+    for resa in donnees.get("reservations", []):
+        debut, fin = resa.get("arrivee"), resa.get("depart")
+        if not debut or not fin:
+            continue
+        titre = "Réservé" if resa.get("statut") == "reserve" else "Option"
+        lignes += [
+            "BEGIN:VEVENT",
+            "UID:%s-%s@lebalcondaure.fr" % (debut, fin),
+            "DTSTAMP:" + horodatage,
+            "DTSTART;VALUE=DATE:" + debut.replace("-", ""),
+            "DTEND;VALUE=DATE:" + fin.replace("-", ""),
+            "SUMMARY:" + titre + " — Le Balcon d'Aure",
+            "TRANSP:OPAQUE",
+            "END:VEVENT",
+        ]
+    lignes.append("END:VCALENDAR")
+    # iCalendar impose les fins de ligne CRLF.
+    return "\r\n".join(lignes) + "\r\n"
+
+
 def verifier_liens(produites):
     """Refuse un lien interne vers une page qui n'existe pas.
 
@@ -757,6 +801,11 @@ def main():
     jour = datetime.date.today().isoformat()
     with open(os.path.join(RACINE, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
         f.write(sitemap(jour))
+
+    ics = calendrier_ics()
+    with open(os.path.join(RACINE, "calendrier.ics"), "w", encoding="utf-8", newline="") as f:
+        f.write(ics)
+    print("  calendrier.ics : %d date(s) occupee(s) publiee(s)" % ics.count("BEGIN:VEVENT"))
     print("\n%d pages generees, %d liens internes verifies, sitemap a jour (%s)"
           % (total, sum(len(re.findall(r'href="(/[^"#?]*/)"', d)) for d in produites.values()), jour))
 
