@@ -262,6 +262,9 @@ def bloc_logement(page, langue, avis):
         "petsAllowed": animaux,
         "priceRange": "270 € – 700 €",
         "currenciesAccepted": "EUR",
+        # Classement prefectoral du meuble de tourisme : Google s en sert pour
+        # qualifier l hebergement, au meme titre que les etoiles d un hotel.
+        "starRating": {"@type": "Rating", "ratingValue": 3, "bestRating": 5},
         "checkinTime": "15:00:00",
         "checkoutTime": "10:00:00",
         "amenityFeature": [
