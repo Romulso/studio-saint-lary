@@ -330,6 +330,42 @@ PAGES = [
         },
     },
     {
+        "slug": "tour-de-france-2027-saint-lary",
+        "fichier": "tour2027.html",
+        "bilingue": False,
+        "menu": None,
+        "fil": {"fr": "Tour de France 2027"},
+        "parent": "velo",
+        "jsonld": "logement",
+        "faq": [
+            ("Quand le Tour de France passe-t-il à Saint-Lary-Soulan en 2027 ?",
+             "Le jeudi 22 juillet 2027. La 18e étape part de Pau et arrive au col du Portet, "
+             "au-dessus de Saint-Lary-Soulan, après 174 kilomètres et 5 400 mètres de dénivelé."),
+            ("Quelle semaine faut-il réserver pour voir l'étape ?",
+             "La semaine du samedi 17 au samedi 24 juillet 2027, qui contient le jour de l'étape. "
+             "Les séjours vont du samedi au samedi pendant les vacances scolaires."),
+            ("Peut-on monter au col du Portet le jour de l'étape ?",
+             "La route est fermée à la circulation plusieurs heures avant le passage de la course, "
+             "et l'accès au sommet se fait à pied ou à vélo, très tôt le matin."),
+            ("Faut-il une voiture pendant la semaine du Tour à Saint-Lary ?",
+             "Non. La résidence a son parking, et les commerces, les thermes et les remontées "
+             "mécaniques sont accessibles à pied depuis le studio."),
+            ("Combien coûte la semaine du Tour de France au Balcon d'Aure ?",
+             "950 € la semaine pour trois personnes, en direct et sans commission. Le ménage est "
+             "en option à 50 €, la taxe de séjour s'ajoute."),
+            ("Le studio convient-il à des cyclistes ?",
+             "Oui. La résidence dispose d'un local fermé pour les vélos, et les cols d'Aspin, "
+             "d'Azet, de Peyresourde, la Hourquette d'Ancizan et la montée du Pla d'Adet partent "
+             "du village."),
+        ],
+        "fr": {
+            "titre": "Tour de France 2027 à Saint-Lary : louer la semaine",
+            "description": "Jeudi 22 juillet 2027, l'étape reine Pau — col du Portet arrive au-dessus de "
+                           "Saint-Lary. Studio pour 3 au village, semaine du 17 au 24 juillet, en direct.",
+            "og_titre": "Tour de France 2027 au col du Portet — se loger à Saint-Lary",
+        },
+    },
+    {
         # Livret d'accueil des locataires : accessible uniquement par le QR code
         # affiche dans le studio. "prive" la sort du sitemap et lui ajoute un
         # noindex. Aucune autre page du site ne doit pointer vers elle, sans quoi

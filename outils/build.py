@@ -391,6 +391,19 @@ def donnees_structurees(page, langue, avis):
         blocs.append({"@context": "https://schema.org", "@type": "ContactPage",
                       "url": registre.url(page["slug"], langue), "inLanguage": langue,
                       "about": {"@id": DOMAINE + "/#logement"}})
+    # Une page peut declarer ses questions : Google les affiche parfois
+    # directement dans ses resultats, ce qui vaut tous les mots-cles.
+    if page.get("faq"):
+        blocs.append({
+            "@context": "https://schema.org", "@type": "FAQPage",
+            "inLanguage": langue,
+            "mainEntity": [
+                {"@type": "Question", "name": q,
+                 "acceptedAnswer": {"@type": "Answer", "text": r}}
+                for q, r in page["faq"]
+            ],
+        })
+
     fil = fil_structure(bloc_fil(page, langue))
     if fil:
         blocs.append(fil)
