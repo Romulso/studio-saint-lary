@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Balcon d'Aure — plaque de porte A5 à imprimer</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #52606d; padding: 24px 0; font-family: "Jost", Helvetica, Arial, sans-serif; }
+
+.feuille {
+  width: 210mm; height: 297mm; margin: 0 auto; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+.plaque { position: relative; width: 148mm; height: 210mm; }
+.plaque img { width: 100%; height: 100%; display: block; }
+
+/* Traits de coupe aux quatre angles */
+.coupe { position: absolute; background: #000; }
+.coupe.h { width: 7mm; height: .2mm; }
+.coupe.v { width: .2mm; height: 7mm; }
+.hg-h { top: -2.5mm; left: -9mm; }   .hg-v { top: -9mm; left: -2.5mm; }
+.hd-h { top: -2.5mm; right: -9mm; }  .hd-v { top: -9mm; right: -2.5mm; }
+.bg-h { bottom: -2.5mm; left: -9mm; }   .bg-v { bottom: -9mm; left: -2.5mm; }
+.bd-h { bottom: -2.5mm; right: -9mm; }  .bd-v { bottom: -9mm; right: -2.5mm; }
+
+.aide {
+  max-width: 210mm; margin: 0 auto 20px; background: #fff; border-radius: 6px;
+  padding: 16px 20px; font-size: 13px; line-height: 1.6; color: #0d2233;
+}
+.aide > b:first-child { display: block; margin-bottom: 6px; font-size: 14px; }
+.aide code { background: #eef2f6; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+.aide ul { margin: 8px 0 0 18px; }
+.aide li { margin-bottom: 4px; }
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  body { background: #fff; padding: 0; }
+  .aide { display: none !important; }
+  .feuille { margin: 0; box-shadow: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="aide">
+  <b>Plaque de porte A5 — à imprimer, plastifier et coller sur la porte</b>
+  <code>Cmd</code> + <code>P</code> → format <b>A4</b>, marges <b>Aucune</b>, échelle <b>100 %</b>,
+  et coche <b>« Imprimer les arrière-plans »</b>, sinon tout le fond sombre sortira blanc.
+  <ul>
+    <li><b>Le QR code mène au site</b>, pas au livret : il s'adresse aux gens qui passent dans
+      le couloir, pas aux locataires. Un voisin qui le flashe devient un client.</li>
+    <li><b>Plastifiée</b>, elle tient des années et se nettoie. Sinon, un cadre A5 à 5 € fait
+      très bien l'affaire et se retire sans trace.</li>
+    <li><b>Avant de la poser</b>, vérifie le règlement de copropriété : beaucoup de résidences
+      interdisent l'affichage sur les portes palières, ou le limitent à un format donné.</li>
+  </ul>
+</div>
+
+<div class="feuille">
+  <div class="plaque">
+    <span class="coupe h hg-h"></span><span class="coupe v hg-v"></span>
+    <span class="coupe h hd-h"></span><span class="coupe v hd-v"></span>
+    <span class="coupe h bg-h"></span><span class="coupe v bg-v"></span>
+    <span class="coupe h bd-h"></span><span class="coupe v bd-v"></span>
+    <img src="images/plaque-porte.jpg" alt="Plaque de porte du Balcon d'Aure">
+  </div>
+</div>
+
+</body>
+</html>
