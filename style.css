@@ -262,6 +262,23 @@ body.lang-fr .ruban-piste[data-en], body.lang-en .ruban-piste[data-fr] { display
 .teaser { margin-bottom: 20px; border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--ligne-nuit); background: var(--nuit-2); }
 .teaser video { display: block; width: 100%; height: auto; }
 
+/* Visite filmee : video portrait a gauche, texte a droite. Le format
+   vertical vient du telephone ; on l assume plutot que de le recadrer. */
+.visite { display: grid; gap: 20px; margin-bottom: 26px; align-items: center; }
+@media (min-width: 820px) { .visite { grid-template-columns: minmax(0, 300px) 1fr; gap: 34px; } }
+.visite-film {
+  border-radius: var(--rayon); overflow: hidden;
+  background: var(--nuit-2); border: 1px solid var(--ligne-nuit);
+  /* En colonne unique, une video verticale pleine largeur occuperait
+     deux ecrans de haut : on la borne et on la centre. */
+  max-width: 330px; margin: 0 auto; width: 100%;
+}
+@media (min-width: 820px) { .visite-film { max-width: none; margin: 0; } }
+.visite-film video { display: block; width: 100%; height: auto; }
+.visite-texte h3 { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
+.visite-texte h3 em { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--laiton-fonce); }
+.visite-texte p { color: var(--encre-douce); font-size: 15px; line-height: 1.65; }
+
 /* ---------- Galerie ---------- */
 .mosaique { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (min-width: 760px) { .mosaique { gap: 20px; } }

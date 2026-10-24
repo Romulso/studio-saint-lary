@@ -19,6 +19,25 @@
       500
     ]
   },
+  "canape-vue": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "carte-accueil": {
+    "hauteur": 1772,
+    "largeur": 1181,
+    "variantes": [
+      1181,
+      800,
+      500
+    ]
+  },
   "cuisine": {
     "hauteur": 1337,
     "largeur": 1206,
@@ -33,6 +52,27 @@
     "largeur": 1500,
     "variantes": [
       1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "entree": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "plaque-porte": {
+    "hauteur": 2480,
+    "largeur": 1748,
+    "variantes": [
+      1748,
+      1600,
       1200,
       800,
       500
@@ -96,6 +136,16 @@
     "hauteur": 1600,
     "largeur": 1200,
     "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "salle-eau-2026": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
       1200,
       800,
       500
@@ -169,10 +219,50 @@
       500
     ]
   },
+  "sejour-salon": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-table": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
   "sejour-tv": {
     "hauteur": 1363,
     "largeur": 1206,
     "variantes": [
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-tv-2026": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-vers-baie": {
+    "hauteur": 2000,
+    "largeur": 1500,
+    "variantes": [
+      1500,
       1200,
       800,
       500
@@ -225,6 +315,14 @@
       1600,
       1200,
       800,
+      500
+    ]
+  },
+  "visite-affiche": {
+    "hauteur": 1280,
+    "largeur": 720,
+    "variantes": [
+      720,
       500
     ]
   },
