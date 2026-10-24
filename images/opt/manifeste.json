@@ -269,11 +269,9 @@
     ]
   },
   "teaser-affiche": {
-    "hauteur": 1080,
-    "largeur": 1920,
+    "hauteur": 720,
+    "largeur": 1280,
     "variantes": [
-      1920,
-      1600,
       1200,
       800,
       500
