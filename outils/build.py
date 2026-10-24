@@ -214,21 +214,21 @@ def bloc_logement(page, langue, avis):
     if langue == "fr":
         description = ("Studio de 27 m² avec balcon de 9 m² vue montagne, au premier étage de la "
                        "résidence Royal Milan à Saint-Lary-Soulan. 200 m des remontées mécaniques, "
-                       "thermes Sensoria à 150 m, sauna et jacuzzi en accès libre, piscine chauffée "
+                       "thermes Sensoria à 150 m, sauna en accès libre, piscine chauffée "
                        "l'été. Location en direct auprès des propriétaires, sans commission.")
         animaux = "Chiens acceptés l'été uniquement, sous conditions ; pas d'animaux en hiver"
         logement = "Studio avec balcon, couchages dans la pièce de vie"
-        equipements = ["Balcon de 9 m² vue montagne", "Sauna et jacuzzi (résidence)",
+        equipements = ["Balcon de 9 m² vue montagne", "Sauna (résidence)",
                        "Piscine extérieure chauffée l'été", "Salle de sport", "Lave-vaisselle",
                        "Casier à skis", "Parking", "Wifi (espaces communs)"]
     else:
         description = ("27 m² studio flat with a 9 m² mountain-view balcony, on the first floor of the "
                        "Royal Milan residence in Saint-Lary-Soulan, French Pyrenees. 200 m from the ski "
-                       "lifts, Sensoria thermal baths 150 m away, free access to sauna and jacuzzi, "
+                       "lifts, Sensoria thermal baths 150 m away, free access to the sauna, "
                        "heated outdoor pool in summer. Booked directly with the owners, no agency fees.")
         animaux = "Dogs welcome in summer only, under conditions; no pets in winter"
         logement = "Studio flat with balcony, beds in the living area"
-        equipements = ["9 m² mountain-view balcony", "Sauna and jacuzzi (residence)",
+        equipements = ["9 m² mountain-view balcony", "Sauna (residence)",
                        "Heated outdoor pool in summer", "Fitness room", "Dishwasher",
                        "Ski locker", "Car park", "Wi-Fi (common areas)"]
 

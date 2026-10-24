@@ -37,13 +37,13 @@ PAGES = [
         "fr": {
             "titre": "Studio à Saint-Lary-Soulan, 200 m des remontées",
             "description": "Studio 27 m² avec balcon vue montagne à Saint-Lary-Soulan, vallée d'Aure, à 200 m des "
-                           "remontées. Sauna, jacuzzi, thermes à 150 m. Location en direct.",
+                           "remontées. Sauna, thermes à 150 m. Location en direct.",
             "og_titre": "Le Balcon d'Aure — studio à Saint-Lary-Soulan, 200 m des remontées",
         },
         "en": {
             "titre": "Ski studio to rent in Saint-Lary-Soulan, Pyrenees",
             "description": "27 m² studio flat with mountain-view balcony in Saint-Lary-Soulan, 200 m from "
-                           "the ski lifts. Sauna, jacuzzi, thermal baths 150 m away. Book direct, no fees.",
+                           "the ski lifts. Sauna, thermal baths 150 m away. Book direct, no fees.",
             "og_titre": "Le Balcon d'Aure — studio flat in Saint-Lary-Soulan",
         },
     },
@@ -77,14 +77,14 @@ PAGES = [
         "parent": "",
         "jsonld": "logement",
         "fr": {
-            "titre": "Résidence Royal Milan, vallée d'Aure : sauna, jacuzzi",
-            "description": "La résidence Royal Milan en vallée d'Aure : sauna et jacuzzi en accès libre, "
+            "titre": "Résidence Royal Milan, vallée d'Aure : sauna et piscine",
+            "description": "La résidence Royal Milan en vallée d'Aure : sauna en accès libre, "
                            "piscine chauffée l'été, salle de sport, billard et casier à skis.",
             "og_titre": "La résidence Royal Milan, ses espaces communs et son bien-être",
         },
         "en": {
-            "titre": "Royal Milan residence, Saint-Lary: sauna and jacuzzi",
-            "description": "The Royal Milan residence in Saint-Lary-Soulan: free sauna and jacuzzi, heated "
+            "titre": "Royal Milan residence, Saint-Lary: sauna and pool",
+            "description": "The Royal Milan residence in Saint-Lary-Soulan: free sauna, heated "
                            "outdoor pool in summer, fitness room, billiards and ski locker.",
             "og_titre": "The Royal Milan residence and its shared spaces",
         },
@@ -122,13 +122,13 @@ PAGES = [
         "fr": {
             "titre": "Location au ski à Saint-Lary, 200 m des remontées",
             "description": "Studio en vallée d'Aure, à 200 m du télécabine. 100 km de pistes sur le Pla "
-                           "d'Adet, Espiaube et le Vallon du Portet. Casier à skis, sauna et jacuzzi.",
+                           "d'Adet, Espiaube et le Vallon du Portet. Casier à skis et sauna.",
             "og_titre": "Séjour au ski à Saint-Lary — 200 m des remontées",
         },
         "en": {
             "titre": "Ski rental in Saint-Lary, 200 m from the lifts",
             "description": "A studio 200 m from the cable car, skis on your shoulder. 100 km of runs across "
-                           "Pla d'Adet, Espiaube and Vallon du Portet. Ski locker, sauna and jacuzzi.",
+                           "Pla d'Adet, Espiaube and Vallon du Portet. Ski locker and sauna.",
             "og_titre": "Ski holidays in Saint-Lary — 200 m from the lifts",
         },
     },
@@ -179,7 +179,7 @@ PAGES = [
         "fr": {
             "titre": "Séjour vélo à Saint-Lary : Aspin, Peyresourde, Azet",
             "description": "Camp de base cycliste en vallée d'Aure : Pla d'Adet, Aspin, Peyresourde, Azet. "
-                           "Le Tour y arrive au col du Portet le 22 juillet 2027. Local à vélos fermé, sauna et jacuzzi.",
+                           "Le Tour y arrive au col du Portet le 22 juillet 2027. Local à vélos fermé et sauna.",
             "og_titre": "Les cols d'Aure à vélo, depuis le pied de la montée",
         },
     },

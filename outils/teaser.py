@@ -51,7 +51,7 @@ PLANS = [
     ("canape-vue.jpg",          3.4, "27 m² ouverts sur la montagne"),
     ("sejour-salon.jpg",        3.4, "Meublé classé 3 étoiles, label Confort +"),
     ("cuisine-neuve.jpg",       3.4, "Cuisine équipée, lave-vaisselle, terrasse"),
-    ("residence-salon.jpeg",    3.4, "Sauna, jacuzzi et piscine chauffée l'été"),
+    ("residence-salon.jpeg",    3.4, "Sauna et piscine chauffée l'été"),
     (False,                     3.2, None),
 ]
 FONDU = 0.45          # secondes de fondu enchaine entre deux plans
