@@ -59,6 +59,9 @@
     ],
     "noir": 3
   },
+  "cuisine-plan-serre.jpg": {
+    "derive": "cuisine-neuve.jpg deja retouchee, recadree au plus serre"
+  },
   "cuisine.jpeg": {
     "blanc": 254,
     "cadre": "interieur",

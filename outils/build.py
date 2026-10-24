@@ -209,8 +209,27 @@ def metas(page, langue):
     return "\n".join(lignes)
 
 
+def plus_grande_variante(nom):
+    """Chemin de la plus large variante WebP disponible pour une photo.
+
+    Toutes n'ont pas la meme definition : un recadrage serre plafonne a sa
+    largeur native, et coder 1200 en dur pointait alors vers un fichier
+    inexistant."""
+    import glob as _glob
+    motif = os.path.join(RACINE, "images", "opt", nom + "-*.webp")
+    largeurs = []
+    for chemin in _glob.glob(motif):
+        reste = os.path.basename(chemin)[len(nom) + 1:-5]
+        if reste.isdigit():
+            largeurs.append(int(reste))
+    if not largeurs:
+        raise SystemExit("Photo absente de images/opt : %s" % nom)
+    return "/images/opt/%s-%d.webp" % (nom, max(largeurs))
+
+
 def bloc_logement(page, langue, avis):
-    photos = ["vue-montagne", "sejour-baie", "sejour-large", "cuisine", "balcon-vue"]
+    photos = ["vue-montagne", "sejour-salon", "canape-vue", "cuisine-plan-serre",
+              "terrasse-transats"]
     if langue == "fr":
         description = ("Studio de 27 m² avec balcon de 9 m² vue montagne, au premier étage de la "
                        "résidence Royal Milan à Saint-Lary-Soulan. 200 m des remontées mécaniques, "
@@ -247,7 +266,7 @@ def bloc_logement(page, langue, avis):
         "url": registre.url(page["slug"], langue),
         "inLanguage": langue,
         "description": description,
-        "image": [DOMAINE + "/images/opt/%s-1200.webp" % p for p in photos],
+        "image": [DOMAINE + plus_grande_variante(p) for p in photos],
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Résidence Royal Milan, chemin de Vielle-Aure",

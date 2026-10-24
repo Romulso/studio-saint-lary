@@ -43,14 +43,17 @@ BLANC = (255, 255, 255)
 POLICE = "/System/Library/Fonts/Avenir Next.ttc"
 SERIF = "/System/Library/Fonts/Optima.ttc"
 
-# Chaque plan : fichier, duree en secondes, legende. None = carton.
+# Chaque plan : fichier, duree en secondes, legende, et pour les photos
+# verticales la hauteur du recadrage 16/9 (0 = haut, 1 = bas ; 0,5 par
+# defaut). Sans ce reglage, un cadrage serre centre coupe l'essentiel : la
+# cuisine ne montrait plus son lave-vaisselle. None = carton.
 PLANS = [
     (None,                      2.8, None),
     ("vue-montagne.jpeg",       3.4, "Saint-Lary-Soulan, au cœur de la vallée d'Aure"),
     ("terrasse-transats.jpg",   3.4, "Une terrasse de 9 m² face aux sommets"),
     ("canape-vue.jpg",          3.4, "27 m² ouverts sur la montagne"),
     ("sejour-salon.jpg",        3.4, "Meublé classé 3 étoiles, label Confort +"),
-    ("cuisine-neuve.jpg",       3.4, "Cuisine équipée, lave-vaisselle, terrasse"),
+    ("cuisine-plan-serre.jpg",  3.4, "Cuisine équipée, lave-vaisselle, terrasse", 0.74),
     ("residence-salon.jpeg",    3.4, "Sauna et piscine chauffée l'été"),
     (False,                     3.2, None),
 ]
@@ -88,7 +91,7 @@ def carton(ouverture=True):
     return im
 
 
-def plan_photo(nom, legende, avance):
+def plan_photo(nom, legende, avance, ancrage=0.5):
     """Une photo recadree en 16/9, avec un leger mouvement de zoom."""
     source = Image.open(os.path.join(IMAGES, nom)).convert("RGB")
     zoom = 1.08 - 0.08 * avance            # on s'approche doucement
@@ -97,7 +100,7 @@ def plan_photo(nom, legende, avance):
     agrandie = source.resize((max(1, round(source.width * ratio)),
                               max(1, round(source.height * ratio))), Image.LANCZOS)
     gauche = (agrandie.width - cible_l) // 2
-    haut = (agrandie.height - cible_h) // 2
+    haut = int((agrandie.height - cible_h) * ancrage)
     im = agrandie.crop((gauche, haut, gauche + cible_l, haut + cible_h)).resize((L, H), Image.LANCZOS)
 
     # Voile du bas, pour que la legende reste lisible sur toute photo
@@ -114,12 +117,12 @@ def plan_photo(nom, legende, avance):
 
 
 def image_du_plan(plan, avance):
-    fichier, _, legende = plan
+    fichier, legende = plan[0], plan[2]
     if fichier is None:
         return carton(True)
     if fichier is False:
         return carton(False)
-    return plan_photo(fichier, legende, avance)
+    return plan_photo(fichier, legende, avance, plan[3] if len(plan) > 3 else 0.5)
 
 
 def main():

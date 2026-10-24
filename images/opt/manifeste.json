@@ -38,21 +38,10 @@
       500
     ]
   },
-  "cuisine": {
-    "hauteur": 1337,
-    "largeur": 1206,
+  "cuisine-plan-serre": {
+    "hauteur": 960,
+    "largeur": 810,
     "variantes": [
-      1200,
-      800,
-      500
-    ]
-  },
-  "cuisine-neuve": {
-    "hauteur": 1125,
-    "largeur": 1500,
-    "variantes": [
-      1500,
-      1200,
       800,
       500
     ]
