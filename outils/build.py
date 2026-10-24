@@ -266,6 +266,8 @@ def bloc_logement(page, langue, avis):
         # Classement prefectoral du meuble de tourisme : Google s en sert pour
         # qualifier l hebergement, au meme titre que les etoiles d un hotel.
         "starRating": {"@type": "Rating", "ratingValue": 3, "bestRating": 5},
+        # Label propre a la station, distinct du classement prefectoral.
+        "award": "Label Qualité Confort Hébergement de Saint-Lary — 4 diamants sur 5, niveau Confort +",
         "checkinTime": "15:00:00",
         "checkoutTime": "10:00:00",
         "amenityFeature": [
