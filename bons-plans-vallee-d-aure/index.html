@@ -26,7 +26,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=29">
+<link rel="stylesheet" href="/style.css?v=30">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -312,9 +312,10 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var nav = document.getElementById('nav');
   var haut = document.getElementById('haut');
   var liens = document.querySelectorAll('.nav-liens a');
-  if ('IntersectionObserver' in window && haut) {
-    new IntersectionObserver(function (e) { nav.classList.toggle('montree', !e[0].isIntersecting); }, { threshold: 0.22 }).observe(haut);
-  } else { nav.classList.add('montree'); }
+  /* La barre reste visible dès l'arrivée, y compris sur la bannière de
+     l'accueil : elle y etait masquee tant qu'on n'avait pas defile, et le
+     visiteur se retrouvait sans menu sur la premiere page. */
+  nav.classList.add('montree');
 
   /* Le menu pointe desormais vers d'autres pages : le lien de la page
      courante est marque au build. Seules les ancres internes (#...) sont
