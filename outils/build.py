@@ -220,7 +220,7 @@ def bloc_logement(page, langue, avis):
         logement = "Studio avec balcon, couchages dans la pièce de vie"
         equipements = ["Balcon de 9 m² vue montagne", "Sauna (résidence)",
                        "Piscine extérieure chauffée l'été", "Salle de sport", "Lave-vaisselle",
-                       "Casier à skis", "Parking", "Wifi (espaces communs)"]
+                       "Casier à skis", "Parking", "Wifi"]
     else:
         description = ("27 m² studio flat with a 9 m² mountain-view balcony, on the first floor of the "
                        "Royal Milan residence in Saint-Lary-Soulan, French Pyrenees. 200 m from the ski "
@@ -230,7 +230,7 @@ def bloc_logement(page, langue, avis):
         logement = "Studio flat with balcony, beds in the living area"
         equipements = ["9 m² mountain-view balcony", "Sauna (residence)",
                        "Heated outdoor pool in summer", "Fitness room", "Dishwasher",
-                       "Ski locker", "Car park", "Wi-Fi (common areas)"]
+                       "Ski locker", "Car park", "Wi-Fi"]
 
     # LodgingBusiness plutot que VacationRental : ce dernier n est exploite que
     # par le programme partenaire Google Vacation Rentals, reserve aux societes
