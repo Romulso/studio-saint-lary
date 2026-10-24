@@ -1,22 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Carte d'accueil 10x15 cm, une seule face, a poser dans le studio.
+Carte d'accueil 13x18 cm, une seule face, a poser dans le studio.
 
     python3 outils/carte_accueil.py
 
-Produit images/carte-accueil.jpg en 1181 x 1772 px, soit 10 x 15 cm a
-300 points par pouce : le format d'un tirage photo ordinaire, que
-n'importe quel labo imprime pour quelques centimes sur papier epais.
+Produit ../carte-accueil-13x18.jpg en 1535 x 2126 px, soit 13 x 18 cm a
+300 points par pouce : un format de tirage photo courant, que n'importe
+quel labo imprime pour quelques centimes sur papier epais.
 
 Une seule face : le locataire la lit d'un coup d'oeil, posee sur la
 table. Tout ce qui demande une page entiere — equipements, services de
 la residence, adresses de la vallee — vit dans le livret en ligne, ou
 mene le QR code.
 
-La ligne du wifi reste vide a dessein : la carte s'imprime une fois pour
-toutes et le code s'ecrit au feutre effacable, ou se remplit ici quand il
-sera connu.
+La carte sort VOLONTAIREMENT du depot : elle porte le code du wifi, et
+tout ce qui vit dans le depot est publie sur lebalcondaure.fr. Elle
+s'imprime depuis ../carte-accueil.html, en local.
+
+Le code lui-meme n'est pas dans ce fichier non plus : il se lit dans
+../carte-accueil-wifi.txt, deux lignes, hors du depot —
+
+    reseau: le nom du reseau
+    code: le mot de passe
+
+Sans ce fichier, la carte sort avec deux lignes vides a remplir au
+feutre : c'est ce qu'il faut pour une carte montree en exemple.
+
+Le dessin est decrit aux cotes du 10 x 15 d'origine et mis a l'echelle
+par ECHELLE : changer de format ne demande que de changer L, H et ce
+facteur.
 
 Prerequis :  pip3 install qrcode pillow
 """
@@ -27,10 +40,12 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SORTIE = os.path.join(RACINE, "images")
+SORTIE = os.path.abspath(os.path.join(RACINE, ".."))
+WIFI = os.path.join(SORTIE, "carte-accueil-wifi.txt")
 
-L, H = 1181, 1772            # 10 x 15 cm a 300 ppp
-MARGE = 74
+L, H = 1535, 2126            # 13 x 18 cm a 300 ppp
+ECHELLE = H / 1772.0         # le dessin a ete regle pour un 10 x 15
+MARGE = 89
 
 NUIT = (7, 16, 25)
 JOUR = (245, 248, 251)
@@ -45,10 +60,28 @@ POLICE = "/System/Library/Fonts/Avenir Next.ttc"
 SERIF = "/System/Library/Fonts/Optima.ttc"
 
 
+def acces_wifi():
+    """Rend (reseau, code), chaines vides si le fichier n'existe pas."""
+    valeurs = {"reseau": "", "code": ""}
+    if os.path.exists(WIFI):
+        for ligne in open(WIFI, encoding="utf-8"):
+            if ":" in ligne:
+                cle, _, valeur = ligne.partition(":")
+                cle = cle.strip().lower()
+                if cle in valeurs:
+                    valeurs[cle] = valeur.strip()
+    return valeurs["reseau"], valeurs["code"]
+
+
+def e(valeur):
+    """Une cote du dessin d'origine, portee au format courant."""
+    return int(round(valeur * ECHELLE))
+
+
 def fonte(taille, gras=False, serif=False):
     if serif:
-        return ImageFont.truetype(SERIF, taille, index=3 if gras else 0)
-    return ImageFont.truetype(POLICE, taille, index=5 if gras else 0)
+        return ImageFont.truetype(SERIF, e(taille), index=3 if gras else 0)
+    return ImageFont.truetype(POLICE, e(taille), index=5 if gras else 0)
 
 
 def texte(d, xy, contenu, f, couleur, interligne=1.32, largeur=None, espacement=0):
@@ -83,8 +116,8 @@ def texte(d, xy, contenu, f, couleur, interligne=1.32, largeur=None, espacement=
 
 def etiquette(d, y, mot):
     """Petit intertitre dore en capitales espacees."""
-    texte(d, (MARGE, y), mot, fonte(19, gras=True), LAITON, espacement=3)
-    return y + 40
+    texte(d, (MARGE, y), mot, fonte(19, gras=True), LAITON, espacement=e(3))
+    return y + e(40)
 
 
 def qr_livret(taille):
@@ -97,89 +130,103 @@ def qr_livret(taille):
 
 
 def carte():
+    reseau, code = acces_wifi()
     im = Image.new("RGB", (L, H), JOUR)
     d = ImageDraw.Draw(im)
     pleine = L - 2 * MARGE
 
     # ---------------- Bandeau de tete ----------------
-    d.rectangle([0, 0, L, 300], fill=NUIT)
-    y = texte(d, (MARGE, 56), "SAINT-LARY-SOULAN \u00b7 VALL\u00c9E D'AURE",
-              fonte(19), LAITON_CLAIR, espacement=3)
-    y = texte(d, (MARGE, y + 16), "Bienvenue", fonte(66, gras=True), BLANC, interligne=1.02)
-    texte(d, (MARGE, y - 4), "au Balcon d'Aure.", fonte(58, serif=True), LAITON_CLAIR)
+    d.rectangle([0, 0, L, e(300)], fill=NUIT)
+    y = texte(d, (MARGE, e(56)), "SAINT-LARY-SOULAN · VALLÉE D'AURE",
+              fonte(19), LAITON_CLAIR, espacement=e(3))
+    y = texte(d, (MARGE, y + e(16)), "Bienvenue", fonte(66, gras=True), BLANC,
+              interligne=1.02)
+    texte(d, (MARGE, y - e(4)), "au Balcon d'Aure.", fonte(58, serif=True), LAITON_CLAIR)
 
     # ---------------- Contact ----------------
-    y = etiquette(d, 352, "NOUS JOINDRE")
-    y = texte(d, (MARGE, y), "06 42 84 55 42   \u00b7   06 27 35 23 28",
+    y = etiquette(d, e(352), "NOUS JOINDRE")
+    y = texte(d, (MARGE, y), "06 42 84 55 42   ·   06 27 35 23 28",
               fonte(40, gras=True), ENCRE)
-    y = texte(d, (MARGE, y + 2), "Karine et Romuald \u2014 appel, SMS ou WhatsApp",
+    y = texte(d, (MARGE, y + e(2)), "Karine et Romuald — appel, SMS ou WhatsApp",
               fonte(22), TENU)
 
-    # ---------------- Wifi, a remplir ----------------
-    y += 26
-    d.rounded_rectangle([MARGE, int(y), L - MARGE, int(y) + 150], radius=16,
-                        outline=(197, 210, 222), width=3)
-    texte(d, (MARGE + 28, y + 22), "WIFI", fonte(19, gras=True), LAITON, espacement=3)
-    texte(d, (MARGE + 28, y + 62), "R\u00e9seau", fonte(24), ENCRE)
-    texte(d, (MARGE + 28, y + 104), "Mot de passe", fonte(24), ENCRE)
-    for ligne_y in (y + 90, y + 132):
-        d.line([(MARGE + 270, ligne_y), (L - MARGE - 28, ligne_y)],
-               fill=(170, 186, 200), width=2)
-    y += 150
+    # ---------------- Wifi ----------------
+    y += e(26)
+    haut_cadre = e(150)
+    d.rounded_rectangle([MARGE, int(y), L - MARGE, int(y) + haut_cadre],
+                        radius=e(16), outline=(197, 210, 222), width=e(3))
+    texte(d, (MARGE + e(28), y + e(22)), "WIFI", fonte(19, gras=True), LAITON,
+          espacement=e(3))
+    colonne = MARGE + e(270)
+    for decalage, mot, valeur in ((e(62), "Réseau", reseau),
+                                  (e(104), "Mot de passe", code)):
+        texte(d, (MARGE + e(28), y + decalage), mot, fonte(24), TENU)
+        if valeur:
+            texte(d, (colonne, y + decalage - e(3)), valeur, fonte(27, gras=True), ENCRE)
+        else:
+            d.line([(colonne, y + decalage + e(28)), (L - MARGE - e(28), y + decalage + e(28))],
+                   fill=(170, 186, 200), width=e(2))
+    y += haut_cadre
 
     # ---------------- Urgences, sur une ligne ----------------
-    y = etiquette(d, y + 30, "URGENCES")
+    y = etiquette(d, y + e(30), "URGENCES")
     pas = pleine // 4
+    gras42 = fonte(42, gras=True)
     for i, (numero, quoi) in enumerate([("15", "SAMU"), ("18", "Pompiers"),
-                                        ("17", "Police"), ("112", "Europ\u00e9en")]):
+                                        ("17", "Police"), ("112", "Européen")]):
         x = MARGE + i * pas
-        d.text((x, y), numero, font=fonte(42, gras=True), fill=ENCRE)
-        d.text((x + d.textlength(numero, font=fonte(42, gras=True)) + 12, y + 16),
+        d.text((x, y), numero, font=gras42, fill=ENCRE)
+        d.text((x + d.textlength(numero, font=gras42) + e(12), y + e(16)),
                quoi, font=fonte(21), fill=TENU)
-    y += 72
+    y += e(72)
 
     # ---------------- Depart ----------------
-    d.line([(MARGE, y + 18), (L - MARGE, y + 18)], fill=(201, 168, 106), width=2)
-    y = etiquette(d, y + 48, "AVANT DE PARTIR")
-    y = texte(d, (MARGE, y - 6), "D\u00e9part avant 10 h", fonte(36, gras=True), ENCRE)
-    y += 16
-    for ligne in ["Lave-vaisselle vid\u00e9 et rang\u00e9",
-                  "Poubelles d\u00e9pos\u00e9es au local",
-                  "Draps retir\u00e9s, lit laiss\u00e9 ouvert",
-                  "Multiprises d\u00e9branch\u00e9es",
-                  "Frigo vid\u00e9, thermostat sur 0, porte entrouverte",
-                  "Cl\u00e9s remises dans la bo\u00eete \u00e0 cl\u00e9s"]:
-        d.ellipse([MARGE + 4, int(y) + 13, MARGE + 14, int(y) + 23], fill=LAITON)
-        y = texte(d, (MARGE + 36, y), ligne, fonte(26), ENCRE) + 4
-    y = texte(d, (MARGE, y + 8),
-              "Le m\u00e9nage est en option : sinon, suivez ce que nous avons convenu.",
+    d.line([(MARGE, y + e(18)), (L - MARGE, y + e(18))], fill=(201, 168, 106), width=e(2))
+    y = etiquette(d, y + e(48), "AVANT DE PARTIR")
+    y = texte(d, (MARGE, y - e(6)), "Départ avant 10 h", fonte(36, gras=True), ENCRE)
+    y += e(16)
+    for ligne in ["Lave-vaisselle vidé et rangé",
+                  "Poubelles déposées au local",
+                  "Draps retirés, lit laissé ouvert",
+                  "Multiprises débranchées",
+                  "Frigo vidé, thermostat sur 0, porte entrouverte",
+                  "Clés remises dans la boîte à clés"]:
+        d.ellipse([MARGE + e(4), int(y) + e(13), MARGE + e(14), int(y) + e(23)], fill=LAITON)
+        y = texte(d, (MARGE + e(36), y), ligne, fonte(26), ENCRE) + e(4)
+    y = texte(d, (MARGE, y + e(8)),
+              "Le ménage est en option : sinon, suivez ce que nous avons convenu.",
               fonte(21), TENU, largeur=pleine, interligne=1.38)
 
     # ---------------- Regles ----------------
-    d.line([(MARGE, y + 20), (L - MARGE, y + 20)], fill=(201, 168, 106), width=2)
-    y = etiquette(d, y + 48, "LA MAISON")
+    d.line([(MARGE, y + e(20)), (L - MARGE, y + e(20))], fill=(201, 168, 106), width=e(2))
+    y = etiquette(d, y + e(48), "LA MAISON")
+    gras25 = fonte(25, gras=True)
     for titre, detail in [("Non-fumeur", "merci de fumer sur la terrasse"),
-                          ("Trois personnes", "le nombre convenu \u00e0 la r\u00e9servation"),
-                          ("Chiens l'\u00e9t\u00e9 seulement", "sur accord, jamais en hiver"),
-                          ("Calme apr\u00e8s 22 h", "la r\u00e9sidence est habit\u00e9e \u00e0 l'ann\u00e9e")]:
-        d.text((MARGE, y), titre, font=fonte(25, gras=True), fill=ENCRE)
-        d.text((MARGE + d.textlength(titre, font=fonte(25, gras=True)) + 16, y + 3),
-               "\u00b7  " + detail, font=fonte(22), fill=TENU)
-        y += 38
+                          ("Trois personnes", "le nombre convenu à la réservation"),
+                          ("Chiens l'été seulement", "sur accord, jamais en hiver"),
+                          ("Calme après 22 h", "la résidence est habitée à l'année")]:
+        d.text((MARGE, y), titre, font=gras25, fill=ENCRE)
+        d.text((MARGE + d.textlength(titre, font=gras25) + e(16), y + e(3)),
+               "·  " + detail, font=fonte(22), fill=TENU)
+        y += e(38)
 
     # ---------------- Livret et avis ----------------
-    d.rectangle([0, H - 300, L, H], fill=NUIT)
-    taille = 186
-    im.paste(qr_livret(taille), (MARGE, H - 300 + 58))
-    tx = MARGE + taille + 36
-    yy = H - 300 + 56
-    texte(d, (tx, yy), "LE LIVRET COMPLET", fonte(19, gras=True), LAITON_CLAIR, espacement=3)
-    texte(d, (tx, yy + 40),
-          "\u00c9quipements, services de la r\u00e9sidence, nos adresses dans la vall\u00e9e.",
+    pied = H - e(300)
+    if y > pied - e(10):
+        raise SystemExit("Le contenu deborde sur le pied de page : %d > %d" % (y, pied))
+    d.rectangle([0, pied, L, H], fill=NUIT)
+    taille = e(186)
+    im.paste(qr_livret(taille), (MARGE, pied + e(58)))
+    tx = MARGE + taille + e(36)
+    yy = pied + e(56)
+    texte(d, (tx, yy), "LE LIVRET COMPLET", fonte(19, gras=True), LAITON_CLAIR,
+          espacement=e(3))
+    texte(d, (tx, yy + e(40)),
+          "Équipements, services de la résidence, nos adresses dans la vallée.",
           fonte(22), DOUX, largeur=L - MARGE - tx, interligne=1.35)
-    texte(d, (tx, yy + 116), "lebalcondaure.fr/livret", fonte(26, gras=True), BLANC)
-    texte(d, (tx, yy + 160),
-          "Votre s\u00e9jour vous a plu ? lebalcondaure.fr/livre-d-or",
+    texte(d, (tx, yy + e(116)), "lebalcondaure.fr/livret", fonte(26, gras=True), BLANC)
+    texte(d, (tx, yy + e(160)),
+          "Votre séjour vous a plu ? lebalcondaure.fr/livre-d-or",
           fonte(21), DOUX, largeur=L - MARGE - tx, interligne=1.35)
 
     return im
@@ -187,8 +234,9 @@ def carte():
 
 if __name__ == "__main__":
     image = carte()
-    chemin = os.path.join(SORTIE, "carte-accueil.jpg")
+    chemin = os.path.join(SORTIE, "carte-accueil-13x18.jpg")
     image.save(chemin, "JPEG", quality=94, optimize=True, dpi=(300, 300))
-    print("  %-24s %d x %d px  %d Ko"
+    print("  %-26s %d x %d px  %d Ko  (wifi : %s)"
           % (os.path.basename(chemin), image.width, image.height,
-             os.path.getsize(chemin) // 1024))
+             os.path.getsize(chemin) // 1024,
+             "rempli" if acces_wifi()[0] else "lignes vides"))
