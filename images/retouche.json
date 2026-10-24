@@ -92,6 +92,36 @@
     ],
     "noir": 7
   },
+  "lac-neige.jpg": {
+    "blanc": 248,
+    "cadre": "plein air",
+    "gains": [
+      1.023,
+      0.999,
+      0.983
+    ],
+    "gamma": 1.215,
+    "luminance": [
+      122.3,
+      133.0
+    ],
+    "noir": 3
+  },
+  "marmotte.jpg": {
+    "blanc": 245,
+    "cadre": "interieur",
+    "gains": [
+      0.944,
+      0.969,
+      1.07
+    ],
+    "gamma": 1.0,
+    "luminance": [
+      161.4,
+      163.8
+    ],
+    "noir": 12
+  },
   "residence-accueil.jpeg": {
     "blanc": 253,
     "cadre": "interieur",
@@ -436,6 +466,21 @@
       138.2
     ],
     "noir": 1
+  },
+  "village-vallee.jpg": {
+    "blanc": 245,
+    "cadre": "plein air",
+    "gains": [
+      1.054,
+      0.999,
+      0.969
+    ],
+    "gamma": 1.22,
+    "luminance": [
+      117.9,
+      129.4
+    ],
+    "noir": 12
   },
   "vue-montagne.jpeg": {
     "blanc": 254,

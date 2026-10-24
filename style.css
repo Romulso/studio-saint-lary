@@ -636,6 +636,16 @@ body.saison-ete [data-hiver] { display: none !important; }
   .escapade > p { font-size: 13.5px; margin-bottom: 13px; }
 }
 
+/* ---------- Une photo seule dans une colonne de texte ---------- */
+.photo-seule {
+  margin: 26px auto; max-width: 560px;
+  border-radius: var(--rayon); overflow: hidden; background: var(--nuit-3);
+}
+.photo-seule img { display: block; width: 100%; height: auto; }
+.photo-seule figcaption {
+  padding: 10px 14px 12px; font-size: 13.5px; color: var(--encre-tenue);
+}
+
 /* ---------- Bande photos des espaces communs ---------- */
 .bande { margin-top: 26px; }
 .bande-titre { margin-bottom: 12px; }

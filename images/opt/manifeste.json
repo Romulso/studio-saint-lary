@@ -56,6 +56,22 @@
       500
     ]
   },
+  "lac-neige": {
+    "hauteur": 768,
+    "largeur": 576,
+    "variantes": [
+      576,
+      500
+    ]
+  },
+  "marmotte": {
+    "hauteur": 768,
+    "largeur": 576,
+    "variantes": [
+      576,
+      500
+    ]
+  },
   "plaque-porte": {
     "hauteur": 2480,
     "largeur": 1748,
@@ -301,6 +317,15 @@
       2000,
       1600,
       1200,
+      800,
+      500
+    ]
+  },
+  "village-vallee": {
+    "hauteur": 768,
+    "largeur": 1024,
+    "variantes": [
+      1024,
       800,
       500
     ]
