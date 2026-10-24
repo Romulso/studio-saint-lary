@@ -1,0 +1,59 @@
+# Rapatrie les reservations des plateformes dans le calendrier du site.
+#
+# Le studio est propose a quatre endroits : le site, Airbnb, Booking et la
+# centrale de l'office de tourisme. Sans cette passerelle, une semaine louee
+# sur l'une resterait affichee libre sur les autres.
+#
+# Les adresses .ics contiennent un jeton d'acces : elles vivent dans les
+# secrets du depot, jamais dans ce fichier, qui est public.
+#   Reglages -> Secrets and variables -> Actions -> New repository secret
+#   ICAL_AIRBNB   (obligatoire)
+#   ICAL_BOOKING  et  ICAL_OFFICE   (facultatifs, quand ils existeront)
+name: Importer les reservations
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"   # toutes les 3 heures, a la 17e minute
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-reservations
+  cancel-in-progress: true
+
+jobs:
+  importer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lire les calendriers des plateformes
+        env:
+          ICAL_AIRBNB: ${{ secrets.ICAL_AIRBNB }}
+          ICAL_BOOKING: ${{ secrets.ICAL_BOOKING }}
+          ICAL_OFFICE: ${{ secrets.ICAL_OFFICE }}
+        run: python3 outils/import_ical.py
+
+      - name: Regenerer le calendrier publie
+        run: |
+          python3 - <<'PY'
+          import sys, pathlib
+          sys.path.insert(0, "outils")
+          import build
+          pathlib.Path("calendrier.ics").write_text(
+              build.calendrier_ics(), encoding="utf-8", newline="")
+          PY
+
+      - name: Publier s il y a du nouveau
+        run: |
+          if git diff --quiet reservations.json calendrier.ics; then
+            echo "Rien de neuf."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reservations.json calendrier.ics
+          git commit -m "Importer les reservations des plateformes"
+          git push

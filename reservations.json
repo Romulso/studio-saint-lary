@@ -116,6 +116,13 @@
       "depart": "2027-01-23",
       "statut": "reserve",
       "note": "Indisponible — compétition (Romuald sur place)"
+    },
+    {
+      "arrivee": "2027-01-30",
+      "depart": "2027-02-06",
+      "statut": "reserve",
+      "source": "airbnb",
+      "note": "Reserved"
     }
   ]
 }
