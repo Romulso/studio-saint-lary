@@ -725,7 +725,6 @@ def calendrier_ics():
     coincident, il n y a donc rien a decaler.
     """
     donnees = json.load(open(RESERVATIONS, encoding="utf-8"))
-    horodatage = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
     lignes = [
         "BEGIN:VCALENDAR",
@@ -743,7 +742,11 @@ def calendrier_ics():
         lignes += [
             "BEGIN:VEVENT",
             "UID:%s-%s@lebalcondaure.fr" % (debut, fin),
-            "DTSTAMP:" + horodatage,
+            # Horodatage derive de la date d arrivee, et non de l heure
+            # courante : sinon le fichier changerait a chaque execution et
+            # l action GitHub republierait le site toutes les trois heures
+            # pour une ligne sans interet.
+            "DTSTAMP:" + debut.replace("-", "") + "T000000Z",
             "DTSTART;VALUE=DATE:" + debut.replace("-", ""),
             "DTEND;VALUE=DATE:" + fin.replace("-", ""),
             "SUMMARY:" + titre + " — Le Balcon d'Aure",
