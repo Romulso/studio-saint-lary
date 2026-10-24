@@ -185,9 +185,9 @@ def carte():
     y = etiquette(d, y + e(48), "AVANT DE PARTIR")
     y = texte(d, (MARGE, y - e(6)), "Départ avant 10 h", fonte(36, gras=True), ENCRE)
     y += e(16)
-    for ligne in ["Lave-vaisselle vidé et rangé",
-                  "Poubelles déposées au local",
-                  "Draps retirés, lit laissé ouvert",
+    for ligne in ["Lave-vaisselle vidé, rangé, laissé entrouvert",
+                  "Poubelles dans les containers face à la résidence",
+                  "Draps retirés, canapé replié",
                   "Multiprises débranchées",
                   "Frigo vidé, thermostat sur 0, porte entrouverte",
                   "Clés remises dans la boîte à clés"]:
@@ -201,7 +201,7 @@ def carte():
     d.line([(MARGE, y + e(20)), (L - MARGE, y + e(20))], fill=(201, 168, 106), width=e(2))
     y = etiquette(d, y + e(48), "LA MAISON")
     gras25 = fonte(25, gras=True)
-    for titre, detail in [("Non-fumeur", "merci de fumer sur la terrasse"),
+    for titre, detail in [("Non-fumeur", "balcon compris, sans exception"),
                           ("Trois personnes", "le nombre convenu à la réservation"),
                           ("Chiens l'été seulement", "sur accord, jamais en hiver"),
                           ("Calme après 22 h", "la résidence est habitée à l'année")]:
