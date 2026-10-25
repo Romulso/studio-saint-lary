@@ -368,8 +368,16 @@ PAGES = [
              "La semaine du samedi 17 au samedi 24 juillet 2027, qui contient le jour de l'étape. "
              "Les séjours vont du samedi au samedi pendant les vacances scolaires."),
             ("Peut-on monter au col du Portet le jour de l'étape ?",
-             "La route est fermée à la circulation plusieurs heures avant le passage de la course, "
-             "et l'accès au sommet se fait à pied ou à vélo, très tôt le matin."),
+             "À pied, à vélo ou en remontée mécanique, oui — en voiture, non. En 2021, la route "
+             "entre Espiaube et l'arrivée était réservée aux cyclistes et aux piétons dès les jours "
+             "précédents, et l'accès au Pla d'Adet fermait de midi à 23 h. Les modalités 2027 "
+             "seront publiées quelques semaines avant par la commune et l'organisateur."),
+            ("Les routes sont-elles fermées le jour de l'étape à Saint-Lary ?",
+             "En 2021, l'accès au village restait possible jusqu'à midi, la traversée vers l'Espagne "
+             "était impossible de 13 h à 19 h, et les perturbations commençaient dès la veille."),
+            ("Le Défi du Col du Portet a-t-il lieu la même semaine que le Tour 2027 ?",
+             "Oui. Le marathon et le semi-marathon du Défi se courent les 17 et 18 juillet 2027, "
+             "le week-end qui ouvre la semaine de l'étape du 22 juillet."),
             ("Faut-il une voiture pendant la semaine du Tour à Saint-Lary ?",
              "Non. La résidence a son parking, et les commerces, les thermes et les remontées "
              "mécaniques sont accessibles à pied depuis le studio."),
