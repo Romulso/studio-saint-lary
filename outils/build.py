@@ -32,6 +32,7 @@ RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GABARIT = os.path.join(RACINE, "gabarits", "base.html")
 FRAGMENTS = os.path.join(RACINE, "pages")
 GUIDE_JSON = os.path.join(RACINE, "guide.json")
+AGENDA_JSON = os.path.join(RACINE, "agenda.json")
 RESERVATIONS = os.path.join(RACINE, "reservations.json")
 
 DOMAINE = registre.DOMAINE
@@ -429,6 +430,11 @@ def donnees_structurees(page, langue, avis):
             ],
         })
 
+    # La page d'agenda declare ses dates : c'est ce qui permet a Google de
+    # les faire remonter dans ses resultats d'evenements.
+    if page.get("evenements"):
+        blocs.extend(evenements_structures())
+
     fil = fil_structure(bloc_fil(page, langue))
     if fil:
         blocs.append(fil)
@@ -571,6 +577,103 @@ def carte_avis(v):
     return "".join(out)
 
 
+MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
+        "août", "septembre", "octobre", "novembre", "décembre"]
+
+
+def agenda_a_venir():
+    """Les evenements encore a venir, du plus proche au plus lointain.
+
+    Un evenement reste affiche jusqu'au lendemain de sa fin : une fete du
+    samedi doit encore se lire le samedi soir."""
+    donnees = json.load(open(AGENDA_JSON, encoding="utf-8"))
+    aujourdhui = datetime.date.today().isoformat()
+    a_venir = [e for e in donnees.get("evenements", [])
+               if (e.get("fin") or e["debut"]) >= aujourdhui]
+    a_venir.sort(key=lambda e: e["debut"])
+    return donnees.get("verifie", ""), a_venir
+
+
+def date_lisible(debut, fin):
+    d = datetime.date.fromisoformat(debut)
+    if not fin or fin == debut:
+        return "%d %s %d" % (d.day, MOIS[d.month - 1], d.year)
+    f = datetime.date.fromisoformat(fin)
+    if (d.month, d.year) == (f.month, f.year):
+        return "%d – %d %s %d" % (d.day, f.day, MOIS[d.month - 1], d.year)
+    return "%d %s – %d %s %d" % (d.day, MOIS[d.month - 1], f.day, MOIS[f.month - 1], f.year)
+
+
+def carte_evenement(ev):
+    d = datetime.date.fromisoformat(ev["debut"])
+    sur = "À %d km" % ev["km"] if ev.get("km") else "Au village"
+    lignes = ['<article class="evenement">',
+              '<div class="evenement-date"><b>%d</b><span>%s</span></div>'
+              % (d.day, e(MOIS[d.month - 1][:4] + ("." if len(MOIS[d.month - 1]) > 4 else ""))),
+              '<div class="evenement-corps">',
+              '<h3>%s</h3>' % e(ev["nom"]),
+              '<p class="evenement-ou">%s · %s · %s</p>'
+              % (e(date_lisible(ev["debut"], ev.get("fin"))), e(ev["lieu"]), e(sur)),
+              '<p>%s</p>' % e(ev["resume"])]
+    if ev.get("statut") != "confirme":
+        lignes.append('<p class="evenement-reserve">Date à confirmer auprès de l\'organisateur</p>')
+    if ev.get("url"):
+        externe = ev["url"].startswith("http")
+        lignes.append('<a class="evenement-lien" href="%s"%s>En savoir plus →</a>'
+                      % (e(ev["url"]), ' target="_blank" rel="noopener"' if externe else ""))
+    lignes += ["</div>", "</article>"]
+    return "".join(lignes)
+
+
+def bloc_agenda():
+    verifie, evenements = agenda_a_venir()
+    if not evenements:
+        return '<p class="avis-vide">Agenda en cours de mise à jour.</p>'
+    out, mois_courant = [], None
+    for ev in evenements:
+        d = datetime.date.fromisoformat(ev["debut"])
+        if (d.year, d.month) != mois_courant:
+            if mois_courant:
+                out.append("</div>")
+            mois_courant = (d.year, d.month)
+            out.append('<p class="agenda-mois">%s %d</p><div class="agenda-mois-liste">'
+                       % (e(MOIS[d.month - 1].capitalize()), d.year))
+        out.append(carte_evenement(ev))
+    out.append("</div>")
+    if verifie:
+        jour = datetime.date.fromisoformat(verifie)
+        out.append('<p class="cal-note">Agenda vérifié le %d %s %d. '
+                   'Une date vous semble fausse ou il en manque une ? Écrivez-nous, '
+                   'nous corrigeons.</p>' % (jour.day, MOIS[jour.month - 1], jour.year))
+    return "".join(out)
+
+
+def evenements_structures():
+    """Balisage Event des seules dates confirmees : annoncer a Google une
+    date qu'on n'a pas verifiee se paie en confiance."""
+    _, evenements = agenda_a_venir()
+    blocs = []
+    for ev in evenements:
+        if ev.get("statut") != "confirme":
+            continue
+        bloc = {"@context": "https://schema.org", "@type": "Event",
+                "name": ev["nom"], "startDate": ev["debut"],
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+                "description": ev["resume"],
+                "location": {"@type": "Place", "name": ev["lieu"],
+                             "address": {"@type": "PostalAddress",
+                                         "addressLocality": ev["lieu"],
+                                         "addressRegion": "Hautes-Pyrénées",
+                                         "addressCountry": "FR"}}}
+        if ev.get("fin"):
+            bloc["endDate"] = ev["fin"]
+        if ev.get("url"):
+            bloc["url"] = ev["url"] if ev["url"].startswith("http") else DOMAINE + ev["url"]
+        blocs.append(bloc)
+    return blocs
+
+
 def prerendre(doc, langue, guide):
     plans = [p for p in guide.get("bonsplans", [])
              if p.get("visible") is not False and p.get("url_fr")]
@@ -606,6 +709,9 @@ def prerendre(doc, langue, guide):
             if v.get("visible") is not False and v.get("texte")]
     contenu = ("".join(carte_avis(v) for v in avis) if avis
                else '<p class="avis-vide">%s</p>' % e(LIBELLES[langue]["avis_vide"]))
+    doc = doc.replace('<div class="agenda" data-agenda></div>',
+                      '<div class="agenda">%s</div>' % bloc_agenda())
+
     doc = doc.replace('<div class="grille-avis surgit" id="grille-avis"></div>',
                       '<div class="grille-avis surgit" id="grille-avis">%s</div>' % contenu)
     return doc, avis

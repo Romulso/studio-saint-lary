@@ -184,6 +184,23 @@ PAGES = [
         },
     },
     {
+        "slug": "agenda-vallee-d-aure",
+        "fichier": "agenda.html",
+        "bilingue": False,
+        "menu": {"fr": "Agenda"},
+        "fil": {"fr": "Agenda de la vallée"},
+        "parent": "",
+        "jsonld": None,
+        "evenements": True,
+        "fr": {
+            "titre": "Agenda de la vallée d'Aure : courses, fêtes et dates 2027",
+            "description": "Les dates qui remplissent la vallée d'Aure et Saint-Lary-Soulan : "
+                           "trails, fêtes de village, ouverture du domaine skiable et l'étape "
+                           "du Tour de France 2027 au col du Portet.",
+            "og_titre": "L'agenda de la vallée d'Aure, tenu à jour",
+        },
+    },
+    {
         "slug": "bons-plans-vallee-d-aure",
         "fichier": "bons-plans.html",
         "bilingue": False,

@@ -698,6 +698,45 @@ body.saison-ete [data-hiver] { display: none !important; }
   .escapade > p { font-size: 13.5px; margin-bottom: 13px; }
 }
 
+/* ---------- Agenda de la vallee ---------- */
+.agenda-mois {
+  font-family: var(--serif); font-size: clamp(24px, 3vw, 31px); font-weight: 600;
+  color: var(--encre); margin: 34px 0 14px; letter-spacing: -.01em;
+}
+.agenda-mois:first-child { margin-top: 0; }
+.agenda-mois-liste { display: grid; gap: 14px; }
+@media (min-width: 820px) { .agenda-mois-liste { grid-template-columns: 1fr 1fr; gap: 18px; } }
+.evenement {
+  display: grid; grid-template-columns: 54px 1fr; gap: 16px;
+  padding: 18px 20px; border-radius: var(--rayon);
+  background: #fff; border: 1px solid var(--ligne-jour);
+}
+/* La pastille de date se lit avant le titre : c'est par elle qu'on
+   cherche dans un agenda. */
+.evenement-date { text-align: center; padding-top: 2px; }
+.evenement-date b { display: block; font-size: 29px; line-height: 1; color: var(--encre); }
+.evenement-date span {
+  display: block; margin-top: 3px; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--laiton-fonce);
+}
+.evenement-corps h3 { font-size: 17.5px; line-height: 1.25; color: var(--encre); }
+.evenement-ou {
+  margin: 5px 0 9px; font-size: 11.5px; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--encre-tenue);
+}
+.evenement-corps p { font-size: 14.5px; line-height: 1.6; color: var(--encre-douce); }
+.evenement-reserve { margin-top: 9px; font-size: 12.5px; color: var(--laiton-fonce); }
+.evenement-lien {
+  display: inline-block; margin-top: 11px; font-size: 13px; letter-spacing: .04em;
+  color: var(--laiton-fonce); border-bottom: 1px solid rgba(143,106,28,.35);
+}
+.evenement-lien:hover { border-bottom-color: var(--laiton-fonce); }
+.agenda .cal-note { margin-top: 26px; }
+.ecran-nuit .agenda-mois, .ecran-nuit .evenement-date b,
+.ecran-nuit .evenement-corps h3 { color: var(--clair); }
+.ecran-nuit .evenement { background: var(--nuit-2); border-color: var(--ligne-nuit); }
+.ecran-nuit .evenement-corps p { color: var(--doux); }
+
 /* ---------- Une photo seule dans une colonne de texte ---------- */
 .photo-seule {
   margin: 26px auto; max-width: 560px;

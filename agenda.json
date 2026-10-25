@@ -1,0 +1,116 @@
+{
+  "aide": "Agenda public de la vallee d'Aure, affiche sur /agenda-vallee-d-aure/. La page se construit a partir de ce fichier : les evenements passes disparaissent tout seuls, et seuls les 'confirme' entrent dans le balisage Event de Google. Chaque entree porte sa source : sans source verifiable, on n'inscrit rien. Le fichier prive evenements-vallee-aure.json, lui, sert a la tarification et ne doit pas etre publie.",
+  "verifie": "2026-10-25",
+  "evenements": [
+    {
+      "debut": "2026-11-06",
+      "fin": "2026-11-08",
+      "nom": "Titans Backyard Loudenvielle",
+      "lieu": "Loudenvielle",
+      "km": 8,
+      "quoi": "trail",
+      "statut": "confirme",
+      "resume": "Backyard ultra : une boucle par heure, jusqu'a ce qu'il n'en reste qu'un. Les coureurs et leurs accompagnants dorment sur place plusieurs nuits.",
+      "url": "https://www.loudenvielle.fr/"
+    },
+    {
+      "debut": "2026-12-05",
+      "fin": null,
+      "nom": "Ouverture de la station de ski",
+      "lieu": "Saint-Lary-Soulan",
+      "km": 0,
+      "quoi": "ski",
+      "statut": "a_confirmer",
+      "resume": "Ouverture annoncee du domaine pour la saison 2026-2027, sous reserve d'enneigement. Les sites specialises donnent le 4 ou le 5 decembre : la station tranche quelques jours avant.",
+      "url": "https://www.saintlary.com/"
+    },
+    {
+      "debut": "2027-01-16",
+      "fin": null,
+      "nom": "De l'Art et du cochon",
+      "lieu": "Saint-Lary-Soulan",
+      "km": 0,
+      "quoi": "fete",
+      "statut": "a_confirmer",
+      "resume": "La fete du village, autour du porc noir de Bigorre : bodegas, bandas dans les rues et repas festif ouvert a tous. L'edition 2026 s'est tenue le 17 janvier.",
+      "url": "https://www.saintlary.com/"
+    },
+    {
+      "debut": "2027-04-06",
+      "fin": null,
+      "nom": "Fermeture de la station de ski",
+      "lieu": "Saint-Lary-Soulan",
+      "km": 0,
+      "quoi": "ski",
+      "statut": "a_confirmer",
+      "resume": "Derniere journee annoncee pour la saison 2026-2027. Les secteurs d'altitude ferment parfois plus tard que le Pla d'Adet.",
+      "url": "https://www.saintlary.com/"
+    },
+    {
+      "debut": "2027-05-14",
+      "fin": "2027-05-16",
+      "nom": "Trail de la Barousse",
+      "lieu": "Ferrere",
+      "km": 35,
+      "quoi": "trail",
+      "statut": "a_confirmer",
+      "resume": "Trois jours de courses, de 33 a 90 kilometres, dans la vallee voisine de la Barousse.",
+      "url": null
+    },
+    {
+      "debut": "2027-05-22",
+      "fin": null,
+      "nom": "Trail en Vallee d'Aure",
+      "lieu": "Saint-Lary-Soulan",
+      "km": 0,
+      "quoi": "trail",
+      "statut": "a_confirmer",
+      "resume": "Epreuve indexee UTMB, 20 et 50 kilometres, avec depart et arrivee a Saint-Lary meme.",
+      "url": null
+    },
+    {
+      "debut": "2027-07-17",
+      "fin": "2027-07-18",
+      "nom": "Defi du Col du Portet",
+      "lieu": "Saint-Lary-Soulan",
+      "km": 0,
+      "quoi": "trail",
+      "statut": "confirme",
+      "resume": "Marathon de 42,195 km du village au col et retour, 1 600 m de denivele, depart a 8 h le dimanche ; semi-marathon de 21,1 km jusqu'au sommet ; descente semi-nocturne du Pla d'Adet au village.",
+      "url": "https://www.defiduportet.com/"
+    },
+    {
+      "debut": "2027-07-18",
+      "fin": null,
+      "nom": "Fete du Gateau a la Broche",
+      "lieu": "Arreau",
+      "km": 12,
+      "quoi": "fete",
+      "statut": "a_confirmer",
+      "resume": "Cuisson au feu de bois, marche de producteurs, degustations et grand demoulage. Arreau la celebre chaque troisieme dimanche de juillet, ce qui place l'edition 2027 le 18.",
+      "url": "https://www.pyrenees2vallees.com/"
+    },
+    {
+      "debut": "2027-07-22",
+      "fin": null,
+      "nom": "Tour de France, 18e etape : Pau - col du Portet",
+      "lieu": "Saint-Lary-Soulan",
+      "km": 0,
+      "quoi": "velo",
+      "statut": "confirme",
+      "resume": "L'etape reine : 174 km, 5 400 m de denivele, arrivee au col du Portet a 2 215 m, point culminant du Tour 2027.",
+      "url": "/tour-de-france-2027-saint-lary/"
+    },
+    {
+      "debut": "2027-08-18",
+      "fin": "2027-08-22",
+      "nom": "Grand Raid des Pyrenees, 20e edition",
+      "lieu": "Vielle-Aure",
+      "km": 3,
+      "quoi": "trail",
+      "statut": "a_confirmer",
+      "resume": "Cinq jours de courses de 40 a 160 kilometres, au depart de Vielle-Aure. Les dates 2027 ne sont pas publiees : celles-ci sont calees sur l'edition precedente.",
+      "url": "https://www.grandraidpyrenees.com/"
+    }
+  ]
+}
