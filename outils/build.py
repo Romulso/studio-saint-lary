@@ -563,11 +563,18 @@ def pied_liens(langue):
 # --------------------------------------------------------------------------
 
 def carte_bonplan(plan, langue):
-    fr = langue == "fr"
-    url = plan["url_fr"] if fr else (plan.get("url_en") or plan["url_fr"])
-    nom = plan["nom_fr"] if fr else (plan.get("nom_en") or plan["nom_fr"])
-    desc = plan.get("desc_fr") if fr else (plan.get("desc_en") or plan.get("desc_fr"))
-    mot = plan.get("commentaire") if fr else (plan.get("commentaire_en") or plan.get("commentaire"))
+    """Une fiche du carnet. Chaque champ retombe sur le francais a defaut :
+    les sites de la vallee ne sont pas tous traduits, et mieux vaut une
+    adresse juste en francais qu'une adresse absente."""
+    def champ(base):
+        return plan.get("%s_%s" % (base, langue)) or plan.get(base + "_fr") or plan.get(base)
+
+    url = champ("url")
+    nom = champ("nom")
+    desc = champ("desc")
+    mot = (plan.get("commentaire") if langue == "fr"
+           else (plan.get("commentaire_" + langue) or plan.get("commentaire_en")
+                 or plan.get("commentaire")))
     out = ['<a class="activite" target="_blank" rel="noopener" href="%s"><b>%s</b>' % (e(url), e(nom))]
     if desc:
         out.append("<span>%s</span>" % e(desc))

@@ -13,7 +13,9 @@
       "url_en": "https://www.saintlary.com/winter/to-do-on-site/glide/ski-area/trail-map/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Plano de pistas",
+      "desc_es": "Los tres sectores, de 1 700 a 2 515 m"
     },
     {
       "id": "chiens-traineau",
@@ -27,7 +29,9 @@
       "url_en": "https://www.chiendetraineau65.fr/",
       "commentaire": "Baptêmes en traîneau à chiens sur le secteur du vallon du Portet au cœur de la station de Saint-Lary. La Fille aux Loups saura vous accueillir et vous faire passer un excellent moment d'évasion.",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Trineos de perros",
+      "desc_es": "Paseos e iniciación al mushing"
     },
     {
       "id": "raquettes",
@@ -41,7 +45,9 @@
       "url_en": "https://www.saintlary.com/winter/to-do-on-site/move/winter-hiking/snowshoe-hikes/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Rutas con raquetas",
+      "desc_es": "Itinerarios señalizados y salidas guiadas"
     },
     {
       "id": "patinoire",
@@ -55,7 +61,9 @@
       "url_en": "https://www.saintlary.com/winter/to-do-on-site/glide/the-skating-rink/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Pista de hielo del pueblo",
+      "desc_es": "Abierta en invierno, en el centro"
     },
     {
       "id": "parapente",
@@ -69,7 +77,9 @@
       "url_en": "https://existenciel-parapente.fr/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Parapente biplaza",
+      "desc_es": "Vuelos en verano, despegues con esquís en invierno"
     },
     {
       "id": "canyoning",
@@ -83,7 +93,9 @@
       "url_en": "https://www.guides-saintlary.com/activites-estivales.html",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Barranquismo y vía ferrata",
+      "desc_es": "Con los guías de montaña de Saint-Lary"
     },
     {
       "id": "fermes",
@@ -97,7 +109,9 @@
       "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/local-producers/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Granjas y productores",
+      "desc_es": "De Aure al Louron, descubriendo las granjas"
     },
     {
       "id": "sentier-tourette",
@@ -111,7 +125,9 @@
       "url_en": "https://www.altiservice.com/saint-lary/activites/sentier-theme-du-pic-de-tourette",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Sendero del Pic de Tourette",
+      "desc_es": "En familia, con marmotas residentes"
     },
     {
       "id": "gouffre-esparros",
@@ -125,7 +141,9 @@
       "url_en": "https://www.gouffre-esparros.fr/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Sima de Esparros",
+      "desc_es": "Cristales de aragonito, en las Baronnies"
     },
     {
       "id": "restaurants-hiver",
@@ -139,7 +157,9 @@
       "url_en": "https://www.saintlary.com/winter/to-do-on-site/enjoy/restaurants/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Restaurantes del pueblo",
+      "desc_es": "El directorio oficial, del bistró a la mesa cuidada"
     },
     {
       "id": "restaurants-ete",
@@ -153,7 +173,9 @@
       "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/restaurants/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Restaurantes del pueblo",
+      "desc_es": "El directorio oficial, del bistró a la mesa cuidada"
     },
     {
       "id": "la-grange",
@@ -167,7 +189,9 @@
       "url_en": "https://restaurant-saint-lary.fr/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "La Grange",
+      "desc_es": "Cocina tradicional casera, en el pueblo"
     },
     {
       "id": "la-pergola",
@@ -181,7 +205,9 @@
       "url_en": "https://www.restaurant-lapergola.fr/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "La Pergola — Hôtel Mir",
+      "desc_es": "Cocina regional, rue Vincent Mir"
     },
     {
       "id": "marches-hiver",
@@ -195,7 +221,9 @@
       "url_en": "https://www.saintlary.com/winter/to-do-on-site/enjoy/the-markets/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Los mercados",
+      "desc_es": "Saint-Lary el sábado, Arreau el jueves"
     },
     {
       "id": "marches-ete",
@@ -209,7 +237,9 @@
       "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/the-markets/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Los mercados",
+      "desc_es": "Saint-Lary el sábado, Vielle-Aure el martes"
     },
     {
       "id": "grottes-gargas",
@@ -223,7 +253,9 @@
       "url_en": "https://grottesdegargas.fr/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Cuevas de Gargas",
+      "desc_es": "Cuevas prehistóricas pintadas, con reserva previa"
     },
     {
       "id": "ferme-vignecoise",
@@ -237,7 +269,9 @@
       "url_en": "https://www.saintlary.com/summer/offers/la-ferme-vignecoise-vignec-en-summer-3756788/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "La Ferme Vignecoise",
+      "desc_es": "Cerdo negro de Bigorre criado y elaborado allí mismo, en Vignec"
     },
     {
       "id": "ferme-carlines",
@@ -251,7 +285,9 @@
       "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/local-producers/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "La Ferme des Carlines",
+      "desc_es": "Quesos de oveja en Aulon, con el ordeño visitable al final del día"
     },
     {
       "id": "fromagerie-pitou",
@@ -265,7 +301,9 @@
       "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/local-producers/",
       "commentaire": "",
       "reduction": false,
-      "visible": true
+      "visible": true,
+      "nom_es": "Fromagerie Le Pitou",
+      "desc_es": "Quesos artesanos en Gouaux, al fondo del valle"
     }
   ],
   "avis": []

@@ -59,8 +59,9 @@ PAGES = [
         "slug": "studio",
         "fichier": "studio.html",
         "bilingue": True,
-        "menu": {"fr": "Le studio", "en": "The flat"},
-        "fil": {"fr": "Le studio", "en": "The flat"},
+        "espagnol": True,
+        "menu": {"fr": "Le studio", "en": "The flat", "es": "El estudio"},
+        "fil": {"fr": "Le studio", "en": "The flat", "es": "El estudio"},
         "parent": "",
         "jsonld": "logement",
         "fr": {
@@ -75,13 +76,19 @@ PAGES = [
                            "a 9 m² mountain-view balcony. Sleeps 3, first floor, Royal Milan residence.",
             "og_titre": "The flat in detail — 27 m² and a balcony facing the peaks",
         },
+        "es": {
+            "titre": "Estudio de 27 m² con balcón en Saint-Lary-Soulan",
+            "description": "Estudio de 27 m² con balcón de 9 m² y vistas a la montaña, en la primera planta de la residencia Royal Milan, en Saint-Lary-Soulan. Cocina equipada, tres camas, wifi.",
+            "og_titre": "El estudio en detalle — Le Balcon d'Aure, Saint-Lary-Soulan",
+        },
     },
     {
         "slug": "residence-royal-milan",
         "fichier": "residence.html",
         "bilingue": True,
-        "menu": {"fr": "La résidence", "en": "The residence"},
-        "fil": {"fr": "La résidence", "en": "The residence"},
+        "espagnol": True,
+        "menu": {"fr": "La résidence", "en": "The residence", "es": "La residencia"},
+        "fil": {"fr": "La résidence", "en": "The residence", "es": "La residencia"},
         "parent": "",
         "jsonld": "logement",
         "fr": {
@@ -96,13 +103,19 @@ PAGES = [
                            "outdoor pool in summer, fitness room, billiards and ski locker.",
             "og_titre": "The Royal Milan residence and its shared spaces",
         },
+        "es": {
+            "titre": "Residencia Royal Milan: sauna y piscina, Saint-Lary",
+            "description": "Sauna de acceso libre, piscina exterior climatizada en verano, gimnasio, billar, taquilla de esquí y aparcamiento, frente a las termas de Saint-Lary-Soulan.",
+            "og_titre": "La residencia Royal Milan, frente a las termas",
+        },
     },
     {
         "slug": "tarifs-disponibilites",
         "fichier": "tarifs.html",
         "bilingue": True,
-        "menu": {"fr": "Tarifs & dispos", "en": "Rates & dates"},
-        "fil": {"fr": "Tarifs et disponibilités", "en": "Rates and availability"},
+        "espagnol": True,
+        "menu": {"fr": "Tarifs & dispos", "en": "Rates & dates", "es": "Tarifas y fechas"},
+        "fil": {"fr": "Tarifs et disponibilités", "en": "Rates and availability", "es": "Tarifas y disponibilidad"},
         "parent": "",
         "jsonld": "logement",
         "fr": {
@@ -117,14 +130,20 @@ PAGES = [
                            "fee. Live availability calendar, cleaning, deposit and booking conditions.",
             "og_titre": "Rates and calendar — booked directly, no commission",
         },
+        "es": {
+            "titre": "Tarifas y disponibilidad — de 270 a 700 € la semana",
+            "description": "Calendario de disponibilidad al día, de 270 a 700 € por semana. Alquiler directo del propietario, sin comisión. Limpieza opcional, fianza en línea con Swikly.",
+            "og_titre": "Tarifas y disponibilidad — Le Balcon d'Aure",
+        },
     },
     # ------------------------------------------------------------- saisons
     {
         "slug": "hiver",
         "fichier": "hiver.html",
         "bilingue": True,
-        "menu": {"fr": "Hiver", "en": "Winter"},
-        "fil": {"fr": "Séjour en hiver", "en": "Winter stay"},
+        "espagnol": True,
+        "menu": {"fr": "Hiver", "en": "Winter", "es": "Invierno"},
+        "fil": {"fr": "Séjour en hiver", "en": "Winter stay", "es": "Estancia de invierno"},
         "parent": "",
         "jsonld": "logement",
         "fr": {
@@ -139,13 +158,19 @@ PAGES = [
                            "Pla d'Adet, Espiaube and Vallon du Portet. Ski locker and sauna.",
             "og_titre": "Ski holidays in Saint-Lary — 200 m from the lifts",
         },
+        "es": {
+            "titre": "Alquiler de esquí en Saint-Lary, a 200 m de los remontes",
+            "description": "Estudio a doscientos metros de los remontes de Saint-Lary-Soulan: 100 km de pistas, taquilla de esquí, sauna y termas al volver. De 380 a 700 € la semana.",
+            "og_titre": "Esquiar en Saint-Lary, con los remontes a 200 metros",
+        },
     },
     {
         "slug": "ete",
         "fichier": "ete.html",
         "bilingue": True,
-        "menu": {"fr": "Été", "en": "Summer"},
-        "fil": {"fr": "Séjour en été", "en": "Summer stay"},
+        "espagnol": True,
+        "menu": {"fr": "Été", "en": "Summer", "es": "Verano"},
+        "fil": {"fr": "Séjour en été", "en": "Summer stay", "es": "Estancia de verano"},
         "parent": "",
         "jsonld": "logement",
         "fr": {
@@ -159,6 +184,11 @@ PAGES = [
             "description": "A studio from €300 a week in summer, at the foot of the Néouvielle lakes and Lac de "
                            "l'Oule. Heated outdoor pool at the residence, thermal baths 150 m away.",
             "og_titre": "Summer in Saint-Lary — hiking, lakes and a heated pool",
+        },
+        "es": {
+            "titre": "Verano en el valle de Aure: senderismo, lagos y piscina",
+            "description": "Estudio en Saint-Lary-Soulan desde 300 € la semana en verano: lagos del Néouvielle, lac de l'Oule, piscina climatizada en la residencia y perros admitidos con condiciones.",
+            "og_titre": "El verano en Saint-Lary, desde 300 € la semana",
         },
     },
     {
@@ -345,8 +375,9 @@ PAGES = [
         "slug": "contact",
         "fichier": "contact.html",
         "bilingue": True,
+        "espagnol": True,
         "menu": None,
-        "fil": {"fr": "Contact", "en": "Contact"},
+        "fil": {"fr": "Contact", "en": "Contact", "es": "Contacto"},
         "parent": "",
         "jsonld": "contact",
         "fr": {
@@ -360,6 +391,11 @@ PAGES = [
             "description": "Karine and Romuald answer in person, by phone, WhatsApp or contact form. "
                            "Tell us your dates and we will hold them straight away.",
             "og_titre": "Get in touch — we answer in person",
+        },
+        "es": {
+            "titre": "Contactar con Karine y Romuald — Le Balcon d'Aure",
+            "description": "Escríbenos para consultar fechas en el estudio de Saint-Lary-Soulan: teléfono, WhatsApp o formulario. Respondemos rápido y en persona.",
+            "og_titre": "Contactar con los propietarios — Le Balcon d'Aure",
         },
     },
     {
