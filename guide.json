@@ -224,6 +224,48 @@
       "commentaire": "",
       "reduction": false,
       "visible": true
+    },
+    {
+      "id": "ferme-vignecoise",
+      "saison": "toute",
+      "categorie": "terroir",
+      "nom_fr": "La Ferme Vignecoise",
+      "nom_en": "La Ferme Vignecoise",
+      "desc_fr": "Porc noir de Bigorre élevé et transformé sur place, à Vignec — à deux kilomètres",
+      "desc_en": "Bigorre black pork raised and cured on site at Vignec, two kilometres away",
+      "url_fr": "https://www.saintlary.com/hiver/offres/la-ferme-vignecoise-boutique-vignec-fr-hiver-3756785/",
+      "url_en": "https://www.saintlary.com/summer/offers/la-ferme-vignecoise-vignec-en-summer-3756788/",
+      "commentaire": "",
+      "reduction": false,
+      "visible": true
+    },
+    {
+      "id": "ferme-carlines",
+      "saison": "ete",
+      "categorie": "terroir",
+      "nom_fr": "La Ferme des Carlines",
+      "nom_en": "La Ferme des Carlines",
+      "desc_fr": "Fromages de brebis à Aulon, et la traite qui se visite en fin de journée",
+      "desc_en": "Ewe's milk cheese at Aulon, with evening milking open to visitors",
+      "url_fr": "https://www.saintlary.com/ete/a-faire-sur-place/savourer/producteurs-locaux/",
+      "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/local-producers/",
+      "commentaire": "",
+      "reduction": false,
+      "visible": true
+    },
+    {
+      "id": "fromagerie-pitou",
+      "saison": "toute",
+      "categorie": "terroir",
+      "nom_fr": "Fromagerie Le Pitou",
+      "nom_en": "Fromagerie Le Pitou",
+      "desc_fr": "Fromages fermiers à Gouaux, en fond de vallée",
+      "desc_en": "Farmhouse cheese at Gouaux, further down the valley",
+      "url_fr": "https://www.saintlary.com/ete/a-faire-sur-place/savourer/producteurs-locaux/",
+      "url_en": "https://www.saintlary.com/summer/to-do-on-site/enjoy/local-producers/",
+      "commentaire": "",
+      "reduction": false,
+      "visible": true
     }
   ],
   "avis": []
