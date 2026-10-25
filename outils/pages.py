@@ -240,11 +240,34 @@ PAGES = [
         "fil": {"fr": "Les lacs du Néouvielle"},
         "parent": "guide",
         "jsonld": "article",
+        "faq": [
+            ("Peut-on monter en voiture aux lacs d'Aumar et d'Aubert ?",
+             "Oui, mais seulement avant 9 h 30 ou après 18 h, de juin à septembre. Entre ces deux "
+             "heures, la route entre Orédon et Aubert est interdite à la montée aux véhicules à "
+             "moteur : on se gare au parking d'Orédon, payant, et on monte en navette ou à pied."),
+            ("Combien coûte la navette du Néouvielle ?",
+             "7 € l'aller-retour, 4 € l'aller simple ou le retour simple, gratuit jusqu'à 6 ans. "
+             "Les billets s'achètent au péage d'Orédon, et la descente seule se règle au chauffeur."),
+            ("Combien de temps à pied entre Orédon et Aubert ?",
+             "Une heure trente par le sentier des Laquettes. Le tour du lac d'Orédon demande aussi "
+             "1 h 30, sans dénivelé notable."),
+            ("Les chiens sont-ils admis dans la réserve du Néouvielle ?",
+             "Non, même tenus en laisse. La garderie pour chiens du péage d'Orédon ne fonctionne "
+             "plus depuis 2026 en raison de travaux sur le site."),
+            ("Peut-on bivouaquer au bord des lacs du Néouvielle ?",
+             "Le bivouac est toléré sur des emplacements délimités au bord des lacs d'Orédon et "
+             "d'Aubert, installation après 19 h et démontage avant 9 h. Le camping est interdit, "
+             "les feux strictement interdits, et la nuit en véhicule est interdite sur les parkings."),
+            ("À quelle distance les lacs du Néouvielle sont-ils de Saint-Lary-Soulan ?",
+             "Environ trois quarts d'heure de route par la D929, en passant par Fabian et "
+             "Aragnouet. C'est une sortie à la journée depuis le village."),
+        ],
         "fr": {
-            "titre": "Randonnée des lacs du Néouvielle, depuis Saint-Lary",
-            "description": "Aumar, Aubert et la réserve naturelle du Néouvielle : accès depuis Saint-Lary, "
-                           "navette, durée, difficulté et conseils pour partir au bon moment.",
-            "og_titre": "Les lacs du Néouvielle, le grand classique des Pyrénées",
+            "titre": "Lacs du Néouvielle : accès, navette, horaires et tarifs",
+            "description": "La règle d'accès de juin à septembre, les horaires et tarifs de la navette "
+                           "d'Orédon, le sentier des Laquettes, les règles de la réserve et les "
+                           "contacts utiles. Vérifié sur les sources officielles.",
+            "og_titre": "Lacs du Néouvielle : la règle d'accès que tout le monde rate",
         },
     },
     {

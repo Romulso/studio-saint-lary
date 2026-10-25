@@ -196,17 +196,47 @@ button { font-family: inherit; }
 /* Distinctions affichees dans la banniere : classement prefectoral et
    label de la station. Discretes mais lisibles — ce sont elles qui
    rassurent un visiteur qui ne connait ni le logement ni les proprietaires. */
-.distinctions { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; }
+.distinctions { display: flex; flex-wrap: wrap; gap: 11px; margin: 24px 0 0; }
 .distinction {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 14px; border-radius: 30px;
-  border: 1px solid rgba(201,168,106,.45);
-  background: rgba(7,16,25,.38);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  font-size: 12.5px; letter-spacing: .06em; color: #f0f4f8;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 9px 17px; border-radius: 30px;
+  /* Bordure en degre d or : deux fonds superposes, l un jusqu au padding,
+     l autre jusqu a la bordure. Plus lumineux qu un trait d une seule teinte. */
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(8,17,27,.66), rgba(8,17,27,.66)) padding-box,
+    linear-gradient(135deg, rgba(224,200,148,.95), rgba(201,168,106,.28) 48%, rgba(224,200,148,.9)) border-box;
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+  box-shadow: 0 2px 20px rgba(201,168,106,.16), inset 0 1px 0 rgba(255,255,255,.07);
+  font-size: 13px; letter-spacing: .05em; color: #f4f7fa;
 }
-.distinction b { color: var(--laiton-clair); font-size: 11px; letter-spacing: .12em; }
-@media (max-width: 599px) { .distinction { font-size: 11.5px; padding: 6px 11px; } }
+.distinction b {
+  font-size: 14px; letter-spacing: .14em; color: var(--laiton-clair);
+  filter: drop-shadow(0 0 7px rgba(224,200,148,.5));
+}
+/* Les etoiles et les diamants scintillent : une bande claire traverse le
+   degre d or, lentement, une fois toutes les sept secondes. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .distinction b {
+    background-image: linear-gradient(100deg,
+      #c9a86a 0%, #e4d2a4 30%, #fffdf6 46%, #ffffff 50%, #fffdf6 54%, #e4d2a4 70%, #c9a86a 100%);
+    background-size: 280% 100%; background-position: 160% 0;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    animation: etincelle 7s ease-in-out infinite;
+  }
+}
+@keyframes etincelle {
+  0%, 8% { background-position: 160% 0; }
+  58%, 100% { background-position: -60% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .distinction b { animation: none; background-position: 50% 0; }
+}
+@media (max-width: 599px) {
+  .distinction { font-size: 11.8px; padding: 7px 13px; gap: 7px; }
+  .distinction b { font-size: 12.5px; }
+}
 
 .molette { position: absolute; left: 22px; bottom: 34px; z-index: 3; display: flex; align-items: center; gap: 10px; font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--tenu); }
 .molette i { display: block; width: 44px; height: 1px; background: var(--laiton); transform-origin: left; animation: glisse 2.4s infinite; }
@@ -259,25 +289,33 @@ body.lang-fr .ruban-piste[data-en], body.lang-en .ruban-piste[data-fr] { display
 .plan svg { width: 100%; height: auto; display: block; }
 
 /* ---------- Teaser video ---------- */
-.teaser { margin-bottom: 20px; border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--ligne-nuit); background: var(--nuit-2); }
-.teaser video { display: block; width: 100%; height: auto; }
-
-/* Visite filmee : video portrait a gauche, texte a droite. Le format
-   vertical vient du telephone ; on l assume plutot que de le recadrer. */
-.visite { display: grid; gap: 20px; margin-bottom: 26px; align-items: center; }
-@media (min-width: 820px) { .visite { grid-template-columns: minmax(0, 300px) 1fr; gap: 34px; } }
-.visite-film {
+/* Les deux films : le montage en 16/9 et la visite filmee au telephone,
+   en 9/16. Sur telephone ils s empilent. Sur ordinateur ils partagent une
+   meme hauteur et se posent cote a cote : les largeurs decoulent alors du
+   format de chacun, et aucune des deux n est recadree. */
+.films { display: grid; gap: 18px; margin-bottom: 22px; }
+.film { margin: 0; }
+.film-cadre {
   border-radius: var(--rayon); overflow: hidden;
   background: var(--nuit-2); border: 1px solid var(--ligne-nuit);
-  /* En colonne unique, une video verticale pleine largeur occuperait
-     deux ecrans de haut : on la borne et on la centre. */
-  max-width: 330px; margin: 0 auto; width: 100%;
 }
-@media (min-width: 820px) { .visite-film { max-width: none; margin: 0; } }
-.visite-film video { display: block; width: 100%; height: auto; }
-.visite-texte h3 { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 12px; }
-.visite-texte h3 em { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--laiton-fonce); }
-.visite-texte p { color: var(--encre-douce); font-size: 15px; line-height: 1.65; }
+.film-cadre video { display: block; width: 100%; height: auto; }
+/* Une verticale pleine largeur occuperait deux ecrans de haut. */
+.film-portrait .film-cadre { max-width: 320px; margin: 0 auto; }
+.film figcaption {
+  margin-top: 9px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--encre-tenue); text-align: center;
+}
+@media (min-width: 900px) {
+  .films { grid-auto-flow: column; justify-content: center; align-items: start; gap: 20px; }
+  .film-cadre video { height: 430px; width: auto; }
+  .film-portrait .film-cadre { max-width: none; margin: 0; }
+  .film figcaption { text-align: left; }
+}
+.films-note {
+  max-width: 62ch; margin: 0 auto 26px; text-align: center;
+  color: var(--encre-douce); font-size: 15px; line-height: 1.65;
+}
 
 /* ---------- Galerie ---------- */
 .mosaique { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
