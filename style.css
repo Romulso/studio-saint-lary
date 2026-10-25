@@ -187,6 +187,9 @@ button { font-family: inherit; }
   color: var(--laiton-clair); margin-bottom: 22px; backdrop-filter: blur(6px);
 }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* Les plaques de classement et les boutons sont deux registres : on ne
+   les laisse pas se toucher. */
+.distinctions + .actions { margin-top: 18px; }
 
 .puces { position: absolute; right: 22px; bottom: 92px; z-index: 3; display: flex; flex-direction: column; gap: 9px; }
 .puce { width: 3px; height: 26px; padding: 0; border: 0; border-radius: 3px; background: rgba(238,244,249,.28); cursor: pointer; transition: background .4s, height .4s; }
@@ -210,32 +213,53 @@ button { font-family: inherit; }
   box-shadow: 0 2px 20px rgba(201,168,106,.16), inset 0 1px 0 rgba(255,255,255,.07);
   font-size: 13px; letter-spacing: .05em; color: #f4f7fa;
 }
-.distinction b {
-  font-size: 14px; letter-spacing: .14em; color: var(--laiton-clair);
-  filter: drop-shadow(0 0 7px rgba(224,200,148,.5));
+.distinction b { display: inline-flex; align-items: center; gap: 4px; }
+
+/* Les etoiles et les gemmes sont dessinees, pas tapees : le caractere
+   diamant des polices systeme est un losange plat, sans table ni
+   pavillon, et il ne ressemble pas a ce que le label represente.
+   Chaque marque est un degre d or masque par sa silhouette, ce qui
+   permet d y faire courir la meme lueur qu ailleurs. */
+.marque {
+  display: block; width: 14px; height: 14px; flex: none;
+  background-image: linear-gradient(100deg,
+    #b9924c 0%, #d8bd80 26%, #f6ecd2 44%, #ffffff 50%, #f6ecd2 56%, #d8bd80 74%, #b9924c 100%);
+  background-size: 300% 100%; background-position: 170% 0;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
+  filter: drop-shadow(0 0 5px rgba(224,200,148,.55));
+  animation: etincelle 7s ease-in-out infinite;
 }
-/* Les etoiles et les diamants scintillent : une bande claire traverse le
-   degre d or, lentement, une fois toutes les sept secondes. */
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .distinction b {
-    background-image: linear-gradient(100deg,
-      #c9a86a 0%, #e4d2a4 30%, #fffdf6 46%, #ffffff 50%, #fffdf6 54%, #e4d2a4 70%, #c9a86a 100%);
-    background-size: 280% 100%; background-position: 160% 0;
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent;
-    animation: etincelle 7s ease-in-out infinite;
-  }
+.marque-etoile {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l3.1 7.1 7.7.7-5.8 5.1 1.7 7.5L12 18l-6.7 4 1.7-7.5-5.8-5.1 7.7-.7z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l3.1 7.1 7.7.7-5.8 5.1 1.7 7.5L12 18l-6.7 4 1.7-7.5-5.8-5.1 7.7-.7z'/%3E%3C/svg%3E");
 }
+/* Taille brillant, d un seul tenant : table large, epaules marquees,
+   pointe franche. Une ceinture dessinee en creux se brouillait a treize
+   pixels et donnait une goutte plutot qu une pierre. */
+.marque-gemme {
+  width: 15px; height: 15px;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.8L1.6 9l4.6-6.2h11.6L22.4 9z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.8L1.6 9l4.6-6.2h11.6L22.4 9z'/%3E%3C/svg%3E");
+}
+/* La lueur court d une marque a l autre plutot que de les allumer toutes
+   en meme temps. */
+.marque:nth-child(2) { animation-delay: .13s; }
+.marque:nth-child(3) { animation-delay: .26s; }
+.marque:nth-child(4) { animation-delay: .39s; }
+
 @keyframes etincelle {
-  0%, 8% { background-position: 160% 0; }
-  58%, 100% { background-position: -60% 0; }
+  0%, 8% { background-position: 170% 0; }
+  58%, 100% { background-position: -70% 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .distinction b { animation: none; background-position: 50% 0; }
+  .marque { animation: none; background-position: 50% 0; }
 }
 @media (max-width: 599px) {
   .distinction { font-size: 11.8px; padding: 7px 13px; gap: 7px; }
-  .distinction b { font-size: 12.5px; }
+  .marque { width: 12px; height: 12px; }
+  .marque-gemme { width: 13px; height: 13px; }
 }
 
 .molette { position: absolute; left: 22px; bottom: 34px; z-index: 3; display: flex; align-items: center; gap: 10px; font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--tenu); }
