@@ -844,16 +844,15 @@ def sitemap(jour):
     for p in registre.PAGES:
         if p.get("prive"):
             continue  # une page en noindex n'a rien a faire dans le sitemap
-        langues = ["fr", "en"] if p["bilingue"] else ["fr"]
+        langues = registre.langues(p)
         for langue in langues:
             alternances = ""
-            if p["bilingue"]:
-                alternances = (
-                    '\n    <xhtml:link rel="alternate" hreflang="fr" href="%s"/>'
-                    '\n    <xhtml:link rel="alternate" hreflang="en" href="%s"/>'
-                    '\n    <xhtml:link rel="alternate" hreflang="x-default" href="%s"/>'
-                    % (registre.url(p["slug"], "fr"), registre.url(p["slug"], "en"),
-                       registre.url(p["slug"], "fr")))
+            if len(langues) > 1:
+                alternances = "".join(
+                    '\n    <xhtml:link rel="alternate" hreflang="%s" href="%s"/>'
+                    % (l, registre.url(p["slug"], l)) for l in langues)
+                alternances += ('\n    <xhtml:link rel="alternate" hreflang="x-default" href="%s"/>'
+                                % registre.url(p["slug"], "fr"))
             blocs.append("  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>%s\n  </url>"
                          % (registre.url(p["slug"], langue), jour, alternances))
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
