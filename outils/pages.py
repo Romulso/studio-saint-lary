@@ -30,8 +30,9 @@ PAGES = [
         "slug": "",
         "fichier": "accueil.html",
         "bilingue": True,
+        "espagnol": True,
         "menu": None,
-        "fil": {"fr": "Accueil", "en": "Home"},
+        "fil": {"fr": "Accueil", "en": "Home", "es": "Inicio"},
         "parent": None,
         "jsonld": "logement",
         "fr": {
@@ -45,6 +46,13 @@ PAGES = [
             "description": "27 m² studio flat with mountain-view balcony in Saint-Lary-Soulan, 200 m from "
                            "the ski lifts. Sauna, thermal baths 150 m away. Book direct, no fees.",
             "og_titre": "Le Balcon d'Aure — studio flat in Saint-Lary-Soulan",
+        },
+        "es": {
+            "titre": "Estudio en Saint-Lary-Soulan, a 200 m de los remontes",
+            "description": "Estudio de 27 m² con balcón y vistas a la montaña en Saint-Lary-Soulan, "
+                           "Pirineos franceses, a 200 m de los remontes. Sauna, termas a 150 m. "
+                           "Alquiler directo del propietario, sin comisión.",
+            "og_titre": "Le Balcon d'Aure — estudio en Saint-Lary-Soulan, Pirineos",
         },
     },
     {
@@ -446,13 +454,31 @@ def par_slug():
     return {p["slug"]: p for p in PAGES}
 
 
+# Le francais vit a la racine ; chaque autre langue a son dossier.
+LANGUES = ("fr", "en", "es")
+
+
+def langues(page):
+    """Les langues dans lesquelles une page existe reellement.
+
+    Une page sans traduction reste en francais : on ne fabrique pas de
+    coquilles vides, et le menu de la langue concernee renvoie alors vers
+    la version francaise plutot que vers une page absente."""
+    sortie = ["fr"]
+    if page.get("bilingue"):
+        sortie.append("en")
+    if page.get("espagnol"):
+        sortie.append("es")
+    return sortie
+
+
 def url(slug, langue):
     """URL absolue d'une page."""
-    base = DOMAINE + ("/en" if langue == "en" else "")
+    base = DOMAINE + ("" if langue == "fr" else "/" + langue)
     return base + "/" + (slug + "/" if slug else "")
 
 
 def chemin(slug, langue):
     """Chemin relatif du fichier a ecrire."""
-    parts = ([] if langue == "fr" else ["en"]) + ([slug] if slug else [])
+    parts = ([] if langue == "fr" else [langue]) + ([slug] if slug else [])
     return "/".join(parts + ["index.html"])

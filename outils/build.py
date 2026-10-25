@@ -42,7 +42,7 @@ VIDES = {
     "link", "meta", "param", "source", "track", "wbr",
 }
 
-LOCALES = {"fr": "fr_FR", "en": "en_GB"}
+LOCALES = {"fr": "fr_FR", "en": "en_GB", "es": "es_ES"}
 
 LIBELLES = {
     "fr": {
@@ -64,6 +64,16 @@ LIBELLES = {
         "pied_lieu": "The property",
         "pied_guide": "Valley guide",
         "pied_infos": "Information",
+    },
+    "es": {
+        "reserver": "Reservar",
+        "avis_vide": "Tu opinión estrenará este libro de visitas: basta con un mensaje.",
+        "reduction": "Descuento con nuestro código",
+        "fil": "Ruta de navegación",
+        "pied_sejours": "Estancias",
+        "pied_lieu": "El alojamiento",
+        "pied_guide": "Guía del valle",
+        "pied_infos": "Información",
     },
 }
 
@@ -182,12 +192,12 @@ def metas(page, langue):
         lignes.append('<meta name="robots" content="noindex, nofollow">')
 
     # hreflang uniquement si la traduction existe reellement
-    if page["bilingue"]:
-        lignes += [
-            '<link rel="alternate" hreflang="fr" href="%s">' % registre.url(page["slug"], "fr"),
-            '<link rel="alternate" hreflang="en" href="%s">' % registre.url(page["slug"], "en"),
-            '<link rel="alternate" hreflang="x-default" href="%s">' % registre.url(page["slug"], "fr"),
-        ]
+    disponibles = registre.langues(page)
+    if len(disponibles) > 1:
+        lignes += ['<link rel="alternate" hreflang="%s" href="%s">'
+                   % (l, registre.url(page["slug"], l)) for l in disponibles]
+        lignes.append('<link rel="alternate" hreflang="x-default" href="%s">'
+                      % registre.url(page["slug"], "fr"))
 
     lignes += [
         '<meta property="og:type" content="%s">' % ("article" if page["jsonld"] == "article" else "website"),
@@ -200,9 +210,8 @@ def metas(page, langue):
         '<meta property="og:image:height" content="630">',
         '<meta property="og:locale" content="%s">' % LOCALES[langue],
     ]
-    if page["bilingue"]:
-        lignes.append('<meta property="og:locale:alternate" content="%s">'
-                      % LOCALES["en" if langue == "fr" else "fr"])
+    lignes += ['<meta property="og:locale:alternate" content="%s">' % LOCALES[l]
+               for l in disponibles if l != langue]
     lignes += [
         '<meta name="twitter:card" content="summary_large_image">',
         '<meta name="twitter:image" content="%s">' % image,
@@ -449,24 +458,29 @@ def donnees_structurees(page, langue, avis):
 # --------------------------------------------------------------------------
 
 def lien_menu(page, langue):
-    """Une page monolingue reste en francais meme depuis la version anglaise."""
-    if langue == "en" and not page["bilingue"]:
-        return registre.url(page["slug"], "fr").replace(DOMAINE, "")
+    """Une page non traduite reste en francais, quelle que soit la langue lue."""
+    if langue not in registre.langues(page):
+        langue = "fr"
     return registre.url(page["slug"], langue).replace(DOMAINE, "")
 
 
 def navigation(page, langue):
     lib = LIBELLES[langue]
-    accueil = "/" if langue == "fr" else "/en/"
+    accueil = "/" if langue == "fr" else "/%s/" % langue
     liens = []
     for p in registre.PAGES:
         if not p["menu"]:
             continue
-        if langue == "en" and not p["bilingue"]:
-            continue  # pas de page anglaise, on n'encombre pas le menu anglais
+        # Une page pas encore traduite reste au menu, en francais : un menu
+        # a trois entrees sur dix donnerait l'impression d'un site vide.
+        traduite = langue in registre.langues(p)
         libelle = p["menu"].get(langue) or p["menu"]["fr"]
+        if not traduite:
+            libelle = p["menu"]["fr"]
         classe = ' class="actif" aria-current="page"' if p["slug"] == page["slug"] else ""
-        liens.append('<a href="%s"%s>%s</a>' % (lien_menu(p, langue), classe, e(libelle)))
+        drapeau = "" if traduite else ' hreflang="fr" lang="fr"'
+        liens.append('<a href="%s"%s%s>%s</a>'
+                     % (lien_menu(p, langue), classe, drapeau, e(libelle)))
 
     contact = registre.par_slug()["contact"]
     return (
@@ -483,15 +497,16 @@ def navigation(page, langue):
 
 def selecteur_langue(page, langue):
     """Absent des pages qui n'existent que dans une langue."""
-    if not page["bilingue"]:
+    disponibles = registre.langues(page)
+    if len(disponibles) < 2:
         return ""
-    fr = registre.url(page["slug"], "fr").replace(DOMAINE, "")
-    en = registre.url(page["slug"], "en").replace(DOMAINE, "")
-    a = ('<a class="actif" href="%s" hreflang="fr" lang="fr" aria-current="page">FR</a>'
-         if langue == "fr" else '<a href="%s" hreflang="fr" lang="fr">FR</a>') % fr
-    b = ('<a class="actif" href="%s" hreflang="en" lang="en" aria-current="page">EN</a>'
-         if langue == "en" else '<a href="%s" hreflang="en" lang="en">EN</a>') % en
-    return '<div class="langues">%s%s</div>' % (a, b)
+    liens = []
+    for l in disponibles:
+        adresse = registre.url(page["slug"], l).replace(DOMAINE, "")
+        actif = ' class="actif" aria-current="page"' if l == langue else ""
+        liens.append('<a%s href="%s" hreflang="%s" lang="%s">%s</a>'
+                     % (actif, adresse, l, l, l.upper()))
+    return '<div class="langues">%s</div>' % "".join(liens)
 
 
 def fil_ariane(page, langue):
@@ -523,7 +538,7 @@ def pied_liens(langue):
             # Depuis l'anglais, une page qui n'existe qu'en francais est
             # signalee comme telle : on garde le lien, mais le visiteur sait
             # ou il va.
-            if langue == "en" and not p["bilingue"]:
+            if langue != "fr" and langue not in registre.langues(p):
                 items.append('<li><a href="%s" hreflang="fr" lang="fr">%s</a>'
                              '<span class="pied-langue"> (en français)</span></li>'
                              % (lien_menu(p, langue), e(libelle)))
@@ -750,7 +765,10 @@ def construire(gabarit, page, langue, guide):
     fragment = open(os.path.join(FRAGMENTS, page["fichier"]), encoding="utf-8").read()
     doc = gabarit.replace("<!--CONTENU-->", fragment, 1)
 
-    doc = retirer(doc, "data-en" if langue == "fr" else "data-fr")
+    # Le fragment porte les trois langues : on retire celles qu'on ne sert pas.
+    for autre in registre.LANGUES:
+        if autre != langue:
+            doc = retirer(doc, "data-" + autre)
 
     # Libelles de l'indicateur lateral : on ne garde que celui de la langue,
     # pour qu'aucun texte de l'autre langue ne subsiste dans le document.
@@ -908,7 +926,7 @@ def main():
     produites = {}
     total = 0
     for page in registre.PAGES:
-        for langue in (["fr", "en"] if page["bilingue"] else ["fr"]):
+        for langue in registre.langues(page):
             doc = construire(gabarit, page, langue, guide)
             relatif = registre.chemin(page["slug"], langue)
             cible = os.path.join(RACINE, relatif)

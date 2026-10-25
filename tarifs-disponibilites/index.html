@@ -170,7 +170,7 @@
   <a class="nav-marque" href="/">Le Balcon d'Aure</a>
   <div class="nav-liens"><a href="/studio/">Le studio</a><a href="/residence-royal-milan/">La résidence</a><a href="/tarifs-disponibilites/" class="actif" aria-current="page">Tarifs &amp; dispos</a><a href="/hiver/">Hiver</a><a href="/ete/">Été</a><a href="/cure-thermale/">Cure thermale</a><a href="/velo/">Vélo</a><a href="/agenda-vallee-d-aure/">Agenda</a><a href="/bons-plans-vallee-d-aure/">Bons plans</a></div>
   <div class="nav-droite">
-    <div class="langues"><a class="actif" href="/tarifs-disponibilites/" hreflang="fr" lang="fr" aria-current="page">FR</a><a href="/en/tarifs-disponibilites/" hreflang="en" lang="en">EN</a></div>
+    <div class="langues"><a class="actif" aria-current="page" href="/tarifs-disponibilites/" hreflang="fr" lang="fr">FR</a><a href="/en/tarifs-disponibilites/" hreflang="en" lang="en">EN</a></div>
     <a class="pastille pastille-pleine" href="/contact/">Réserver</a>
   </div>
 </nav>
@@ -418,8 +418,13 @@ function jsonTolerant(texte) {
 /* La langue est fixee par la page elle-meme (/ en francais, /en/ en anglais).
    Chaque page ne contient plus que sa propre langue : le basculement se fait
    par un lien, plus par du CSS, pour que Google indexe deux URL distinctes. */
-var LANGUE = document.documentElement.lang === 'en' ? 'en' : 'fr';
+var LANGUE = (document.documentElement.lang || 'fr').slice(0, 2);
+if (['fr', 'en', 'es'].indexOf(LANGUE) < 0) LANGUE = 'fr';
 function estFr() { return LANGUE === 'fr'; }
+/* Trois langues : l'espagnol retombe sur l'anglais tant qu'une chaine
+   n'est pas traduite, plutot que d'afficher du francais a contretemps. */
+function dit(fr, en, es) { return LANGUE === 'fr' ? fr : (LANGUE === 'es' && es ? es : en); }
+var LOCALE_DATE = { fr: 'fr-FR', en: 'en-GB', es: 'es-ES' }[LANGUE];
 
 function saison(nom) {
   document.body.classList.remove('saison-hiver', 'saison-ete');
@@ -576,16 +581,17 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
   function depuisIso(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
   function joliDate(s, longue) {
-    return depuisIso(s).toLocaleDateString(estFr() ? 'fr-FR' : 'en-GB',
+    return depuisIso(s).toLocaleDateString(LOCALE_DATE,
       longue ? { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'long' });
   }
 
-  function noter(fr, en) {
-    document.getElementById('cal-note').textContent = estFr() ? fr : en;
+  function noter(fr, en, es) {
+    document.getElementById('cal-note').textContent = dit(fr, en, es);
   }
   function noteDefaut() {
     noter('Le jour d’un départ redevient disponible pour une nouvelle arrivée. Pendant les vacances scolaires, séjours du samedi au samedi.',
-      'A departure day becomes available again for a new arrival. During school holidays, stays run Saturday to Saturday.');
+      'A departure day becomes available again for a new arrival. During school holidays, stays run Saturday to Saturday.',
+      'El día de una salida vuelve a estar libre para una llegada. En vacaciones escolares, las estancias van de sábado a sábado.');
   }
 
   /* Vacances scolaires : les periodes marquees "samedi" ne se louent que du
@@ -612,7 +618,8 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var p = periodeSamedi(cle);
     if (!p || estSamedi(cle)) return false;
     noter('Pendant les vacances scolaires (' + (p.libelle || 'vacances') + '), le studio se loue du samedi au samedi : choisissez un samedi pour votre arrivée.',
-      'During school holidays the flat is let Saturday to Saturday: please pick a Saturday to arrive.');
+      'During school holidays the flat is let Saturday to Saturday: please pick a Saturday to arrive.',
+      'En vacaciones escolares el estudio se alquila de sábado a sábado: elige un sábado para llegar.');
     return true;
   }
 
@@ -642,12 +649,13 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       var nom = document.createElement('p');
       nom.className = 'cal-mois-nom';
-      nom.textContent = premier.toLocaleDateString(estFr() ? 'fr-FR' : 'en-GB', { month: 'long', year: 'numeric' });
+      nom.textContent = premier.toLocaleDateString(LOCALE_DATE, { month: 'long', year: 'numeric' });
       bloc.appendChild(nom);
 
       var grille = document.createElement('div');
       grille.className = 'cal-grille';
-      var jsem = estFr() ? ['L', 'M', 'M', 'J', 'V', 'S', 'D'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+      var jsem = dit(['L', 'M', 'M', 'J', 'V', 'S', 'D'], ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+                     ['L', 'M', 'X', 'J', 'V', 'S', 'D']);
       for (var j = 0; j < 7; j++) {
         var tete = document.createElement('span');
         tete.className = 'cal-jsem';
@@ -727,20 +735,24 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var avecMenage = tarifs.menage > 0 && caseMenage && caseMenage.checked;
     if (avecMenage) total += tarifs.menage;
     var estim = (complet && total)
-      ? (estFr()
-        ? ' · environ ' + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '')
-          + (avecMenage ? ' ménage compris' : ' sans le ménage') + ', hors taxe de séjour'
-        : ' · about €' + total + (avecRemise ? ' incl. 7-night discount' : '')
-          + (avecMenage ? ' incl. cleaning' : ' without cleaning') + ', excl. tourist tax')
+      ? dit(' · environ ' + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '')
+              + (avecMenage ? ' ménage compris' : ' sans le ménage') + ', hors taxe de séjour',
+            ' · about €' + total + (avecRemise ? ' incl. 7-night discount' : '')
+              + (avecMenage ? ' incl. cleaning' : ' without cleaning') + ', excl. tourist tax',
+            ' · unos ' + total + ' €' + (avecRemise ? ' con el descuento de 7 noches' : '')
+              + (avecMenage ? ' limpieza incluida' : ' sin limpieza') + ', sin la tasa turística')
       : '';
-    document.getElementById('cal-bilan-texte').textContent = (estFr()
-      ? 'Du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nuits' : ' nuit')
-      : joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nights' : ' night')) + estim;
-    var msg = estFr()
-      ? 'Bonjour ! Nous souhaitons réserver Le Balcon d’Aure du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nuits' : ' nuit') + ')'
-        + (tarifs.menage ? (avecMenage ? ', avec le forfait ménage' : ', sans le forfait ménage (nous ferons le ménage nous-mêmes)') : '') + '. Est-ce disponible ?'
-      : 'Hello! We would like to book Le Balcon d’Aure from ' + joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nights' : ' night') + ')'
-        + (tarifs.menage ? (avecMenage ? ', with the cleaning option' : ', without the cleaning option (we will clean ourselves)') : '') + '. Is it available?';
+    document.getElementById('cal-bilan-texte').textContent = dit(
+      'Du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nuits' : ' nuit'),
+      joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' nights' : ' night'),
+      'Del ' + joliDate(arrivee, true) + ' al ' + joliDate(depart, true) + ' · ' + n + (n > 1 ? ' noches' : ' noche')) + estim;
+    var msg = dit(
+      'Bonjour ! Nous souhaitons réserver Le Balcon d’Aure du ' + joliDate(arrivee, true) + ' au ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nuits' : ' nuit') + ')'
+        + (tarifs.menage ? (avecMenage ? ', avec le forfait ménage' : ', sans le forfait ménage (nous ferons le ménage nous-mêmes)') : '') + '. Est-ce disponible ?',
+      'Hello! We would like to book Le Balcon d’Aure from ' + joliDate(arrivee, true) + ' to ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' nights' : ' night') + ')'
+        + (tarifs.menage ? (avecMenage ? ', with the cleaning option' : ', without the cleaning option (we will clean ourselves)') : '') + '. Is it available?',
+      '¡Hola! Queremos reservar Le Balcon d’Aure del ' + joliDate(arrivee, true) + ' al ' + joliDate(depart, true) + ' (' + n + (n > 1 ? ' noches' : ' noche') + ')'
+        + (tarifs.menage ? (avecMenage ? ', con el servicio de limpieza' : ', sin el servicio de limpieza (la haremos nosotros)') : '') + '. ¿Está disponible?');
     document.getElementById('cal-whatsapp').href = 'https://wa.me/33642845542?text=' + encodeURIComponent(msg);
     var champA = document.getElementById('arrivee'), champD = document.getElementById('depart');
     if (champA) champA.value = arrivee;
@@ -754,30 +766,36 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!arrivee || (arrivee && depart)) {
       if (nuits[cle]) {
         noter('Cette date est déjà prise. Choisissez une arrivée sur un jour libre.',
-          'That date is already taken. Please pick a free day for your arrival.');
+          'That date is already taken. Please pick a free day for your arrival.',
+          'Esa fecha ya está ocupada. Elige un día libre para tu llegada.');
         return;
       }
       if (arriveeRefusee(cle)) return;
       arrivee = cle; depart = null;
-      noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.');
+      noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.',
+            'Elige ahora tu día de salida.');
     } else if (cle <= arrivee) {
       if (nuits[cle]) { return; }
       if (arriveeRefusee(cle)) return;
       arrivee = cle;
-      noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.');
+      noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.',
+            'Elige ahora tu día de salida.');
     } else if (!nuitsLibres(arrivee, cle)) {
       noter('Ces dates contiennent des nuits déjà prises. Choisissez un autre créneau.',
-        'These dates include nights already taken. Please pick another slot.');
+        'These dates include nights already taken. Please pick another slot.',
+        'Estas fechas incluyen noches ya ocupadas. Elige otro periodo.');
       arrivee = nuits[cle] ? null : cle; depart = null;
     } else if (!touchePeriodeSamedi(arrivee, cle)
                && Math.round((depuisIso(cle) - depuisIso(arrivee)) / 86400000) < tarifs.minNuits) {
       noter('Nous louons à partir de ' + tarifs.minNuits + ' nuits. Choisissez un jour de départ plus tardif.',
-        'We rent from ' + tarifs.minNuits + ' nights. Please pick a later departure day.');
+        'We rent from ' + tarifs.minNuits + ' nights. Please pick a later departure day.',
+        'Alquilamos a partir de ' + tarifs.minNuits + ' noches. Elige un día de salida posterior.');
       return;
     } else if (touchePeriodeSamedi(arrivee, cle) && !(estSamedi(arrivee) && estSamedi(cle))) {
       var vac = touchePeriodeSamedi(arrivee, cle);
       noter('Ces dates tombent pendant les vacances scolaires (' + (vac.libelle || 'vacances') + ') : le séjour doit commencer et finir un samedi.',
-        'These dates fall in the school holidays: the stay must start and end on a Saturday.');
+        'These dates fall in the school holidays: the stay must start and end on a Saturday.',
+        'Estas fechas caen en vacaciones escolares: la estancia debe empezar y terminar un sábado.');
       return;
     } else {
       depart = cle;
@@ -827,7 +845,8 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     .catch(function () {
       charge = true; /* calendrier utilisable, tout apparaît libre */
       noter('Les disponibilités n’ont pas pu être chargées : contactez-nous pour vérifier vos dates.',
-        'Availability could not be loaded: please contact us to check your dates.');
+        'Availability could not be loaded: please contact us to check your dates.',
+        'No se han podido cargar las disponibilidades: escríbenos para comprobar tus fechas.');
     });
 })();
 
@@ -946,9 +965,9 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var fr = estFr();
       var lien = document.querySelector('link[rel="canonical"]');
       var url = lien ? lien.href : location.href.split('#')[0];
-      var texte = fr
-        ? 'Regarde ce studio à Saint-Lary, à 200 m des remontées : '
-        : 'Look at this flat in Saint-Lary, 200 m from the ski lifts: ';
+      var texte = dit('Regarde ce studio à Saint-Lary, à 200 m des remontées : ',
+                      'Look at this flat in Saint-Lary, 200 m from the ski lifts: ',
+                      'Mira este estudio en Saint-Lary, a 200 m de los remontes: ');
       if (navigator.share) {
         navigator.share({ title: "Le Balcon d'Aure", text: texte, url: url }).catch(function () {});
       } else {
