@@ -112,6 +112,13 @@
       "statut": "option"
     },
     {
+      "arrivee": "2026-12-27",
+      "depart": "2027-01-03",
+      "statut": "reserve",
+      "source": "airbnb",
+      "note": "Reserved"
+    },
+    {
       "arrivee": "2027-01-20",
       "depart": "2027-01-23",
       "statut": "reserve",
