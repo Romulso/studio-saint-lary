@@ -309,9 +309,9 @@
     <div class="surgit actions-avis" style="margin-top:24px">
 
       <a class="pastille pastille-pleine" href="https://wa.me/33642845542?text=Hello%21%20Here%20is%20our%20review%20of%20our%20stay%20at%20Le%20Balcon%20d%27Aure%3A%20" target="_blank" rel="noopener" data-en>Leave a review</a>
-      <button type="button" class="pastille pastille-ligne" id="partager">
-        <span data-en>Share with a friend</span>
-      </button>
+
+      <a class="pastille pastille-ligne" href="https://wa.me/?text=Look%20at%20this%20flat%20in%20Saint-Lary%2C%20200%20m%20from%20the%20ski%20lifts%3A%20https%3A%2F%2Flebalcondaure.fr%2Fen%2F" target="_blank" rel="noopener" data-en><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5 5 16.4A8.5 8.5 0 1 1 8.2 19.6l-4.7.9Z"/><path d="M9 9.2c.3 2.2 3.6 5.5 5.8 5.8l1-1.4 2 .9v1.6c-3.4.6-8.6-4.4-8.4-8.3h1.6l.9 2L9 9.2Z"/></svg><span>Share with a friend</span></a>
+
     </div>
   </div>
 </section>
@@ -967,22 +967,6 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* --- Partage et barre mobile --- */
 (function () {
-  var bouton = document.getElementById('partager');
-  if (bouton) {
-    bouton.addEventListener('click', function () {
-      var fr = estFr();
-      var lien = document.querySelector('link[rel="canonical"]');
-      var url = lien ? lien.href : location.href.split('#')[0];
-      var texte = dit('Regarde ce studio à Saint-Lary, à 200 m des remontées : ',
-                      'Look at this flat in Saint-Lary, 200 m from the ski lifts: ',
-                      'Mira este estudio en Saint-Lary, a 200 m de los remontes: ');
-      if (navigator.share) {
-        navigator.share({ title: "Le Balcon d'Aure", text: texte, url: url }).catch(function () {});
-      } else {
-        window.open('https://wa.me/?text=' + encodeURIComponent(texte + url), '_blank', 'noopener');
-      }
-    });
-  }
   var barre = document.getElementById('barre-mobile');
   var haut = document.getElementById('haut');
   if (barre && haut && 'IntersectionObserver' in window) {

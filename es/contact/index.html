@@ -809,22 +809,6 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* --- Partage et barre mobile --- */
 (function () {
-  var bouton = document.getElementById('partager');
-  if (bouton) {
-    bouton.addEventListener('click', function () {
-      var fr = estFr();
-      var lien = document.querySelector('link[rel="canonical"]');
-      var url = lien ? lien.href : location.href.split('#')[0];
-      var texte = dit('Regarde ce studio à Saint-Lary, à 200 m des remontées : ',
-                      'Look at this flat in Saint-Lary, 200 m from the ski lifts: ',
-                      'Mira este estudio en Saint-Lary, a 200 m de los remontes: ');
-      if (navigator.share) {
-        navigator.share({ title: "Le Balcon d'Aure", text: texte, url: url }).catch(function () {});
-      } else {
-        window.open('https://wa.me/?text=' + encodeURIComponent(texte + url), '_blank', 'noopener');
-      }
-    });
-  }
   var barre = document.getElementById('barre-mobile');
   var haut = document.getElementById('haut');
   if (barre && haut && 'IntersectionObserver' in window) {
