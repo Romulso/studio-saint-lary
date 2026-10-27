@@ -936,6 +936,47 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!form) return;
   var note = document.getElementById('note-form');
 
+  /* Arrive depuis « Laisser un avis » : le formulaire sait pourquoi on est
+     la. Le sujet change pour que le message n'arrive pas en boite comme une
+     enieme demande de dates, et le champ s'ouvre deja amorce. */
+  try {
+    if (new URLSearchParams(location.search).get('avis')) {
+      var sujet = form.querySelector('input[name="_subject"]');
+      if (sujet) sujet.value = dit("Le Balcon d'Aure — avis d'un locataire",
+                                   "Le Balcon d'Aure — guest review",
+                                   "Le Balcon d'Aure — opinión de un inquilino");
+      var message = document.getElementById('message');
+      if (message && !message.value) {
+        message.value = dit('Notre avis sur notre séjour au Balcon d’Aure :\n\n',
+                            'Our review of our stay at Le Balcon d’Aure:\n\n',
+                            'Nuestra opinión sobre nuestra estancia en Le Balcon d’Aure:\n\n');
+      }
+      /* L'ancre seule ne suffit pas : la page finit sa mise en page apres
+         le saut et retombe en haut. On amene donc le formulaire nous-memes,
+         curseur dans le message. */
+      /* Un avis n'a pas de dates d'arrivee, et on n'envoie pas une
+         « demande » : le formulaire se range pour ce qu'il sert. */
+      var dates = document.getElementById('champs-dates');
+      if (dates) dates.hidden = true;
+      Array.prototype.forEach.call(form.querySelectorAll('button[type=submit]'), function (b) {
+        if (b.textContent.trim()) b.textContent = dit('Envoyer notre avis', 'Send our review',
+                                                      'Enviar nuestra opinión');
+      });
+
+      var amener = function () {
+        form.scrollIntoView({ block: 'center', behavior: 'auto' });
+        if (message) {
+          message.focus();
+          message.setSelectionRange(message.value.length, message.value.length);
+        }
+      };
+      /* Apres le chargement des images : avant, la page bouge encore sous
+         le saut et on retombe en haut. */
+      if (document.readyState === 'complete') setTimeout(amener, 60);
+      else window.addEventListener('load', function () { setTimeout(amener, 60); });
+    }
+  } catch (e) { /* URL exotique : le formulaire marche quand meme */ }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var fr = estFr();
