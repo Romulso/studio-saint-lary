@@ -681,9 +681,21 @@ def bloc_agenda():
     return "".join(out)
 
 
+# Faute de photo de chaque evenement, le balisage montre la vallee ou il se
+# tient. C'est une illustration du lieu, jamais une image presentee comme
+# prise sur place.
+IMAGE_EVENEMENT = DOMAINE + "/images/opt/vue-montagne-1600.webp"
+
+
 def evenements_structures():
     """Balisage Event des seules dates confirmees : annoncer a Google une
-    date qu'on n'a pas verifiee se paie en confiance."""
+    date qu'on n'a pas verifiee se paie en confiance.
+
+    Les champs recommandes sont remplis quand nous les connaissons —
+    organisateur, gratuite — et laisses vides sinon. Search Console les
+    signale alors comme manquants : c'est preferable a les inventer, et
+    « performer » n'a de toute facon pas de sens pour une course ou une
+    fete de village."""
     _, evenements = agenda_a_venir()
     blocs = []
     for ev in evenements:
@@ -691,20 +703,37 @@ def evenements_structures():
             continue
         bloc = {"@context": "https://schema.org", "@type": "Event",
                 "name": ev["nom"], "startDate": ev["debut"],
+                # Un evenement d'un jour finit le jour meme : sans endDate,
+                # Google ne sait pas quand retirer la fiche de ses resultats.
+                "endDate": ev.get("fin") or ev["debut"],
                 "eventStatus": "https://schema.org/EventScheduled",
                 "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
                 "description": ev["resume"],
+                "image": [ev.get("image") or IMAGE_EVENEMENT],
                 "location": {"@type": "Place", "name": ev["lieu"],
                              "address": {"@type": "PostalAddress",
                                          "addressLocality": ev["lieu"],
                                          "addressRegion": "Hautes-Pyrénées",
                                          "addressCountry": "FR"}}}
-        if ev.get("fin"):
-            bloc["endDate"] = ev["fin"]
         if ev.get("url"):
             bloc["url"] = ev["url"] if ev["url"].startswith("http") else DOMAINE + ev["url"]
+        if ev.get("organisateur"):
+            bloc["organizer"] = {"@type": "Organization", "name": ev["organisateur"]}
+            if ev.get("organisateur_url"):
+                bloc["organizer"]["url"] = ev["organisateur_url"]
+        if ev.get("acces") == "gratuit":
+            bloc["offers"] = {"@type": "Offer", "price": "0",
+                              "priceCurrency": "EUR",
+                              "availability": "https://schema.org/InStock",
+                              "url": bloc.get("url", DOMAINE + "/agenda-vallee-d-aure/"),
+                              "validFrom": donnees_agenda_verifie()}
         blocs.append(bloc)
     return blocs
+
+
+def donnees_agenda_verifie():
+    verifie, _ = agenda_a_venir()
+    return verifie or datetime.date.today().isoformat()
 
 
 def prerendre(doc, langue, guide):
