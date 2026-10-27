@@ -458,13 +458,26 @@ a.service { text-decoration: none; }
 .lieux span { font-size: 12px; color: var(--tenu); }
 
 /* ---------- Calendrier de disponibilites ---------- */
-.calendrier { border: 1px solid var(--ligne-jour); border-radius: var(--rayon); background: #fff; padding: 18px; }
+.calendrier { border: 1px solid var(--ligne-jour); border-radius: var(--rayon); background: #fff; padding: 14px; }
 @media (min-width: 820px) { .calendrier { padding: 26px; } }
 
-.cal-tete { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.cal-tete { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px; }
+
+/* Les fleches de mois vivent SOUS la grille : au telephone, le haut de
+   l'ecran est hors de portee du pouce, et on les cherche la ou l'on vient
+   de regarder les dates. */
+.cal-navigation {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ligne-jour);
+}
+.cal-navigation-mot {
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--encre-tenue);
+}
 .cal-nav {
-  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--ligne-jour);
-  background: #fff; color: var(--encre); font-size: 15px; cursor: pointer; transition: border-color .3s, color .3s;
+  flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--ligne-jour);
+  background: #fff; color: var(--encre); font-size: 17px; cursor: pointer;
+  transition: border-color .3s, color .3s, background .3s;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .cal-nav:hover:not(:disabled) { border-color: var(--laiton-fonce); color: var(--laiton-fonce); }
 .cal-nav:disabled { opacity: .25; cursor: default; }
@@ -585,6 +598,14 @@ footer .enveloppe { display: flex; flex-wrap: wrap; gap: 8px; justify-content: s
 /* ---------- Apparitions ---------- */
 .surgit { opacity: 0; transform: translateY(22px); transition: opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1); }
 .surgit.vu { opacity: 1; transform: none; }
+
+/* L'accrochage par sections rend le defilement saccade au doigt : un geste
+   ample se fait rattraper au debut de la section suivante. On le reserve
+   aux ecrans pilotes a la souris, ou il est voulu. */
+@media (max-width: 899px), (hover: none) {
+  html { scroll-snap-type: none; }
+  .ecran, .banniere { scroll-snap-align: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; scroll-snap-type: none; }
@@ -793,8 +814,58 @@ body.saison-ete [data-hiver] { display: none !important; }
   .nav-liens::-webkit-scrollbar { display: none; }
   .nav-liens a { font-size: 13px; white-space: nowrap; }
 }
-@media (max-width: 520px) {
+/* Le lien Accueil ne sert que dans le bandeau telephone, ou la marque
+   n'a plus la place de s'afficher. */
+.nav-accueil { display: none; }
+
+@media (max-width: 599px) {
+  /* A 375 px, la marque, les trois langues et le bouton laissaient 82 px
+     au menu : neuf entrees dans la largeur d'un pouce. La marque sort du
+     bandeau — le fil d'Ariane et le pied de page gardent le chemin du
+     retour — et seules les langues que l'on peut rejoindre restent. */
+  .nav-marque { display: none; }
+  .nav-accueil { display: inline; }
+  .langues a.actif { display: none; }
+  .nav-liens { margin-left: 0; }
+}
+
+@media (min-width: 600px) and (max-width: 520px) {
   .nav-marque { max-width: 40vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* Dix entrees ne tiennent pas dans la largeur d'un telephone. Sous 940 px
+   le menu devient un panneau qui s'ouvre, et le bandeau ne garde que le
+   bouton, les langues et la reservation. */
+.nav-bouton {
+  display: none; flex: 0 0 auto; width: 40px; height: 40px; padding: 0;
+  border: 1px solid var(--ligne-jour); border-radius: 50%; background: #fff;
+  cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+}
+.nav-bouton span {
+  display: block; width: 16px; height: 1.5px; border-radius: 2px; background: var(--encre);
+  transition: transform .3s cubic-bezier(.22,.61,.36,1), opacity .2s;
+}
+.nav-bouton:focus-visible { outline: 2px solid var(--laiton-fonce); outline-offset: 2px; }
+.nav.menu-ouvert .nav-bouton span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav.menu-ouvert .nav-bouton span:nth-child(2) { opacity: 0; }
+.nav.menu-ouvert .nav-bouton span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+@media (max-width: 939px) {
+  .nav-bouton { display: flex; }
+  .nav-liens {
+    position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+    display: none; flex-direction: column; gap: 2px; margin: 0; padding: 8px;
+    background: rgba(255,255,255,.97); border: 1px solid var(--ligne-jour);
+    border-radius: 24px; box-shadow: 0 14px 40px rgba(13,34,51,.16);
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+    max-height: 70vh; overflow-y: auto;
+  }
+  .nav.menu-ouvert .nav-liens { display: flex; }
+  .nav-liens a {
+    font-size: 15px; padding: 12px 16px; border-radius: 16px; white-space: nowrap;
+  }
+  .nav-liens a.actif { background: var(--jour-2); }
+  .nav-liens a::after { display: none; }
 }
 
 /* --- En-tete des pages interieures (l'accueil garde sa banniere) --- */

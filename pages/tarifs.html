@@ -78,16 +78,20 @@
 
     <div class="calendrier surgit">
       <div class="cal-tete">
-        <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents">←</button>
         <div class="cal-legende">
           <span><i class="cal-puce cal-puce-libre"></i><span data-fr>Libre</span><span data-en>Available</span><span data-es>Libre</span></span>
           <span><i class="cal-puce cal-puce-option"></i><span data-fr>Option en cours</span><span data-en>Option pending</span><span data-es>Opción en curso</span></span>
           <span><i class="cal-puce cal-puce-reserve"></i><span data-fr>Réservé</span><span data-en>Booked</span><span data-es>Reservado</span></span>
         </div>
-        <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants">→</button>
       </div>
 
       <div class="cal-mois-grille" id="cal-mois"></div>
+
+      <div class="cal-navigation">
+        <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents"><span aria-hidden="true">←</span></button>
+        <p class="cal-navigation-mot" data-fr>Changer de mois</p><p class="cal-navigation-mot" data-en>Change month</p><p class="cal-navigation-mot" data-es>Cambiar de mes</p>
+        <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants"><span aria-hidden="true">→</span></button>
+      </div>
 
       <div class="cal-bilan" id="cal-bilan" hidden>
         <p class="cal-bilan-texte" id="cal-bilan-texte"></p>

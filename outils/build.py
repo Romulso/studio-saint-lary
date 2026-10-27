@@ -47,6 +47,8 @@ LOCALES = {"fr": "fr_FR", "en": "en_GB", "es": "es_ES"}
 LIBELLES = {
     "fr": {
         "reserver": "Réserver",
+        "accueil": "Accueil",
+        "menu": "Menu",
         "avis_vide": "Votre avis inaugurera ce livre d’or : un message suffit.",
         "reduction": "Réduction avec notre code",
         "fil": "Fil d’Ariane",
@@ -57,6 +59,8 @@ LIBELLES = {
     },
     "en": {
         "reserver": "Book",
+        "accueil": "Home",
+        "menu": "Menu",
         "avis_vide": "Your review will open this guest book: just send us a message.",
         "reduction": "Discount with our code",
         "fil": "Breadcrumb",
@@ -67,6 +71,8 @@ LIBELLES = {
     },
     "es": {
         "reserver": "Reservar",
+        "accueil": "Inicio",
+        "menu": "Menú",
         "avis_vide": "Tu opinión estrenará este libro de visitas: basta con un mensaje.",
         "reduction": "Descuento con nuestro código",
         "fil": "Ruta de navegación",
@@ -467,7 +473,9 @@ def lien_menu(page, langue):
 def navigation(page, langue):
     lib = LIBELLES[langue]
     accueil = "/" if langue == "fr" else "/%s/" % langue
-    liens = []
+    # Au telephone la marque disparait du bandeau, faute de place : le lien
+    # vers l'accueil revient alors en tete du menu deroulant.
+    liens = ['<a class="nav-accueil" href="%s">%s</a>' % (accueil, e(lib["accueil"]))]
     for p in registre.PAGES:
         if not p["menu"]:
             continue
@@ -485,13 +493,16 @@ def navigation(page, langue):
     contact = registre.par_slug()["contact"]
     return (
         '<nav class="nav" id="nav">\n'
+        '  <button type="button" class="nav-bouton" id="nav-bouton" aria-expanded="false"'
+        ' aria-controls="nav-liens" aria-label="%s"><span></span><span></span><span></span></button>\n'
         '  <a class="nav-marque" href="%s">Le Balcon d\'Aure</a>\n'
-        '  <div class="nav-liens">%s</div>\n'
+        '  <div class="nav-liens" id="nav-liens">%s</div>\n'
         '  <div class="nav-droite">\n'
         "    <!--LANGUES-->\n"
         '    <a class="pastille pastille-pleine" href="%s">%s</a>\n'
         "  </div>\n"
-        "</nav>" % (accueil, "".join(liens), lien_menu(contact, langue), e(lib["reserver"]))
+        "</nav>" % (e(lib["menu"]), accueil, "".join(liens),
+                    lien_menu(contact, langue), e(lib["reserver"]))
     )
 
 

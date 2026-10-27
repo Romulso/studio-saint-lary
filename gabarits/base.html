@@ -18,7 +18,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=38">
+<link rel="stylesheet" href="/style.css?v=42">
 <!--JSONLD-->
 </head>
 <body class="lang-fr saison-hiver">
@@ -165,6 +165,32 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   banniere.addEventListener('mouseleave', lancer);
   document.addEventListener('visibilitychange', function () { document.hidden ? stopper() : lancer(); });
   lancer();
+})();
+
+/* --- Menu du telephone --- */
+(function () {
+  var nav = document.getElementById('nav');
+  var bouton = document.getElementById('nav-bouton');
+  if (!nav || !bouton) return;
+  function fermer() {
+    nav.classList.remove('menu-ouvert');
+    bouton.setAttribute('aria-expanded', 'false');
+  }
+  bouton.addEventListener('click', function () {
+    var ouvert = nav.classList.toggle('menu-ouvert');
+    bouton.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
+  });
+  /* Un lien choisi, un menu qui se referme : sinon il masque la section
+     vers laquelle on vient de sauter. */
+  nav.querySelectorAll('.nav-liens a').forEach(function (a) {
+    a.addEventListener('click', fermer);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') fermer();
+  });
+  document.addEventListener('click', function (e) {
+    if (!nav.contains(e.target)) fermer();
+  });
 })();
 
 /* --- Apparitions --- */
@@ -375,6 +401,19 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (arrivee && depart && cle > arrivee && cle < depart) b.classList.add('est-entre');
         b.addEventListener('click', choisir);
         grille.appendChild(b);
+      }
+
+      /* Les semaines entierement passees ne servent a rien et, au telephone,
+         font defiler un ecran de cases grises avant la premiere date libre. */
+      var cellules = Array.prototype.slice.call(grille.children, 7);
+      while (cellules.length > 7) {
+        var ligne = cellules.slice(0, 7);
+        var morte = ligne.every(function (c) {
+          return c.tagName === 'SPAN' || c.classList.contains('est-passe');
+        });
+        if (!morte) break;
+        ligne.forEach(function (c) { grille.removeChild(c); });
+        cellules = cellules.slice(7);
       }
 
       bloc.appendChild(grille);

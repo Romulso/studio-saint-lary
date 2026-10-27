@@ -32,7 +32,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=38">
+<link rel="stylesheet" href="/style.css?v=42">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -169,8 +169,9 @@
 <body class="lang-en saison-hiver">
 
 <nav class="nav" id="nav">
+  <button type="button" class="nav-bouton" id="nav-bouton" aria-expanded="false" aria-controls="nav-liens" aria-label="Menu"><span></span><span></span><span></span></button>
   <a class="nav-marque" href="/en/">Le Balcon d'Aure</a>
-  <div class="nav-liens"><a href="/en/studio/">The flat</a><a href="/en/residence-royal-milan/">The residence</a><a href="/en/tarifs-disponibilites/" class="actif" aria-current="page">Rates &amp; dates</a><a href="/en/hiver/">Winter</a><a href="/en/ete/">Summer</a><a href="/cure-thermale/" hreflang="fr" lang="fr">Cure thermale</a><a href="/velo/" hreflang="fr" lang="fr">Vélo</a><a href="/agenda-vallee-d-aure/" hreflang="fr" lang="fr">Agenda</a><a href="/bons-plans-vallee-d-aure/" hreflang="fr" lang="fr">Bons plans</a></div>
+  <div class="nav-liens" id="nav-liens"><a class="nav-accueil" href="/en/">Home</a><a href="/en/studio/">The flat</a><a href="/en/residence-royal-milan/">The residence</a><a href="/en/tarifs-disponibilites/" class="actif" aria-current="page">Rates &amp; dates</a><a href="/en/hiver/">Winter</a><a href="/en/ete/">Summer</a><a href="/cure-thermale/" hreflang="fr" lang="fr">Cure thermale</a><a href="/velo/" hreflang="fr" lang="fr">Vélo</a><a href="/agenda-vallee-d-aure/" hreflang="fr" lang="fr">Agenda</a><a href="/bons-plans-vallee-d-aure/" hreflang="fr" lang="fr">Bons plans</a></div>
   <div class="nav-droite">
     <div class="langues"><a href="/tarifs-disponibilites/" hreflang="fr" lang="fr">FR</a><a class="actif" aria-current="page" href="/en/tarifs-disponibilites/" hreflang="en" lang="en">EN</a><a href="/es/tarifs-disponibilites/" hreflang="es" lang="es">ES</a></div>
     <a class="pastille pastille-pleine" href="/en/contact/">Book</a>
@@ -252,16 +253,20 @@
 
     <div class="calendrier surgit">
       <div class="cal-tete">
-        <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents">←</button>
         <div class="cal-legende">
           <span><i class="cal-puce cal-puce-libre"></i><span data-en>Available</span></span>
           <span><i class="cal-puce cal-puce-option"></i><span data-en>Option pending</span></span>
           <span><i class="cal-puce cal-puce-reserve"></i><span data-en>Booked</span></span>
         </div>
-        <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants">→</button>
       </div>
 
       <div class="cal-mois-grille" id="cal-mois"></div>
+
+      <div class="cal-navigation">
+        <button type="button" class="cal-nav" id="cal-prec" aria-label="Mois précédents"><span aria-hidden="true">←</span></button>
+        <p class="cal-navigation-mot" data-en>Change month</p>
+        <button type="button" class="cal-nav" id="cal-suiv" aria-label="Mois suivants"><span aria-hidden="true">→</span></button>
+      </div>
 
       <div class="cal-bilan" id="cal-bilan" hidden>
         <p class="cal-bilan-texte" id="cal-bilan-texte"></p>
@@ -506,6 +511,32 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   lancer();
 })();
 
+/* --- Menu du telephone --- */
+(function () {
+  var nav = document.getElementById('nav');
+  var bouton = document.getElementById('nav-bouton');
+  if (!nav || !bouton) return;
+  function fermer() {
+    nav.classList.remove('menu-ouvert');
+    bouton.setAttribute('aria-expanded', 'false');
+  }
+  bouton.addEventListener('click', function () {
+    var ouvert = nav.classList.toggle('menu-ouvert');
+    bouton.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
+  });
+  /* Un lien choisi, un menu qui se referme : sinon il masque la section
+     vers laquelle on vient de sauter. */
+  nav.querySelectorAll('.nav-liens a').forEach(function (a) {
+    a.addEventListener('click', fermer);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') fermer();
+  });
+  document.addEventListener('click', function (e) {
+    if (!nav.contains(e.target)) fermer();
+  });
+})();
+
 /* --- Apparitions --- */
 (function () {
   var cibles = document.querySelectorAll('.surgit');
@@ -714,6 +745,19 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (arrivee && depart && cle > arrivee && cle < depart) b.classList.add('est-entre');
         b.addEventListener('click', choisir);
         grille.appendChild(b);
+      }
+
+      /* Les semaines entierement passees ne servent a rien et, au telephone,
+         font defiler un ecran de cases grises avant la premiere date libre. */
+      var cellules = Array.prototype.slice.call(grille.children, 7);
+      while (cellules.length > 7) {
+        var ligne = cellules.slice(0, 7);
+        var morte = ligne.every(function (c) {
+          return c.tagName === 'SPAN' || c.classList.contains('est-passe');
+        });
+        if (!morte) break;
+        ligne.forEach(function (c) { grille.removeChild(c); });
+        cellules = cellules.slice(7);
       }
 
       bloc.appendChild(grille);
