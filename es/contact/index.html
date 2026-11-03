@@ -32,7 +32,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=42">
+<link rel="stylesheet" href="/style.css?v=43">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -70,7 +70,7 @@
 <nav class="nav" id="nav">
   <button type="button" class="nav-bouton" id="nav-bouton" aria-expanded="false" aria-controls="nav-liens" aria-label="Menú"><span></span><span></span><span></span></button>
   <a class="nav-marque" href="/es/">Le Balcon d'Aure</a>
-  <div class="nav-liens" id="nav-liens"><a class="nav-accueil" href="/es/">Inicio</a><a href="/es/studio/">El estudio</a><a href="/es/residence-royal-milan/">La residencia</a><a href="/es/tarifs-disponibilites/">Tarifas y fechas</a><a href="/es/hiver/">Invierno</a><a href="/es/ete/">Verano</a><a href="/cure-thermale/" hreflang="fr" lang="fr">Cure thermale</a><a href="/velo/" hreflang="fr" lang="fr">Vélo</a><a href="/agenda-vallee-d-aure/" hreflang="fr" lang="fr">Agenda</a><a href="/bons-plans-vallee-d-aure/" hreflang="fr" lang="fr">Bons plans</a></div>
+  <div class="nav-liens" id="nav-liens"><a class="nav-accueil" href="/es/">Inicio</a><a href="/es/studio/">El estudio</a><a href="/es/residence-royal-milan/">La residencia</a><a href="/es/tarifs-disponibilites/">Tarifas y fechas</a><a href="/es/hiver/">Invierno</a><a href="/es/ete/">Verano</a><a href="/cure-thermale/" hreflang="fr" lang="fr">Cure thermale</a><a href="/velo/" hreflang="fr" lang="fr">Vélo</a><a href="/agenda-vallee-d-aure/" hreflang="fr" lang="fr">Agenda</a><a href="/randonnees-vallee-d-aure/" hreflang="fr" lang="fr">Randonnées</a><a href="/bons-plans-vallee-d-aure/" hreflang="fr" lang="fr">Bons plans</a></div>
   <div class="nav-droite">
     <div class="langues"><a href="/contact/" hreflang="fr" lang="fr">FR</a><a href="/en/contact/" hreflang="en" lang="en">EN</a><a class="actif" aria-current="page" href="/es/contact/" hreflang="es" lang="es">ES</a></div>
     <a class="pastille pastille-pleine" href="/es/contact/">Reservar</a>
@@ -1030,6 +1030,61 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (Math.abs(ecart) > 50) montrer(rang + (ecart < 0 ? 1 : -1));
     departX = null;
   }, { passive: true });
+})();
+</script>
+
+<script>
+/* --- Filtre des randonnees --- */
+(function () {
+  /* Les criteres vivent dans les attributs data- de chaque fiche : le filtre
+     n'a donc rien a savoir du contenu, et une randonnee ajoutee au fichier
+     de donnees est filtree sans toucher a ce script.
+     Sans JavaScript, aucune fiche n'est masquee : la page reste entiere. */
+  var barre = document.querySelector('[data-filtres]');
+  if (!barre) return;
+  var fiches = Array.prototype.slice.call(document.querySelectorAll('.rando'));
+  var familles = Array.prototype.slice.call(document.querySelectorAll('[data-famille]'));
+
+  var regles = {
+    tout: function () { return true; },
+    courte: function (f) { return parseFloat(f.getAttribute('data-heures')) < 3; },
+    facile: function (f) {
+      var n = f.getAttribute('data-niveau');
+      return n === 'Facile' || n === 'Très facile';
+    },
+    'sans-voiture': function (f) { return f.getAttribute('data-voiture') === 'non'; },
+    chien: function (f) { return f.getAttribute('data-chien') === 'oui'; }
+  };
+
+  function appliquer(cle) {
+    var garde = regles[cle] || regles.tout;
+    fiches.forEach(function (f) { f.hidden = !garde(f); });
+    /* Un groupe dont toutes les fiches sont masquees disparait avec son
+       titre : laisser un intertitre seul au-dessus du vide fait brouillon. */
+    familles.forEach(function (g) {
+      g.hidden = !g.querySelector('.rando:not([hidden])');
+    });
+    var reste = fiches.filter(function (f) { return !f.hidden; }).length;
+    var vide = document.getElementById('rando-vide');
+    if (!reste && !vide) {
+      vide = document.createElement('p');
+      vide.id = 'rando-vide';
+      vide.className = 'rando-vide';
+      vide.textContent = 'Aucune sortie ne répond à ce critère.';
+      barre.parentNode.appendChild(vide);
+    } else if (vide) {
+      vide.hidden = !!reste;
+    }
+  }
+
+  barre.addEventListener('click', function (ev) {
+    var b = ev.target.closest('.rando-filtre');
+    if (!b) return;
+    barre.querySelectorAll('.rando-filtre').forEach(function (x) {
+      x.classList.toggle('actif', x === b);
+    });
+    appliquer(b.getAttribute('data-filtre'));
+  });
 })();
 </script>
 

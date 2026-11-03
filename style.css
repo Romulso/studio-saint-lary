@@ -1040,3 +1040,94 @@ body.corps-texte .ecran { min-height: 0; scroll-snap-align: none; display: block
   .loupe, .loupe img, .loupe button { transition: none; }
   .loupe img { transform: none; }
 }
+
+/* ---------- Randonnées ----------
+   Les fiches sont des cartes sobres : le chiffre d'abord, le commentaire
+   ensuite. Les filtres masquent par attribut, et la page reste entière
+   quand le JavaScript ne s'exécute pas. */
+.rando-filtres {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  margin-bottom: 30px;
+}
+.rando-filtre {
+  font-family: var(--sans); font-size: 13px; letter-spacing: .02em;
+  padding: 8px 15px; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--encre-douce);
+  border: 1px solid var(--ligne-jour); transition: all .25s;
+}
+.rando-filtre:hover { color: var(--encre); border-color: var(--laiton-fonce); }
+.rando-filtre.actif {
+  background: var(--laiton-fonce); border-color: var(--laiton-fonce);
+  color: #fff; font-weight: 500;
+}
+
+.rando-famille { margin-bottom: 44px; }
+.rando-famille[hidden] { display: none; }
+.rando-famille-titre {
+  font-family: var(--serif); font-size: clamp(22px, 5.5vw, 28px); font-weight: 600;
+  color: var(--encre); letter-spacing: -.01em;
+}
+.rando-famille-chapo {
+  margin-top: 7px; margin-bottom: 20px; font-size: 14.5px; line-height: 1.65;
+  color: var(--encre-douce); max-width: 62ch;
+}
+.rando-liste { display: grid; gap: 14px; }
+@media (min-width: 900px) { .rando-liste { grid-template-columns: 1fr 1fr; gap: 18px; } }
+
+.rando {
+  background: #fff; border: 1px solid var(--ligne-jour); border-radius: var(--rayon);
+  padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 13px;
+}
+.rando[hidden] { display: none; }
+.rando-tete h3 {
+  font-size: 18px; line-height: 1.25; color: var(--encre); letter-spacing: -.01em;
+}
+.rando-acces {
+  margin-top: 5px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--laiton-fonce); font-weight: 600;
+}
+
+.rando-chiffres {
+  display: flex; flex-wrap: wrap; gap: 0;
+  border-top: 1px solid var(--ligne-jour); border-bottom: 1px solid var(--ligne-jour);
+}
+.rando-chiffres > div {
+  flex: 1 1 33%; min-width: 86px; padding: 10px 10px 10px 0;
+}
+.rando-chiffres dt {
+  font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--encre-tenue); font-weight: 600;
+}
+.rando-chiffres dd {
+  margin-top: 3px; font-size: 15.5px; color: var(--encre); font-weight: 500;
+}
+
+.rando-mot { font-size: 14.5px; line-height: 1.68; color: var(--encre-douce); }
+
+.rando-detail { display: grid; gap: 7px; }
+.rando-detail > div { display: grid; grid-template-columns: 104px 1fr; gap: 10px; }
+.rando-detail dt {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--encre-tenue); font-weight: 600; padding-top: 2px;
+}
+.rando-detail dd { font-size: 13.5px; line-height: 1.55; color: var(--encre-douce); }
+
+.rando-liens { display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; padding-top: 4px; }
+.rando-liens a {
+  font-size: 13px; color: var(--laiton-fonce); text-decoration: none;
+  border-bottom: 1px solid transparent; transition: border-color .3s;
+}
+.rando-liens a:hover { border-bottom-color: var(--laiton-fonce); }
+
+.randos .cal-note { margin-top: 10px; text-align: left; max-width: 72ch; }
+
+.rando-vide {
+  text-align: center; font-size: 14.5px; color: var(--encre-tenue);
+  padding: 30px 0;
+}
+
+.ecran-nuit .rando { background: var(--nuit-2); border-color: var(--ligne-nuit); }
+.ecran-nuit .rando-famille-titre, .ecran-nuit .rando-tete h3,
+.ecran-nuit .rando-chiffres dd { color: var(--clair); }
+.ecran-nuit .rando-mot, .ecran-nuit .rando-detail dd,
+.ecran-nuit .rando-famille-chapo { color: var(--doux); }

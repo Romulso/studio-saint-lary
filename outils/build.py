@@ -33,6 +33,7 @@ GABARIT = os.path.join(RACINE, "gabarits", "base.html")
 FRAGMENTS = os.path.join(RACINE, "pages")
 GUIDE_JSON = os.path.join(RACINE, "guide.json")
 AGENDA_JSON = os.path.join(RACINE, "agenda.json")
+RANDONNEES_JSON = os.path.join(RACINE, "randonnees.json")
 RESERVATIONS = os.path.join(RACINE, "reservations.json")
 
 DOMAINE = registre.DOMAINE
@@ -450,6 +451,9 @@ def donnees_structurees(page, langue, avis):
     if page.get("evenements"):
         blocs.extend(evenements_structures())
 
+    if page.get("randonnees"):
+        blocs.extend(randonnees_structurees())
+
     fil = fil_structure(bloc_fil(page, langue))
     if fil:
         blocs.append(fil)
@@ -681,6 +685,157 @@ def bloc_agenda():
     return "".join(out)
 
 
+# --------------------------------------------------------------------------
+# Randonnees
+# --------------------------------------------------------------------------
+
+# La fiche officielle et la trace GPX se deduisent de l identifiant Geotrek.
+# Le serveur accepte n importe quel libelle avant l extension : seul le
+# numero compte.
+FICHE_RANDO = "https://geotrek65admin.openig.org/api/fr/treks/%d/fiche.pdf"
+TRACE_RANDO = "https://geotrek65admin.openig.org/api/fr/treks/%d/trace.gpx"
+
+
+def typo(texte):
+    """Les regles francaises que le JSON ne porte pas : l espace avant « € »
+    ou « % » ne doit jamais etre celle d un retour a la ligne."""
+    for signe in ("€", "%", "°"):
+        texte = texte.replace(" " + signe, "\u202f" + signe)
+    return texte
+
+
+def milliers(n):
+    """1839 -> « 1 839 », avec l espace insecable fine attendue en francais."""
+    return "{:,}".format(int(n)).replace(",", "\u202f")
+
+
+def duree_lisible(heures):
+    """2.5 -> « 2 h 30 », 3.0 -> « 3 h », 0.5 -> « 30 min »."""
+    if heures < 1:
+        return "%d min" % round(heures * 60)
+    entier = int(heures)
+    minutes = round((heures - entier) * 60)
+    return "%d h %02d" % (entier, minutes) if minutes else "%d h" % entier
+
+
+def carte_randonnee(r):
+    """Une fiche de randonnee.
+
+    Les attributs data- portent les criteres de tri : c est ce que le filtre
+    de la page lit, sans avoir a relire le texte."""
+    chiffres = [
+        ("Niveau", r["niveau"]),
+        ("Durée", duree_lisible(r["duree"])),
+        ("Distance", "%s km" % str(r["distance"]).replace(".", ",")),
+        ("Dénivelé", "%s m" % milliers(r["denivele"]) if r["denivele"] else "nul"),
+    ]
+    if r.get("alt_min") and r.get("alt_max"):
+        chiffres.append(("Altitude", "%s → %s m"
+                         % (milliers(r["alt_min"]), milliers(r["alt_max"]))))
+
+    v = r.get("voiture")
+    acces = ("%d min de voiture · %s km" % (v["minutes"], str(v["km"]).replace(".", ","))
+             if v else "Sans voiture")
+
+    out = ['<article class="rando" data-niveau="%s" data-heures="%s" data-chien="%s" '
+           'data-voiture="%s">'
+           % (att(r["niveau"]), r["duree"], "oui" if r.get("chien") else "non",
+              "non" if v is None else str(v["minutes"]))]
+    out.append('<div class="rando-tete">')
+    out.append('<h3>%s</h3>' % e(r["nom"]))
+    out.append('<p class="rando-acces">%s</p>' % e(acces))
+    out.append("</div>")
+
+    out.append('<dl class="rando-chiffres">')
+    for titre, valeur in chiffres:
+        out.append("<div><dt>%s</dt><dd>%s</dd></div>" % (e(titre), e(valeur)))
+    out.append("</dl>")
+
+    out.append('<p class="rando-mot">%s</p>' % e(typo(r["notre_mot"])))
+
+    lignes = [("Départ", r["depart"]), ("Notre fenêtre", r.get("fenetre"))]
+    if r.get("refuge"):
+        lignes.append(("Sur place", r["refuge"]))
+    if r.get("chien") is True:
+        lignes.append(("Chien", "autorisé sur la fiche officielle"))
+    elif r.get("chien") is False:
+        lignes.append(("Chien", "interdit — réserve naturelle du Néouvielle"))
+    out.append('<dl class="rando-detail">')
+    for titre, valeur in lignes:
+        if valeur:
+            out.append("<div><dt>%s</dt><dd>%s</dd></div>"
+                       % (e(titre), e(typo(valeur))))
+    out.append("</dl>")
+
+    if r.get("geotrek"):
+        out.append('<p class="rando-liens">'
+                   '<a href="%s" target="_blank" rel="noopener">Fiche officielle (PDF)</a>'
+                   '<a href="%s" target="_blank" rel="noopener">Trace GPX</a></p>'
+                   % (FICHE_RANDO % r["geotrek"], TRACE_RANDO % r["geotrek"]))
+    out.append("</article>")
+    return "".join(out)
+
+
+def bloc_randonnees():
+    donnees = json.load(open(RANDONNEES_JSON, encoding="utf-8"))
+    randos = donnees["randonnees"]
+    out = []
+
+    # Le filtre : quatre boutons, pas un formulaire. Sans JavaScript, tout
+    # reste affiche — la page ne depend pas de lui pour etre lisible.
+    out.append('<div class="rando-filtres" data-filtres>'
+               '<button type="button" class="rando-filtre actif" data-filtre="tout">'
+               'Toutes</button>'
+               '<button type="button" class="rando-filtre" data-filtre="courte">'
+               'Moins de 3 h</button>'
+               '<button type="button" class="rando-filtre" data-filtre="facile">'
+               'Faciles</button>'
+               '<button type="button" class="rando-filtre" data-filtre="sans-voiture">'
+               'Sans voiture</button>'
+               '<button type="button" class="rando-filtre" data-filtre="chien">'
+               'Avec un chien</button>'
+               '</div>')
+
+    for famille in donnees["familles"]:
+        choisies = [r for r in randos if r["famille"] == famille["cle"]]
+        if not choisies:
+            continue
+        out.append('<section class="rando-famille" data-famille>')
+        out.append('<h2 class="rando-famille-titre">%s</h2>' % e(famille["titre"]))
+        out.append('<p class="rando-famille-chapo">%s</p>' % e(famille["chapo"]))
+        out.append('<div class="rando-liste">')
+        out += [carte_randonnee(r) for r in choisies]
+        out.append("</div></section>")
+
+    jour = datetime.date.fromisoformat(donnees["verifie"])
+    out.append('<p class="cal-note">Chiffres relevés le %d %s %d sur la base de '
+               'randonnées du département des Hautes-Pyrénées : niveau, durée, '
+               'distance, dénivelé et altitudes sont les leurs, nous ne les '
+               'retouchons pas. Les temps de route sont calculés depuis le parking '
+               'de la résidence. La fenêtre conseillée est notre avis, pas une '
+               'règle : en montagne, c\'est la météo du jour qui décide.</p>'
+               % (jour.day, MOIS[jour.month - 1], jour.year))
+    return "".join(out)
+
+
+def randonnees_structurees():
+    """Une liste ordonnee de lieux : c est le balisage le plus honnete pour
+    des itineraires. Schema.org n a pas de type « sentier », et detourner
+    un type voisin pour grappiller un affichage ne nous interesse pas."""
+    donnees = json.load(open(RANDONNEES_JSON, encoding="utf-8"))
+    elements = []
+    for i, r in enumerate(donnees["randonnees"], 1):
+        lieu = {"@type": "TouristAttraction", "name": r["nom"],
+                "description": r["notre_mot"][:300],
+                "touristType": "Randonneurs"}
+        if r.get("geotrek"):
+            lieu["sameAs"] = FICHE_RANDO % r["geotrek"]
+        elements.append({"@type": "ListItem", "position": i, "item": lieu})
+    return [{"@context": "https://schema.org", "@type": "ItemList",
+             "name": "Randonnées de la vallée d'Aure",
+             "numberOfItems": len(elements), "itemListElement": elements}]
+
+
 # Faute de photo de chaque evenement, le balisage montre la vallee ou il se
 # tient. C'est une illustration du lieu, jamais une image presentee comme
 # prise sur place.
@@ -773,6 +928,9 @@ def prerendre(doc, langue, guide):
                else '<p class="avis-vide">%s</p>' % e(LIBELLES[langue]["avis_vide"]))
     doc = doc.replace('<div class="agenda" data-agenda></div>',
                       '<div class="agenda">%s</div>' % bloc_agenda())
+
+    doc = doc.replace('<div class="randos" data-randonnees></div>',
+                      '<div class="randos">%s</div>' % bloc_randonnees())
 
     doc = doc.replace('<div class="grille-avis surgit" id="grille-avis"></div>',
                       '<div class="grille-avis surgit" id="grille-avis">%s</div>' % contenu)

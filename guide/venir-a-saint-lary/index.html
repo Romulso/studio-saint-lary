@@ -26,7 +26,7 @@
 <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/style.css?v=42">
+<link rel="stylesheet" href="/style.css?v=43">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -89,7 +89,7 @@
 <nav class="nav" id="nav">
   <button type="button" class="nav-bouton" id="nav-bouton" aria-expanded="false" aria-controls="nav-liens" aria-label="Menu"><span></span><span></span><span></span></button>
   <a class="nav-marque" href="/">Le Balcon d'Aure</a>
-  <div class="nav-liens" id="nav-liens"><a class="nav-accueil" href="/">Accueil</a><a href="/studio/">Le studio</a><a href="/residence-royal-milan/">La résidence</a><a href="/tarifs-disponibilites/">Tarifs &amp; dispos</a><a href="/hiver/">Hiver</a><a href="/ete/">Été</a><a href="/cure-thermale/">Cure thermale</a><a href="/velo/">Vélo</a><a href="/agenda-vallee-d-aure/">Agenda</a><a href="/bons-plans-vallee-d-aure/">Bons plans</a></div>
+  <div class="nav-liens" id="nav-liens"><a class="nav-accueil" href="/">Accueil</a><a href="/studio/">Le studio</a><a href="/residence-royal-milan/">La résidence</a><a href="/tarifs-disponibilites/">Tarifs &amp; dispos</a><a href="/hiver/">Hiver</a><a href="/ete/">Été</a><a href="/cure-thermale/">Cure thermale</a><a href="/velo/">Vélo</a><a href="/agenda-vallee-d-aure/">Agenda</a><a href="/randonnees-vallee-d-aure/">Randonnées</a><a href="/bons-plans-vallee-d-aure/">Bons plans</a></div>
   <div class="nav-droite">
     
     <a class="pastille pastille-pleine" href="/contact/">Réserver</a>
@@ -136,13 +136,26 @@
 
     <h2 class="surgit">En train</h2>
 
-    <p class="surgit">La gare la plus proche est <strong>Lannemezan</strong>, desservie depuis Toulouse et Tarbes. De là, il reste la remontée de la vallée jusqu'à Saint-Lary. Des cars assurent la liaison, avec des fréquences qui varient fortement selon la saison et le jour de la semaine.</p>
+    <p class="surgit">La gare la plus proche est <strong>Lannemezan</strong>, desservie depuis Toulouse et Tarbes. De là, le car <strong>liO ligne 963</strong> remonte la vallée jusqu'à l'arrêt « Saint-Lary-Soulan Ardoune », à quelques minutes à pied de la résidence.</p>
 
-    <p class="surgit">C'est un trajet tout à fait faisable sans voiture, à condition de le préparer : vérifiez les correspondances car–train avant de réserver vos billets, et prévenez-nous de votre heure d'arrivée.</p>
+    <table class="tableau surgit">
+      <thead>
+        <tr><th>Le car 963</th><th>Ce qu'il faut savoir</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Durée</td><td>52 minutes de la gare de Lannemezan à Saint-Lary</td></tr>
+        <tr><td>Prix</td><td>2 € le billet, 15 € le carnet de dix</td></tr>
+        <tr><td>En semaine</td><td>Jusqu'à neuf passages par jour</td></tr>
+        <tr><td>Samedi, dimanche et fériés</td><td>Trois passages : matin, début d'après-midi et soirée</td></tr>
+        <tr><td>Exploitant</td><td>liO, le réseau régional d'Occitanie</td></tr>
+      </tbody>
+    </table>
+
+    <p class="surgit">Deux euros pour monter la vallée : le trajet sans voiture est moins une contrainte qu'une économie. Comptez le train jusqu'à Lannemezan, puis le car, et vous arrivez à deux cents mètres des remontées sans jamais avoir conduit.</p>
 
     <div class="encart surgit">
-      <strong>Horaires des cars et navettes</strong>
-      <p>[À COMPLÉTER] Les lignes, horaires et opérateurs de la liaison Lannemezan – Saint-Lary changent régulièrement. Plutôt que de publier des informations qui seront fausses dans six mois, nous préférons vous les confirmer au moment de votre réservation. Karine, Romuald : si vous avez le lien du transporteur actuel, il a sa place ici.</p>
+      <strong>Vérifiez l'horaire avant de réserver vos billets</strong>
+      <p>La fiche horaire de la ligne 963 change chaque 1<sup>er</sup> septembre, et le week-end ne compte que trois passages : une correspondance ratée se paie en quatre heures d'attente. Les horaires en vigueur se téléchargent sur <a href="https://www.lio-occitanie.fr/horaires-et-plans/" target="_blank" rel="noopener">lio-occitanie.fr</a>. Dites-nous votre heure d'arrivée : nous vous confirmons la correspondance.</p>
     </div>
 
     <h2 class="surgit">Une fois sur place : tout à pied</h2>
@@ -1044,6 +1057,61 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (Math.abs(ecart) > 50) montrer(rang + (ecart < 0 ? 1 : -1));
     departX = null;
   }, { passive: true });
+})();
+</script>
+
+<script>
+/* --- Filtre des randonnees --- */
+(function () {
+  /* Les criteres vivent dans les attributs data- de chaque fiche : le filtre
+     n'a donc rien a savoir du contenu, et une randonnee ajoutee au fichier
+     de donnees est filtree sans toucher a ce script.
+     Sans JavaScript, aucune fiche n'est masquee : la page reste entiere. */
+  var barre = document.querySelector('[data-filtres]');
+  if (!barre) return;
+  var fiches = Array.prototype.slice.call(document.querySelectorAll('.rando'));
+  var familles = Array.prototype.slice.call(document.querySelectorAll('[data-famille]'));
+
+  var regles = {
+    tout: function () { return true; },
+    courte: function (f) { return parseFloat(f.getAttribute('data-heures')) < 3; },
+    facile: function (f) {
+      var n = f.getAttribute('data-niveau');
+      return n === 'Facile' || n === 'Très facile';
+    },
+    'sans-voiture': function (f) { return f.getAttribute('data-voiture') === 'non'; },
+    chien: function (f) { return f.getAttribute('data-chien') === 'oui'; }
+  };
+
+  function appliquer(cle) {
+    var garde = regles[cle] || regles.tout;
+    fiches.forEach(function (f) { f.hidden = !garde(f); });
+    /* Un groupe dont toutes les fiches sont masquees disparait avec son
+       titre : laisser un intertitre seul au-dessus du vide fait brouillon. */
+    familles.forEach(function (g) {
+      g.hidden = !g.querySelector('.rando:not([hidden])');
+    });
+    var reste = fiches.filter(function (f) { return !f.hidden; }).length;
+    var vide = document.getElementById('rando-vide');
+    if (!reste && !vide) {
+      vide = document.createElement('p');
+      vide.id = 'rando-vide';
+      vide.className = 'rando-vide';
+      vide.textContent = 'Aucune sortie ne répond à ce critère.';
+      barre.parentNode.appendChild(vide);
+    } else if (vide) {
+      vide.hidden = !!reste;
+    }
+  }
+
+  barre.addEventListener('click', function (ev) {
+    var b = ev.target.closest('.rando-filtre');
+    if (!b) return;
+    barre.querySelectorAll('.rando-filtre').forEach(function (x) {
+      x.classList.toggle('actif', x === b);
+    });
+    appliquer(b.getAttribute('data-filtre'));
+  });
 })();
 </script>
 

@@ -239,6 +239,56 @@ PAGES = [
         },
     },
     {
+        "slug": "randonnees-vallee-d-aure",
+        "fichier": "randonnees.html",
+        "bilingue": False,
+        "menu": {"fr": "Randonnées"},
+        "fil": {"fr": "Randonnées de la vallée"},
+        "parent": "",
+        "jsonld": "article",
+        "randonnees": True,
+        "fr": {
+            "titre": "Randonnées vallée d'Aure : 17 itinéraires depuis Saint-Lary",
+            "description": "Dix-sept randonnées autour de Saint-Lary-Soulan avec les chiffres "
+                           "officiels du département, le temps de route depuis le village, "
+                           "celles qui se font sans voiture et celles où le chien est admis.",
+            "og_titre": "Les randonnées de la vallée d'Aure, mesurées depuis notre porte",
+        },
+        "faq": [
+            ("Quelle randonnée faire à Saint-Lary sans voiture ?",
+             "Le lac de l'Oule : la télécabine du village, puis celle d'Espiaube et le "
+             "télésiège Tourette vous déposent au bord d'un lac à 1 820 m, avec un refuge "
+             "qui sert à manger. Le tour du lac fait 9,4 km pour 349 m de dénivelé et "
+             "trois heures et demie, et il est classé facile. En hiver, le même parcours "
+             "existe en version piétons sous le nom de Snowalk, à 41 € la journée adulte."),
+            ("Quelle est la randonnée la plus facile autour de Saint-Lary ?",
+             "Le sentier des Marmottes à Piau-Engaly : 2,4 km, aucun dénivelé, une heure, "
+             "à 2 000 m d'altitude, parce que le télésiège Campbielh fait toute la montée. "
+             "C'est la seule de la vallée classée très facile avec un dénivelé nul."),
+            ("Peut-on randonner avec un chien autour de Saint-Lary ?",
+             "Oui, mais pas partout. Le chien est interdit dans la réserve naturelle du "
+             "Néouvielle, même tenu en laisse, et la garderie du péage d'Orédon ne "
+             "fonctionne plus depuis 2026. Les itinéraires où la fiche officielle "
+             "l'autorise sont le tour du lac de l'Oule, les lacs de Bastan, le lac de "
+             "Badet, le chemin des buis et la Couéou."),
+            ("Combien de temps de route pour les lacs du Néouvielle depuis Saint-Lary ?",
+             "Vingt-huit minutes et 21 km jusqu'au parking du lac d'Orédon, quarante "
+             "minutes jusqu'à celui du lac d'Aubert — mais la route entre les deux est "
+             "interdite aux voitures de 9 h 30 à 18 h de juin à septembre. Avant 9 h 30 "
+             "ou après 18 h, on monte directement à Aubert."),
+            ("Quelle randonnée faire autour de Saint-Lary quand il reste de la neige ?",
+             "Les vallées basses : le Moudang et le chemin des buis partent à 1 054 m et "
+             "se marchent dès le printemps, à dix minutes du village. La balade à la "
+             "Couéou est la seule classée « 4 saisons » par le département, à pied l'été "
+             "et en raquettes l'hiver."),
+            ("Quelle est la plus belle randonnée difficile près de Saint-Lary ?",
+             "Le cirque de Barroude : 16,6 km, 1 019 m de dénivelé, six heures et demie, "
+             "une muraille rocheuse à la frontière espagnole. Son départ est à seize "
+             "minutes de voiture du studio, alors que la plupart des randonneurs qui la "
+             "font dorment à deux heures de là."),
+        ],
+    },
+    {
         "slug": "bons-plans-vallee-d-aure",
         "fichier": "bons-plans.html",
         "bilingue": False,
