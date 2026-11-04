@@ -46,9 +46,33 @@
    },
    {
     "debut": "2027-02-06",
-    "fin": "2027-03-08",
+    "fin": "2027-02-13",
     "prix": 800,
-    "libelle": "Vacances de février",
+    "libelle": "Vacances de février, zone C",
+    "samedi": true,
+    "sans_remise": true
+   },
+   {
+    "debut": "2027-02-13",
+    "fin": "2027-02-20",
+    "prix": 870,
+    "libelle": "Vacances de février, Toulouse et Bordeaux",
+    "samedi": true,
+    "sans_remise": true
+   },
+   {
+    "debut": "2027-02-20",
+    "fin": "2027-02-27",
+    "prix": 800,
+    "libelle": "Vacances de février, zones A et B",
+    "samedi": true,
+    "sans_remise": true
+   },
+   {
+    "debut": "2027-02-27",
+    "fin": "2027-03-08",
+    "prix": 760,
+    "libelle": "Vacances de février, zone B",
     "samedi": true,
     "sans_remise": true
    },

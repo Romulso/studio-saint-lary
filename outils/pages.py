@@ -120,19 +120,19 @@ PAGES = [
         "jsonld": "logement",
         "fr": {
             "titre": "Tarifs et disponibilités — studio en vallée d'Aure",
-            "description": "De 270 € à 800 € la semaine en vallée d'Aure, en direct et sans commission. "
+            "description": "De 270 € à 870 € la semaine en vallée d'Aure, en direct et sans commission. "
                            "Calendrier des disponibilités, ménage, dépôt de garantie et conditions.",
             "og_titre": "Tarifs et calendrier — location en direct, sans commission",
         },
         "en": {
             "titre": "Rates and availability, Saint-Lary studio | Le Balcon d'Aure",
-            "description": "From €270 to €800 per week depending on the season, booked directly with no agency "
+            "description": "From €270 to €870 per week depending on the season, booked directly with no agency "
                            "fee. Live availability calendar, cleaning, deposit and booking conditions.",
             "og_titre": "Rates and calendar — booked directly, no commission",
         },
         "es": {
-            "titre": "Tarifas y disponibilidad — de 270 a 800 € la semana",
-            "description": "Calendario de disponibilidad al día, de 270 a 800 € por semana. Alquiler directo del propietario, sin comisión. Limpieza opcional, fianza en línea con Swikly.",
+            "titre": "Tarifas y disponibilidad — de 270 a 870 € la semana",
+            "description": "Calendario de disponibilidad al día, de 270 a 870 € por semana. Alquiler directo del propietario, sin comisión. Limpieza opcional, fianza en línea con Swikly.",
             "og_titre": "Tarifas y disponibilidad — Le Balcon d'Aure",
         },
     },
@@ -160,7 +160,7 @@ PAGES = [
         },
         "es": {
             "titre": "Alquiler de esquí en Saint-Lary, a 200 m de los remontes",
-            "description": "Estudio a doscientos metros de los remontes de Saint-Lary-Soulan: 100 km de pistas, taquilla de esquí, sauna y termas al volver. De 380 a 800 € la semana.",
+            "description": "Estudio a doscientos metros de los remontes de Saint-Lary-Soulan: 100 km de pistas, taquilla de esquí, sauna y termas al volver. De 380 a 870 € la semana.",
             "og_titre": "Esquiar en Saint-Lary, con los remontes a 200 metros",
         },
     },
