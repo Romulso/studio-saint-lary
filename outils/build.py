@@ -244,7 +244,21 @@ def plus_grande_variante(nom):
     return "/images/opt/%s-%d.webp" % (nom, max(largeurs))
 
 
+def bornes_tarifs():
+    """Les deux bornes de prix annoncees aux moteurs de recherche. Les lire
+    dans reservations.json plutot que les ecrire en dur evite qu elles
+    mentent des la prochaine modification d un tarif : c est deja arrive.
+    La semaine du Tour de France reste a part, c est une semaine unique
+    dont le prix se lit sur sa propre page.
+    """
+    tarifs = json.load(open(RESERVATIONS, encoding="utf-8"))["tarifs"]
+    prix = [tarifs["defaut"]] + [p["prix"] for p in tarifs["periodes"]
+                                 if "Tour de France" not in p.get("libelle", "")]
+    return min(prix), max(prix)
+
+
 def bloc_logement(page, langue, avis):
+    mini, maxi = bornes_tarifs()
     photos = ["vue-montagne", "sejour-salon", "canape-vue", "cuisine-plan-serre",
               "terrasse-transats"]
     if langue == "fr":
@@ -297,7 +311,7 @@ def bloc_logement(page, langue, avis):
         "telephone": ["+33642845542", "+33627352328"],
         "numberOfRooms": 1,
         "petsAllowed": animaux,
-        "priceRange": "270 € – 700 €",
+        "priceRange": "%d € – %d €" % (mini, maxi),
         "currenciesAccepted": "EUR",
         # Classement prefectoral du meuble de tourisme : Google s en sert pour
         # qualifier l hebergement, au meme titre que les etoiles d un hotel.
@@ -324,7 +338,7 @@ def bloc_logement(page, langue, avis):
             "priceCurrency": "EUR",
             "priceSpecification": {
                 "@type": "UnitPriceSpecification", "priceCurrency": "EUR",
-                "minPrice": 300, "maxPrice": 700, "unitCode": "WEE",
+                "minPrice": mini, "maxPrice": maxi, "unitCode": "WEE",
             },
         },
     }
