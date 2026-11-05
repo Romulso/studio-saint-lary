@@ -494,7 +494,7 @@ PAGES = [
              "mécaniques sont accessibles à pied depuis le studio."),
             ("Combien coûte la semaine du Tour de France au Balcon d'Aure ?",
              "950 € la semaine pour trois personnes, en direct et sans commission. Le ménage est "
-             "en option à 50 €, la taxe de séjour s'ajoute."),
+             "en option à 50 €, taxe de séjour 1,90 € par adulte et par nuit."),
             ("Le studio convient-il à des cyclistes ?",
              "Oui. La résidence dispose d'un local fermé pour les vélos, et les cols d'Aspin, "
              "d'Azet, de Peyresourde, la Hourquette d'Ancizan et la montée du Pla d'Adet partent "
