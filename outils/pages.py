@@ -67,13 +67,13 @@ PAGES = [
         "fr": {
             "titre": "Studio 27 m² en vallée d'Aure, balcon et 3 couchages",
             "description": "Visite du studio en vallée d'Aure : séjour, cuisine équipée, salle d'eau, "
-                           "balcon de 9 m² vue montagne. Couchages pour 3, premier étage, résidence Royal Milan.",
+                           "balcon de 9 m² plein sud, vue montagne. Couchages pour 3, premier étage, résidence Royal Milan.",
             "og_titre": "Le studio en détail — 27 m² et un balcon sur les sommets",
         },
         "en": {
             "titre": "The flat: 27 m², 9 m² balcony, sleeps 3 | Le Balcon d'Aure",
             "description": "A detailed tour of the studio: living area, fitted kitchenette, shower room and "
-                           "a 9 m² mountain-view balcony. Sleeps 3, first floor, Royal Milan residence.",
+                           "a 9 m² south-facing balcony with mountain views. Sleeps 3, first floor, Royal Milan residence.",
             "og_titre": "The flat in detail — 27 m² and a balcony facing the peaks",
         },
         "es": {
