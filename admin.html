@@ -41,6 +41,18 @@
   .publier ol { margin: 10px 0 14px 18px; font-size: 14px; color: var(--encre-douce); }
   .publier ol li { margin: 4px 0; }
   .publier .actions-pub { display: flex; flex-wrap: wrap; gap: 9px; }
+  .carnet { flex: 1 1 100%; display: none; margin: 4px 0 10px; padding: 16px;
+    border: 1px dashed rgba(143,106,28,.45); border-radius: var(--rayon); background: rgba(143,106,28,.05); }
+  .carnet.ouvert { display: block; }
+  .carnet .champ { margin-bottom: 0; }
+  .carnet .champ input { background: #fff; font-size: 15px; padding: 10px 13px; }
+  .carnet-titre { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--laiton-fonce); margin-bottom: 12px; }
+  .carnet-bilan { font-size: 13.5px; color: var(--encre-douce); margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--ligne-jour); }
+  .carnet-bilan b { color: var(--encre); }
+  .carnet-bilan .du { color: #a33; font-weight: 600; }
+  .carnet-bilan .solde { color: var(--laiton-fonce); font-weight: 600; }
+  .resa-apercu { flex: 1 1 100%; font-size: 13px; color: var(--encre-douce); margin: -2px 0 0; }
+  .resa-apercu b { color: var(--encre); font-weight: 600; }
   .note-etat { font-size: 13px; color: var(--encre-douce); margin-top: 10px; min-height: 1.3em; }
   #cal-mois { margin-top: 4px; }
   .cal-jour { cursor: default; }
@@ -77,7 +89,10 @@
   </div>
 
   <h2>2 · Réservations en cours</h2>
-  <div class="admin-carte" id="liste"></div>
+  <div class="admin-carte">
+    <div id="liste"></div>
+    <p class="note-etat" id="carnet-etat"></p>
+  </div>
 
   <h2>3 · Tarifs à la semaine</h2>
   <div class="admin-carte">
@@ -285,6 +300,230 @@ function jsonTolerant(texte) {
   throw new Error('JSON invalide');
 }
 
+/* =======================================================================
+   CARNET PRIVE DES SEJOURS
+   Qui, combien, quelles arrhes — tout ce que reservations.json ne doit
+   surtout pas porter. Ce fichier est servi en clair sur le site : le
+   calendrier des pages publiques va le lire a chaque visite, donc tout ce
+   qu'on y ecrirait serait lisible par n'importe qui a l'adresse
+   lebalcondaure.fr/reservations.json. Le nom d'un locataire, son telephone,
+   ce qu'il a paye et les dates ou son domicile est vide n'y ont pas leur
+   place.
+
+   Le carnet vit donc dans le localStorage du navigateur, comme les fiches
+   partenaires, sous une cle distincte de "donnees" : l'etape 7 ne recopie
+   que "donnees" et "guide", si bien que le carnet ne PEUT PAS partir sur
+   GitHub, meme par distraction.
+
+   Contrepartie : il ne vit que sur cet appareil et disparait avec les
+   donnees du navigateur. D'ou l'export, a garder hors du depot.
+
+   Chaque fiche est rattachee a un sejour par ses deux dates. Si un blocage
+   est supprime, sa fiche reste et s'affiche en bas, orpheline, plutot que
+   de disparaitre sans bruit avec les montants qu'elle contenait.
+   ======================================================================= */
+var Carnet = (function () {
+  var CLE = 'balcondaure.carnet';
+  var TAXE = 1.90;  /* par adulte et par nuit, meuble 3 etoiles */
+
+  var CHAMPS = [
+    { id: 'client',  label: 'Client',        espace: '1.4 1 170px', exemple: 'ex. Famille Gemble' },
+    { id: 'contact', label: 'Contact',       espace: '1.4 1 170px', exemple: 'ex. 06 12 34 56 78' },
+    { id: 'adultes', label: 'Adultes',       espace: '0 1 92px',    exemple: '2', nombre: true },
+    { id: 'mineurs', label: 'Mineurs',       espace: '0 1 92px',    exemple: '1', nombre: true },
+    { id: 'montant', label: 'Séjour €',      espace: '0 1 110px',   exemple: '930', nombre: true },
+    { id: 'arrhes',  label: 'Arrhes reçues €', espace: '0 1 120px', exemple: '465', nombre: true },
+    { id: 'remarque', label: 'Remarques',    espace: '1 1 100%',    exemple: 'ex. arrivée tardive, chien, contrat signé le 12/11' }
+  ];
+
+  function lire() {
+    try { return JSON.parse(localStorage.getItem(CLE)) || {}; }
+    catch (e) { return {}; }
+  }
+  function ecrire(t) {
+    try { localStorage.setItem(CLE, JSON.stringify(t)); return true; }
+    catch (e) { return false; }
+  }
+  function cle(r) { return r.arrivee + '/' + r.depart; }
+  function ech(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function nombre(v) { var n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? 0 : n; }
+  function euros(n) {
+    return n.toFixed(2).replace('.', ',').replace(/,00$/, '') + ' €';
+  }
+
+  /* Le bilan se recalcule a chaque frappe : c'est la seule chose que la
+     fiche apporte qu'un carnet papier ne donnerait pas. */
+  function bilan(f, nuits) {
+    var montant = nombre(f.montant), arrhes = nombre(f.arrhes);
+    var adultes = nombre(f.adultes);
+    var taxe = adultes * nuits * TAXE;
+    var bouts = [];
+    if (montant) {
+      var solde = montant - arrhes;
+      bouts.push('Séjour <b>' + euros(montant) + '</b>');
+      if (arrhes) bouts.push('arrhes reçues <b>' + euros(arrhes) + '</b>');
+      bouts.push(solde > 0
+        ? 'reste à percevoir <span class="solde">' + euros(solde) + '</span>'
+        : (solde < 0 ? 'trop-perçu <span class="du">' + euros(-solde) + '</span>' : '<b>soldé</b>'));
+    }
+    if (adultes) {
+      bouts.push('taxe de séjour <b>' + euros(taxe) + '</b> <span style="opacity:.75">('
+        + adultes + ' adulte' + (adultes > 1 ? 's' : '') + ' × ' + nuits + ' nuit'
+        + (nuits > 1 ? 's' : '') + ' × 1,90 €, mineurs exonérés)</span>');
+    }
+    return bouts.length ? bouts.join(' · ') : 'Renseignez le séjour pour voir le solde et la taxe.';
+  }
+
+  function apercu(f) {
+    var bouts = [];
+    if (f.client) bouts.push('<b>' + ech(f.client) + '</b>');
+    if (nombre(f.montant)) bouts.push(euros(nombre(f.montant)));
+    var reste = nombre(f.montant) - nombre(f.arrhes);
+    if (nombre(f.montant) && reste > 0) bouts.push('reste ' + euros(reste));
+    else if (nombre(f.montant)) bouts.push('soldé');
+    if (f.remarque) bouts.push(ech(f.remarque));
+    return bouts.join(' · ');
+  }
+
+  function vide(f) {
+    return CHAMPS.every(function (c) { return !String(f[c.id] || '').trim(); });
+  }
+
+  /* Greffe le bouton « Carnet » sur une ligne de reservation, et le panneau
+     juste apres elle. */
+  function greffer(zone, ligne, actions, r, nuits) {
+    var tout = lire();
+    var fiche = tout[cle(r)] || {};
+
+    var resume = document.createElement('p');
+    resume.className = 'resa-apercu';
+    var panneau = document.createElement('div');
+    panneau.className = 'carnet';
+
+    var bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'mini';
+    actions.insertBefore(bouton, actions.firstChild);
+
+    function majResume() {
+      var t = apercu(fiche);
+      resume.innerHTML = t;
+      resume.style.display = t ? '' : 'none';
+      bouton.textContent = vide(fiche) ? '+ Carnet' : '✎ Carnet';
+    }
+
+    panneau.innerHTML = '<p class="carnet-titre">Fiche privée — jamais publiée</p>'
+      + '<div class="admin-form">'
+      + CHAMPS.map(function (c) {
+          return '<div class="champ" style="flex:' + c.espace + '">'
+            + '<label>' + ech(c.label) + '</label>'
+            + '<input type="text" inputmode="' + (c.nombre ? 'decimal' : 'text') + '"'
+            + ' data-champ="' + c.id + '" placeholder="' + ech(c.exemple) + '"'
+            + ' value="' + ech(fiche[c.id] || '') + '">'
+            + '</div>';
+        }).join('')
+      + '</div>'
+      + '<p class="carnet-bilan"></p>';
+
+    var ligneBilan = panneau.querySelector('.carnet-bilan');
+    function majBilan() { ligneBilan.innerHTML = bilan(fiche, nuits); }
+
+    Array.prototype.forEach.call(panneau.querySelectorAll('[data-champ]'), function (champ) {
+      champ.addEventListener('input', function () {
+        fiche[champ.getAttribute('data-champ')] = champ.value;
+        var t = lire();
+        if (vide(fiche)) { delete t[cle(r)]; } else { t[cle(r)] = fiche; }
+        if (!ecrire(t)) { alert('Impossible d\'enregistrer : stockage du navigateur indisponible.'); return; }
+        majBilan(); majResume();
+      });
+    });
+
+    bouton.addEventListener('click', function () {
+      panneau.classList.toggle('ouvert');
+      if (panneau.classList.contains('ouvert')) panneau.querySelector('input').focus();
+    });
+
+    majBilan(); majResume();
+    ligne.appendChild(resume);
+    zone.appendChild(panneau);
+  }
+
+  /* Fiches dont le sejour n'existe plus : on les montre plutot que de les
+     laisser filer, et on ne les supprime que sur demande explicite. */
+  function orphelines(zone, reservations) {
+    var tout = lire();
+    var vivantes = {};
+    reservations.forEach(function (r) { vivantes[cle(r)] = true; });
+    var perdues = Object.keys(tout).filter(function (k) { return !vivantes[k]; });
+    if (!perdues.length) return;
+
+    var bloc = document.createElement('div');
+    bloc.className = 'carnet ouvert';
+    bloc.innerHTML = '<p class="carnet-titre">Fiches sans séjour correspondant</p>'
+      + '<p class="note-etat" style="margin:0 0 10px">Le blocage a été supprimé ou ses dates ont changé. '
+      + 'Recréez le blocage aux mêmes dates pour retrouver la fiche, ou retirez-la.</p>'
+      + perdues.map(function (k) {
+          var f = tout[k];
+          var d = k.split('/');
+          return '<div class="admin-ligne" style="padding:7px 0">'
+            + '<div style="flex:1 1 auto;min-width:0"><b>' + ech(d[0]) + ' → ' + ech(d[1]) + '</b>'
+            + '<br><span class="menu-note">' + (apercu(f) || 'fiche vide') + '</span></div>'
+            + '<button type="button" class="mini mini-danger" data-perdue="' + ech(k) + '">Retirer</button>'
+            + '</div>';
+        }).join('');
+
+    Array.prototype.forEach.call(bloc.querySelectorAll('[data-perdue]'), function (b) {
+      b.addEventListener('click', function () {
+        var k = b.getAttribute('data-perdue');
+        if (!confirm('Retirer définitivement la fiche du ' + k + ' ?')) return;
+        var t = lire(); delete t[k]; ecrire(t);
+        b.parentNode.parentNode.removeChild(b.parentNode);
+      });
+    });
+    zone.appendChild(bloc);
+  }
+
+  function pied() {
+    var etat = document.getElementById('carnet-etat');
+    if (!etat) return;
+    var n = Object.keys(lire()).length;
+    etat.innerHTML = 'Les fiches clients restent <b>sur cet appareil uniquement</b> : elles ne partent '
+      + 'ni dans reservations.json, ni sur GitHub, ni sur le site. '
+      + (n ? n + ' fiche' + (n > 1 ? 's' : '') + ' enregistrée' + (n > 1 ? 's' : '') + '. ' : '')
+      + 'Elles disparaissent si vous videz les données du navigateur — exportez-les de temps en temps. '
+      + '<button type="button" class="mini" id="carnet-export">Exporter</button> '
+      + '<button type="button" class="mini" id="carnet-import">Importer</button>';
+
+    document.getElementById('carnet-export').addEventListener('click', function () {
+      var t = lire();
+      if (!Object.keys(t).length) { alert('Rien à exporter.'); return; }
+      var texte = JSON.stringify(t, null, 2);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texte).then(function () {
+          alert('Copié. Collez-le dans un fichier gardé HORS du dépôt : il contient des données personnelles de vos locataires.');
+        }, function () { window.prompt('Copiez ce texte :', texte); });
+      } else { window.prompt('Copiez ce texte :', texte); }
+    });
+    document.getElementById('carnet-import').addEventListener('click', function () {
+      var t = window.prompt('Collez ici un export précédent :', '');
+      if (!t) return;
+      try {
+        var v = JSON.parse(t);
+        if (!v || typeof v !== 'object' || Array.isArray(v)) throw new Error('format');
+        var actuel = lire();
+        Object.keys(v).forEach(function (k) { actuel[k] = v[k]; });
+        ecrire(actuel);
+        location.reload();
+      } catch (e) { alert('Texte non reconnu : ce n\'est pas un export valide.'); }
+    });
+  }
+
+  return { greffer: greffer, orphelines: orphelines, pied: pied };
+})();
+
 (function () {
   var donnees = { aide: '', reservations: [] };
   var guide = { bonsplans: [], avis: [] };
@@ -419,6 +658,8 @@ function jsonTolerant(texte) {
     var tri = donnees.reservations.slice().sort(function (x, y) { return x.arrivee < y.arrivee ? -1 : 1; });
     if (!tri.length) {
       zone.innerHTML = '<p class="vide">Aucune réservation ni option pour le moment.</p>';
+      Carnet.orphelines(zone, donnees.reservations);
+      Carnet.pied();
       return;
     }
     tri.forEach(function (r) {
@@ -458,7 +699,11 @@ function jsonTolerant(texte) {
       ligne.appendChild(actions);
 
       zone.appendChild(ligne);
+      // Qui, combien, quelles arrhes : hors de donnees, donc jamais publie.
+      Carnet.greffer(zone, ligne, actions, r, nbNuits(r));
     });
+    Carnet.orphelines(zone, donnees.reservations);
+    Carnet.pied();
   }
 
   function rendreCalendrier() {
