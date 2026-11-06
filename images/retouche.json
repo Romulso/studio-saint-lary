@@ -44,6 +44,21 @@
     ],
     "noir": 1
   },
+  "coin-cafe.jpg": {
+    "blanc": 245,
+    "cadre": "interieur",
+    "gains": [
+      0.964,
+      0.992,
+      1.051
+    ],
+    "gamma": 1.173,
+    "luminance": [
+      122.2,
+      136.0
+    ],
+    "noir": 0
+  },
   "cuisine-neuve.jpg": {
     "blanc": 245,
     "cadre": "interieur",
@@ -76,6 +91,21 @@
       153.5
     ],
     "noir": 0
+  },
+  "deco-montagne.jpg": {
+    "blanc": 245,
+    "cadre": "interieur",
+    "gains": [
+      0.983,
+      0.996,
+      1.022
+    ],
+    "gamma": 1.0,
+    "luminance": [
+      145.1,
+      150.1
+    ],
+    "noir": 4
   },
   "entree.jpg": {
     "blanc": 247,
@@ -301,6 +331,21 @@
       130.1
     ],
     "noir": 12
+  },
+  "sejour-ensemble-2026.jpg": {
+    "blanc": 251,
+    "cadre": "interieur",
+    "gains": [
+      0.968,
+      0.99,
+      1.049
+    ],
+    "gamma": 1.3,
+    "luminance": [
+      115.7,
+      129.8
+    ],
+    "noir": 6
   },
   "sejour-ensemble.jpg": {
     "blanc": 251,

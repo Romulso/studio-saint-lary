@@ -29,11 +29,10 @@
       500
     ]
   },
-  "carte-accueil": {
-    "hauteur": 1772,
-    "largeur": 1181,
+  "coin-cafe": {
+    "hauteur": 630,
+    "largeur": 810,
     "variantes": [
-      1181,
       800,
       500
     ]
@@ -42,6 +41,15 @@
     "hauteur": 960,
     "largeur": 810,
     "variantes": [
+      800,
+      500
+    ]
+  },
+  "deco-montagne": {
+    "hauteur": 920,
+    "largeur": 1010,
+    "variantes": [
+      1010,
       800,
       500
     ]
@@ -210,6 +218,16 @@
     "largeur": 1500,
     "variantes": [
       1500,
+      1200,
+      800,
+      500
+    ]
+  },
+  "sejour-ensemble-2026": {
+    "hauteur": 1090,
+    "largeur": 1600,
+    "variantes": [
+      1600,
       1200,
       800,
       500

@@ -1190,9 +1190,28 @@ def externaliser_scripts(gabarit):
     return gabarit, len(code.encode("utf-8")), empreinte
 
 
+def version_feuille(gabarit):
+    """Numerote /style.css par l empreinte de son contenu.
+
+    Le gabarit portait un /style.css?v=43 a incrementer a la main. L oublier
+    ne casse rien de visible au build : la page sort juste, et le visiteur
+    deja venu continue de recevoir l ancienne feuille depuis son cache. La
+    correction est en ligne et invisible pour lui, parfois des mois durant.
+    Meme traitement que script.js, pour exactement la meme raison.
+    """
+    with open(os.path.join(RACINE, "style.css"), "rb") as f:
+        empreinte = hashlib.sha256(f.read()).hexdigest()[:8]
+    gabarit, faits = re.subn(r"/style\.css\?v=[A-Za-z0-9]+",
+                             "/style.css?v=%s" % empreinte, gabarit)
+    if faits != 1:
+        raise ValueError("appel a /style.css introuvable ou en double dans le gabarit (%d)" % faits)
+    return gabarit, empreinte
+
+
 def main():
     gabarit = open(GABARIT, encoding="utf-8").read()
     gabarit, poids_js, empreinte = externaliser_scripts(gabarit)
+    gabarit, empreinte_css = version_feuille(gabarit)
     guide = json.load(open(GUIDE_JSON, encoding="utf-8"))
 
     produites = {}
@@ -1229,6 +1248,7 @@ def main():
         f.write(ics)
     print("  calendrier.ics : %d date(s) occupee(s) publiee(s)" % ics.count("BEGIN:VEVENT"))
     print("  script.js      : %d o mis en cache (v=%s)" % (poids_js, empreinte))
+    print("  style.css      : %d o mis en cache (v=%s)" % (os.path.getsize(os.path.join(RACINE, "style.css")), empreinte_css))
     print("\n%d pages generees, %d liens internes verifies, sitemap a jour (%s)"
           % (total, sum(len(re.findall(r'href="(/[^"#?]*/)"', d)) for d in produites.values()), jour))
 

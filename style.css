@@ -349,6 +349,11 @@ body.lang-fr .ruban-piste[data-en], body.lang-en .ruban-piste[data-fr] { display
 .vignette img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s cubic-bezier(.22,.61,.36,1); }
 .vignette:hover img { transform: scale(1.06); }
 .vignette::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,16,25,.55), transparent 55%); pointer-events: none; }
+/* Une photo large rognee en 3/4 perd la moitie de ce qu'elle montre. Les
+   vues d'ensemble occupent donc deux colonnes : a partir de 900 px elles
+   prennent la hauteur de la rangee, en dessous un 3/2 qui tient seul. */
+.vignette-large { grid-column: span 2; aspect-ratio: 3 / 2; }
+@media (min-width: 900px) { .vignette-large { aspect-ratio: auto; } }
 @media (min-width: 760px) { .vignette-decalee { transform: translateY(38px); } }
 .vignette-legende { position: absolute; left: 14px; bottom: 12px; z-index: 2; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #fff; }
 
