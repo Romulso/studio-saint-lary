@@ -145,8 +145,7 @@
   {
    "arrivee": "2027-01-20",
    "depart": "2027-01-23",
-   "statut": "reserve",
-   "note": "Indisponible — compétition (Romuald sur place)"
+   "statut": "reserve"
   },
   {
    "arrivee": "2027-01-30",
