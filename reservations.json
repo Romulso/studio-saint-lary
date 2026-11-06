@@ -154,11 +154,6 @@
    "statut": "reserve",
    "source": "airbnb",
    "note": "Reserved"
-  },
-  {
-   "arrivee": "2027-02-06",
-   "depart": "2027-02-20",
-   "statut": "option"
   }
  ]
 }
