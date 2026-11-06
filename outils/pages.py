@@ -528,6 +528,31 @@ PAGES = [
             "og_titre": "Livret d'accueil",
         },
     },
+    {
+        # Page d'erreur. GitHub Pages la sert pour toute adresse inconnue, a
+        # n'importe quelle profondeur : elle s'ecrit donc a la racine sous le
+        # nom 404.html, et non dans un dossier, d'ou "sortie". Tous les chemins
+        # du gabarit etant absolus, elle s'affiche correctement depuis
+        # /en/guide/n-importe-quoi/ comme depuis la racine.
+        # "prive" lui donne le noindex qu'une page d'erreur doit porter et la
+        # tient hors du sitemap. Un seul fichier sert les trois langues : le
+        # fragment porte donc deux phrases de renvoi en anglais et en espagnol.
+        "slug": "404",
+        "fichier": "404.html",
+        "sortie": "404.html",
+        "bilingue": False,
+        "menu": None,
+        "prive": True,
+        "fil": {"fr": "Page introuvable"},
+        "parent": "",
+        "jsonld": None,
+        "fr": {
+            "titre": "Page introuvable | Le Balcon d'Aure",
+            "description": "Cette adresse n'existe pas ou n'existe plus. "
+                           "Retrouvez le studio, les tarifs et le calendrier des disponibilites.",
+            "og_titre": "Page introuvable",
+        },
+    },
 ]
 
 # Rubrique sans page propre, presente uniquement dans le fil d'Ariane.

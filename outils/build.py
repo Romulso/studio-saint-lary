@@ -19,6 +19,7 @@ Ne jamais modifier les fichiers generes : ils sont ecrases a chaque build.
 """
 
 import datetime
+import hashlib
 import html
 import json
 import os
@@ -955,29 +956,42 @@ def prerendre(doc, langue, guide):
 # Assemblage
 # --------------------------------------------------------------------------
 
+MOTIF_ALT = re.compile(r'alt="[^"]*"(?:\s+data-alt-[a-z]{2}="[^"]*")+')
+MOTIF_TRADUCTION = re.compile(r'data-alt-([a-z]{2})="([^"]*)"')
+
+
 def textes_alternatifs(doc, langue):
-    """Applique la traduction anglaise des attributs alt.
+    """Applique aux attributs alt la traduction de la langue servie.
 
     Meme principe que data-jalon-en : le fragment porte la version francaise
-    dans alt et l anglaise dans data-alt-en, juste apres. Ces textes ne sont
-    pas decoratifs — ce sont eux que lisent les lecteurs d ecran et Google.
+    dans alt, et les traductions juste apres, dans data-alt-en et data-alt-es.
+    Ces textes ne sont pas decoratifs — ce sont eux que lisent les lecteurs
+    d ecran et Google.
 
-    Le remplacement exige que les deux attributs soient adjacents. Si l un des
-    deux se retrouve isole (attribut intercale, faute de frappe), la traduction
-    ne s appliquerait pas et la page anglaise partirait en ligne avec un texte
-    francais, sans que rien ne le signale : on compte donc les substitutions et
-    on interrompt le build si le compte n y est pas.
+    Une traduction absente laisserait partir la page avec un alt francais sans
+    que rien ne le signale : on compte donc les attributs rencontres dans les
+    groupes et on interrompt le build si l un d eux s est retrouve isole,
+    separe de son alt par un attribut intercale ou une faute de frappe.
     """
-    attendus = len(re.findall(r'data-alt-en="', doc))
-    if langue == "en":
-        doc, faits = re.subn(r'alt="[^"]*"\s+data-alt-en="([^"]*)"',
-                             lambda m: 'alt="%s"' % m.group(1), doc)
-        if faits != attendus:
-            raise ValueError(
-                "%d data-alt-en sur %d appliques : verifiez que chaque data-alt-en "
-                "suit immediatement son alt." % (faits, attendus))
-    # En francais l attribut n a plus rien a faire dans la page livree.
-    return re.sub(r'\s+data-alt-en="[^"]*"', "", doc)
+    attendus = len(re.findall(r'data-alt-[a-z]{2}="', doc))
+    vus = []
+
+    def remplacer(m):
+        bloc = m.group(0)
+        traductions = MOTIF_TRADUCTION.findall(bloc)
+        vus.extend(traductions)
+        for code, texte in traductions:
+            if code == langue:
+                return 'alt="%s"' % texte
+        # Langue sans traduction (le francais) : on sert l alt d origine.
+        return re.sub(r'\s+data-alt-[a-z]{2}="[^"]*"', "", bloc)
+
+    doc = MOTIF_ALT.sub(remplacer, doc)
+    if len(vus) != attendus:
+        raise ValueError(
+            "%d data-alt-xx sur %d appliques : verifiez que chaque data-alt-xx "
+            "suit immediatement son alt." % (len(vus), attendus))
+    return doc
 
 
 def construire(gabarit, page, langue, guide):
@@ -1137,8 +1151,48 @@ def verifier_liens(produites):
     return manquants
 
 
+def externaliser_scripts(gabarit):
+    """Sort le JavaScript du gabarit vers /script.js.
+
+    Les trois blocs <script> sans attribut du gabarit etaient recopies dans
+    chacune des 35 pages : 44 Ko que le navigateur retelechargeait a chaque
+    page, faute de pouvoir les mettre en cache. Dans un fichier a part ils
+    sont telecharges une fois et servis depuis le cache ensuite.
+
+    Les blocs sont concatenes dans l ordre du gabarit, ou ils s attendent les
+    uns les autres. Ils vivaient apres le pied de page, donc avec un DOM
+    complet : l attribut defer rend exactement cette garantie, puisqu il
+    differe l execution a la fin de l analyse du document.
+
+    Le numero de version est l empreinte du contenu : il change quand le code
+    change, et seulement alors. Pas de /script.js?v=43 a incrementer a la main
+    ni de navigateur qui garde une version perimee.
+
+    Les <script> porteurs d un attribut (application/ld+json) ne sont pas
+    touches : ce sont des donnees de la page, pas du code partage.
+    """
+    blocs = re.findall(r"<script>(.*?)</script>", gabarit, re.S)
+    if not blocs:
+        raise ValueError("aucun bloc <script> sans attribut dans le gabarit")
+
+    code = "\n".join(b.strip("\n") for b in blocs)
+    empreinte = hashlib.sha256(code.encode("utf-8")).hexdigest()[:8]
+    with open(os.path.join(RACINE, "script.js"), "w",
+              encoding="utf-8", newline="\n") as f:
+        f.write(code + "\n")
+
+    balise = '<script src="/script.js?v=%s" defer></script>' % empreinte
+    gabarit, faits = re.subn(r"<script>.*?</script>", "", gabarit, flags=re.S)
+    if faits != len(blocs):
+        raise ValueError("%d blocs retires sur %d" % (faits, len(blocs)))
+    # La balise prend la place du premier bloc, juste avant </body>.
+    gabarit = gabarit.replace("</body>", balise + "\n</body>", 1)
+    return gabarit, len(code.encode("utf-8")), empreinte
+
+
 def main():
     gabarit = open(GABARIT, encoding="utf-8").read()
+    gabarit, poids_js, empreinte = externaliser_scripts(gabarit)
     guide = json.load(open(GUIDE_JSON, encoding="utf-8"))
 
     produites = {}
@@ -1146,7 +1200,9 @@ def main():
     for page in registre.PAGES:
         for langue in registre.langues(page):
             doc = construire(gabarit, page, langue, guide)
-            relatif = registre.chemin(page["slug"], langue)
+            # La page d'erreur s'ecrit a la racine sous son propre nom : c'est
+            # la seule adresse ou GitHub Pages va la chercher.
+            relatif = page.get("sortie") or registre.chemin(page["slug"], langue)
             cible = os.path.join(RACINE, relatif)
             os.makedirs(os.path.dirname(cible), exist_ok=True)
             with open(cible, "w", encoding="utf-8", newline="\n") as f:
@@ -1154,7 +1210,7 @@ def main():
             produites[relatif] = doc
             total += 1
             print("  %-2s  %-42s %6d o   titre %3d" % (
-                langue, registre.chemin(page["slug"], langue),
+                langue, relatif,
                 len(doc.encode("utf-8")), len(page[langue]["titre"])))
 
     manquants = verifier_liens(produites)
@@ -1172,6 +1228,7 @@ def main():
     with open(os.path.join(RACINE, "calendrier.ics"), "w", encoding="utf-8", newline="") as f:
         f.write(ics)
     print("  calendrier.ics : %d date(s) occupee(s) publiee(s)" % ics.count("BEGIN:VEVENT"))
+    print("  script.js      : %d o mis en cache (v=%s)" % (poids_js, empreinte))
     print("\n%d pages generees, %d liens internes verifies, sitemap a jour (%s)"
           % (total, sum(len(re.findall(r'href="(/[^"#?]*/)"', d)) for d in produites.values()), jour))
 
