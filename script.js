@@ -251,6 +251,11 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                'Hello, I would like the flat from ' + du + ' to ' + au + '. The calendar will not take these dates: would that be possible?',
                'Hola, me gustaría el estudio del ' + du + ' al ' + au + '. El calendario no acepta estas fechas: ¿sería posible?');
   }
+  function noteDepart() {
+    noter('Choisissez maintenant votre jour de départ. Retouchez la date choisie pour l’annuler.',
+      'Now pick your departure day. Tap the chosen date again to cancel it.',
+      'Elige ahora tu día de salida. Pulsa de nuevo la fecha elegida para anularla.');
+  }
   function noteDefaut() {
     noter('Le jour d’un départ redevient disponible pour une nouvelle arrivée. Pendant les vacances scolaires, séjours du samedi au samedi.',
       'A departure day becomes available again for a new arrival. During school holidays, stays run Saturday to Saturday.',
@@ -356,6 +361,10 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         }
         if (arrivee && cle === arrivee) b.classList.add('est-debut');
         if (depart && cle === depart) b.classList.add('est-fin');
+        if (b.classList.contains('est-debut') || b.classList.contains('est-fin')) {
+          b.title = dit('Cliquez à nouveau pour annuler', 'Click again to cancel',
+                        'Pulsa otra vez para anular');
+        }
         if (arrivee && depart && cle > arrivee && cle < depart) b.classList.add('est-entre');
         b.addEventListener('click', choisir);
         grille.appendChild(b);
@@ -440,6 +449,25 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function choisir(e) {
     if (!charge) return;
     var cle = e.currentTarget.getAttribute('data-date');
+
+    /* Retoucher une date deja choisie l'annule. Sans cela, revenir sur une
+       erreur obligeait a trouver « Effacer », pose dans l'encart du
+       recapitulatif sous le forfait menage : une sortie rangee dans un
+       tiroir qui parle d'autre chose. Le depart d'abord, pour qu'un clic
+       sur lui ne remette pas toute la selection a zero. */
+    if (depart && cle === depart) {
+      depart = null;
+      noter('Jour de départ annulé. Choisissez-en un autre.',
+            'Departure day cleared. Pick another one.',
+            'Día de salida anulado. Elige otro.');
+      rendre(); bilan(); return;
+    }
+    if (arrivee && cle === arrivee) {
+      arrivee = null; depart = null;
+      noteDefaut();
+      rendre(); bilan(); return;
+    }
+
     if (!arrivee || (arrivee && depart)) {
       if (nuits[cle]) {
         noter('Cette date est déjà prise. Choisissez une arrivée sur un jour libre.',
@@ -449,14 +477,12 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       }
       if (arriveeRefusee(cle)) return;
       arrivee = cle; depart = null;
-      noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.',
-            'Elige ahora tu día de salida.');
+      noteDepart();
     } else if (cle <= arrivee) {
       if (nuits[cle]) { return; }
       if (arriveeRefusee(cle)) return;
       arrivee = cle;
-      noter('Choisissez maintenant votre jour de départ.', 'Now pick your departure day.',
-            'Elige ahora tu día de salida.');
+      noteDepart();
     } else if (!nuitsLibres(arrivee, cle)) {
       noter('Ces dates contiennent des nuits déjà prises. Choisissez un autre créneau.',
         'These dates include nights already taken. Please pick another slot.',
