@@ -292,6 +292,27 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     return true;
   }
 
+  /* La periode tarifaire d'une nuit, ou null pour le tarif par defaut.
+     Deux periodes peuvent porter le meme prix : on compare les periodes
+     elles-memes, pas leurs montants. */
+  function periodeDe(cle) {
+    for (var i = 0; i < tarifs.periodes.length; i++) {
+      var p = tarifs.periodes[i];
+      if (p.debut <= cle && cle < p.fin && p.prix) return p;
+    }
+    return null;
+  }
+  function memePeriode(a, b) {  /* nuits de a (inclus) à b (exclu) */
+    var reference, vu = false, d = depuisIso(a);
+    while (iso(d) < b) {
+      var p = periodeDe(iso(d));
+      if (!vu) { reference = p; vu = true; }
+      else if (p !== reference) return false;
+      d.setDate(d.getDate() + 1);
+    }
+    return vu;
+  }
+
   function prixSemaine(cle) {  /* prix à la semaine pour la nuit donnée */
     for (var i = 0; i < tarifs.periodes.length; i++) {
       var p = tarifs.periodes[i];
@@ -420,12 +441,19 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var caseMenage = document.getElementById('cal-menage');
     var avecMenage = tarifs.menage > 0 && caseMenage && caseMenage.checked;
     if (avecMenage) total += tarifs.menage;
+    /* Les tarifs sont donnes a la semaine. Pour un nombre entier de
+       semaines dans une seule periode, la somme des nuits retombe
+       exactement sur le prix affiche : dire « environ » ferait douter
+       d'un chiffre juste. Des qu'on prorate une semaine a la nuit
+       (sejour plus court) ou qu'on traverse deux periodes, c'est bien
+       une estimation, et le mot reprend son sens. */
+    var exact = complet && total && n % 7 === 0 && memePeriode(arrivee, depart);
     var estim = (complet && total)
-      ? dit(' · environ ' + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '')
+      ? dit(' · ' + (exact ? '' : 'environ ') + total + ' €' + (avecRemise ? ' remise 7 nuits déduite' : '')
               + (avecMenage ? ' ménage compris' : ' sans le ménage') + ', hors taxe de séjour',
-            ' · about €' + total + (avecRemise ? ' incl. 7-night discount' : '')
+            ' · ' + (exact ? '' : 'about ') + '€' + total + (avecRemise ? ' incl. 7-night discount' : '')
               + (avecMenage ? ' incl. cleaning' : ' without cleaning') + ', excl. tourist tax',
-            ' · unos ' + total + ' €' + (avecRemise ? ' con el descuento de 7 noches' : '')
+            ' · ' + (exact ? '' : 'unos ') + total + ' €' + (avecRemise ? ' con el descuento de 7 noches' : '')
               + (avecMenage ? ' limpieza incluida' : ' sin limpieza') + ', sin la tasa turística')
       : '';
     document.getElementById('cal-bilan-texte').textContent = dit(
