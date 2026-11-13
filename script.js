@@ -212,7 +212,44 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
   function noter(fr, en, es) {
-    document.getElementById('cal-note').textContent = dit(fr, en, es);
+    var zone = document.getElementById('cal-note');
+    zone.className = 'cal-note';
+    zone.textContent = dit(fr, en, es);
+  }
+
+  /* Un refus n'est pas une impasse. La regle du samedi et le minimum de
+     nuits valent pour la reservation en ligne ; au telephone elles se
+     discutent, selon les sejours voisins. Dit dans la note grise ordinaire,
+     posee sous les boutons a cote du texte des remises, le refus passe
+     inapercu : le 12 novembre 2026 un visiteur a essaye un lundi au dimanche,
+     n'a rien vu et s'en est alle. Celui-ci se detache et porte une sortie. */
+  function noterRefus(fr, en, es, demande) {
+    var zone = document.getElementById('cal-note');
+    zone.className = 'cal-note cal-note-refus';
+    zone.textContent = dit(fr, en, es) + ' ';
+    var lien = document.createElement('a');
+    lien.href = 'https://wa.me/33642845542?text=' + encodeURIComponent(demande);
+    lien.target = '_blank';
+    lien.rel = 'noopener';
+    lien.textContent = dit('Écrivez-nous quand même, nous en discuterons.',
+                           'Write to us anyway and we will talk it through.',
+                           'Escríbenos de todos modos y lo hablamos.');
+    zone.appendChild(lien);
+  }
+
+  /* Le message WhatsApp part pre-rempli avec les dates refusees : le
+     visiteur n'a pas a les retaper, et nous savons de quoi il parle. */
+  function demandeHorsRegle(a, b) {
+    var du = joliDate(a, true);
+    if (!b) {
+      return dit('Bonjour, je souhaiterais arriver le ' + du + '. Le calendrier ne propose que des samedis : est-ce envisageable ?',
+                 'Hello, I would like to arrive on ' + du + '. The calendar only offers Saturdays: would that be possible?',
+                 'Hola, me gustaría llegar el ' + du + '. El calendario solo ofrece sábados: ¿sería posible?');
+    }
+    var au = joliDate(b, true);
+    return dit('Bonjour, je souhaiterais le studio du ' + du + ' au ' + au + '. Le calendrier n’accepte pas ces dates : est-ce envisageable ?',
+               'Hello, I would like the flat from ' + du + ' to ' + au + '. The calendar will not take these dates: would that be possible?',
+               'Hola, me gustaría el estudio del ' + du + ' al ' + au + '. El calendario no acepta estas fechas: ¿sería posible?');
   }
   function noteDefaut() {
     noter('Le jour d’un départ redevient disponible pour une nouvelle arrivée. Pendant les vacances scolaires, séjours du samedi au samedi.',
@@ -243,9 +280,10 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function arriveeRefusee(cle) {
     var p = periodeSamedi(cle);
     if (!p || estSamedi(cle)) return false;
-    noter('Pendant les vacances scolaires (' + (p.libelle || 'vacances') + '), le studio se loue du samedi au samedi : choisissez un samedi pour votre arrivée.',
-      'During school holidays the flat is let Saturday to Saturday: please pick a Saturday to arrive.',
-      'En vacaciones escolares el estudio se alquila de sábado a sábado: elige un sábado para llegar.');
+    noterRefus('Pendant les vacances scolaires (' + (p.libelle || 'vacances') + '), le studio se loue du samedi au samedi : cette arrivée n’est pas réservable en ligne.',
+      'During the school holidays the flat is let Saturday to Saturday: this arrival cannot be booked online.',
+      'En vacaciones escolares el estudio se alquila de sábado a sábado: esta llegada no se puede reservar en línea.',
+      demandeHorsRegle(cle, null));
     return true;
   }
 
@@ -426,15 +464,17 @@ var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       arrivee = nuits[cle] ? null : cle; depart = null;
     } else if (!touchePeriodeSamedi(arrivee, cle)
                && Math.round((depuisIso(cle) - depuisIso(arrivee)) / 86400000) < tarifs.minNuits) {
-      noter('Nous louons à partir de ' + tarifs.minNuits + ' nuits. Choisissez un jour de départ plus tardif.',
-        'We rent from ' + tarifs.minNuits + ' nights. Please pick a later departure day.',
-        'Alquilamos a partir de ' + tarifs.minNuits + ' noches. Elige un día de salida posterior.');
+      noterRefus('Nous louons à partir de ' + tarifs.minNuits + ' nuits : ce séjour est trop court pour la réservation en ligne.',
+        'We rent from ' + tarifs.minNuits + ' nights: this stay is too short to book online.',
+        'Alquilamos a partir de ' + tarifs.minNuits + ' noches: esta estancia es demasiado corta para reservar en línea.',
+        demandeHorsRegle(arrivee, cle));
       return;
     } else if (touchePeriodeSamedi(arrivee, cle) && !(estSamedi(arrivee) && estSamedi(cle))) {
       var vac = touchePeriodeSamedi(arrivee, cle);
-      noter('Ces dates tombent pendant les vacances scolaires (' + (vac.libelle || 'vacances') + ') : le séjour doit commencer et finir un samedi.',
-        'These dates fall in the school holidays: the stay must start and end on a Saturday.',
-        'Estas fechas caen en vacaciones escolares: la estancia debe empezar y terminar un sábado.');
+      noterRefus('Ces dates tombent pendant les vacances scolaires (' + (vac.libelle || 'vacances') + ') : le séjour doit commencer et finir un samedi, ce créneau n’est donc pas réservable en ligne.',
+        'These dates fall in the school holidays: the stay must start and end on a Saturday, so this slot cannot be booked online.',
+        'Estas fechas caen en vacaciones escolares: la estancia debe empezar y terminar un sábado, así que no se puede reservar en línea.',
+        demandeHorsRegle(arrivee, cle));
       return;
     } else {
       depart = cle;

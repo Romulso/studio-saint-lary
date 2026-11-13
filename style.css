@@ -533,6 +533,16 @@ a.service { text-decoration: none; }
 .pastille-ligne { border-color: var(--ligne-jour); color: var(--encre-douce); background: #fff; }
 .pastille-ligne:hover { border-color: var(--laiton-fonce); color: var(--laiton-fonce); transform: translateY(-2px); }
 .cal-note { margin-top: 13px; font-size: 12.5px; color: var(--encre-tenue); text-align: center; min-height: 1.4em; }
+/* Reponse a un clic refuse : la note ordinaire est grise, centree et posee
+   sous les boutons a cote du texte des remises, ou elle se confond avec lui.
+   Celle-ci se detache, pour que le visiteur voie qu'on lui a repondu. */
+.cal-note-refus {
+  color: var(--encre); text-align: left; font-size: 13.5px;
+  background: var(--jour-2); border-left: 3px solid var(--laiton-fonce);
+  border-radius: 10px; padding: 11px 14px; margin-top: 16px;
+}
+.cal-note-refus a { color: var(--laiton-fonce); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.cal-note-refus a:hover { color: var(--encre); }
 
 @media (max-width: 879px) {
   .cal-legende > span { font-size: 10px; }
