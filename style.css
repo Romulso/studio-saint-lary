@@ -383,6 +383,20 @@ body.lang-fr .ruban-piste[data-en], body.lang-en .ruban-piste[data-fr] { display
 .tarif-prix span { font-size: .42em; color: var(--laiton-fonce); font-weight: 600; }
 .tarif-detail { font-size: 14px; color: var(--encre-douce); }
 
+/* Un prix remise ne se lit comme une remise que si l ancien reste visible.
+   Sur Airbnb le prix barre fait ce travail tout seul ; le site n avait rien
+   pour le dire, et le visiteur voyait 590 EUR sans savoir que c etait 650.
+   Le ruban est plein, pas ajoure comme celui de la haute saison : il annonce
+   quelque chose au lieu d etiqueter une saison. */
+.tarif-remise { border-color: rgba(143,106,28,.45); }
+.tarif-ruban-remise { color: #fff; background: var(--laiton-fonce); border-color: var(--laiton-fonce); }
+.tarif-remise .tarif-saison { padding-right: 82px; }
+.tarif-prix-avant {
+  font-size: .36em; font-weight: 600; letter-spacing: 0; margin-left: 10px;
+  vertical-align: .34em; color: var(--encre-tenue);
+  text-decoration-thickness: from-font; text-decoration-color: rgba(13,34,51,.45);
+}
+
 .frais { margin-top: 20px; display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--ligne-jour); border: 1px solid var(--ligne-jour); border-radius: var(--rayon); overflow: hidden; }
 @media (min-width: 700px) { .frais { grid-template-columns: repeat(3, 1fr); } }
 .frais div { background: #fff; padding: 15px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
